@@ -1,36 +1,26 @@
 cmake_minimum_required(VERSION 3.8.0)
-project(libPlatform VERSION 0.1.0 LANGUAGES C CXX)
+project(libRandom VERSION 0.1.0 LANGUAGES C CXX)
 
 include(CTest)
 enable_testing()
 
-#//https://stackoverflow.com/questions/13703647/how-to-properly-add-include-directories-with-cmake
 
-set(PROJECT_NAME libPlatform)
+set(PROJECT_NAME libRandom)
 
 set(Header_Files
-    "EnumStringConversions.h"
-    "Percent.h"
-    "StringUtils.h"
-    "Subprocess.h"
-    "SubprocessExceptions.h"
-    "Subtree.h"
-    "SubtreeExceptions.h"
-    "PlatformException.h"
-    "TimeUtils.h"
-    "InterfaceDeclaration.h"
-    "loguru.hpp"
+  "MersenneTwister64Rng.h"
+  "IRandomNumberGenerator.h"
+  "RandomExceptions.h"
+  "RandomNumberGeneratorFactory.h"
+
 )
 source_group("Header Files" FILES ${Header_Files})
 
 set(Source_Files
-    "Percent.cpp"
-    "StringUtils.cpp"
-    "Subprocess.cpp"
-    "Subtree.cpp"
-    "PlatformException.cpp"
-    "TimeUtils.cpp"
-    "loguru.cpp"
+  "MersenneTwister64Rng.cpp"
+  "RandomExceptions.cpp"
+  "RandomNumberGeneratorFactory.cpp"
+
 )
 source_group("Source Files" FILES ${Source_Files})
 
@@ -39,6 +29,7 @@ set(ALL_FILES
     ${Source_Files}
 )
 
+include_directories(../)
 
 set(BOOST_ROOT "../extern/boost.1.66.0.0/lib/native/include")
 
@@ -50,6 +41,18 @@ else()
 endif(Boost_FOUND)
 
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
+
+#add_dependencies (libRandom libPlatform)
+
+# Assuming libPlatform is also built as a static library
+# add_library(libPlatform STATIC IMPORTED)
+# set_target_properties(libPlatform PROPERTIES IMPORTED_LOCATION "../libPlatform/build/Debug/libPlatform.lib") # Adjust the path accordingly
+
+
+# Link libRandom with libPlatform
+target_link_libraries(${PROJECT_NAME} libPlatform)
+
+
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 
