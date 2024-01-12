@@ -1,10 +1,15 @@
-cmake_minimum_required(VERSION 3.8.0)
+cmake_minimum_required(VERSION 3.16)
+
+set(CMAKE_TOOLCHAIN_FILE ./vcpkg/scripts/buildsystems/vcpkg.cmake)
+
 project(SmartSVM VERSION 0.1.0 LANGUAGES C CXX)
 
 include(CTest)
 enable_testing()
 
 set(PROJECT_NAME SmartSVM)
+
+find_package(opencv3 CONFIG REQUIRED)
 
 add_subdirectory(libPlatform)
 add_subdirectory(libRandom)
