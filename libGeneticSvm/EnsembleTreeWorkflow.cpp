@@ -1661,12 +1661,13 @@ std::shared_ptr<phd::svm::ISvm> EnsembleTreeWorkflow::run()
 					m_savePngElement.launch(image3, m_pngNameSource);
 				}
 
-				auto image4 = visualization3.createEnsembleImprobementVisualization(*pop2.getBestOne().getClassifier(), 500, 500,
-				                                                                    tr, val, test,
-				                                                                    tempEnsembleList->getSupportVectorsOfLastNode(), *svm_no_last_node);
-				SvmWokrflowConfiguration config_copy3{"", "", "", m_config.outputFolderPath, "ListEnsemble_0-" + std::to_string(length), ""};
-				setVisualizationFilenameAndFormat(m_algorithmConfig.m_svmConfig.m_visualizationFormat, m_pngNameSource, config_copy3);
-				m_savePngElement.launch(image4, m_pngNameSource, true);
+				//TODO: 17.01.2024 fix this visualization
+				// auto image4 = visualization3.createEnsembleImprobementVisualization(*pop2.getBestOne().getClassifier(), 500, 500,
+				//                                                                     tr, val, test,
+				//                                                                     tempEnsembleList->getSupportVectorsOfLastNode(), *svm_no_last_node);
+				// SvmWokrflowConfiguration config_copy3{"", "", "", m_config.outputFolderPath, "ListEnsemble_0-" + std::to_string(length), ""};
+				// setVisualizationFilenameAndFormat(m_algorithmConfig.m_svmConfig.m_visualizationFormat, m_pngNameSource, config_copy3);
+				// m_savePngElement.launch(image4, m_pngNameSource, true);
 			}
 
 			auto anotherList = std::make_shared<phd::svm::ListNodeSvm>(nullptr, svmCopy);

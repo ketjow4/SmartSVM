@@ -62,10 +62,10 @@ std::vector<double> runPSOorOthers(std::filesystem::path treningSetPath, std::st
 {
 	try
 	{
-		filesystem::FileSystem fs;
+		//filesystem::FileSystem fs;
 
 		auto pythonScriptPath = std::filesystem::path("PSO_and_other.py");
-		if (!fs.exists(pythonScriptPath))
+		if (!std::filesystem::exists(pythonScriptPath))
 		{
 			throw platform::FileNotFoundException(pythonScriptPath.string());
 		}

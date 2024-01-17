@@ -33,10 +33,10 @@ RbfLinearCoevolutionWorkflow::RbfLinearCoevolutionWorkflow(const SvmWokrflowConf
 void runFeatureSelectionForTimeMeasure(std::filesystem::path treningSetPath)
 {
 
-	filesystem::FileSystem fs;
+	//filesystem::FileSystem fs;
 
 	auto pythonScriptPath = std::filesystem::path("featureSelection.py");
-	if (!fs.exists(pythonScriptPath))
+	if (!std::filesystem::exists(pythonScriptPath))
 	{
 		throw platform::FileNotFoundException(pythonScriptPath.string());
 	}
