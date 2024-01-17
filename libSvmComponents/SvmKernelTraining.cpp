@@ -34,7 +34,8 @@ void SvmKernelTraining::trainPopulation(geneticComponents::Population<SvmKernelC
         try
         {
             auto& individual = *(first + i);
-            auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+            //auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+            auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType);
 			//auto classifier = phd::svm::SvmFactory::create(phd::svm::SvmImplementationType::OpenCvSvm);
 
             svmUtils::setupSvmTerminationCriteria(*classifier, m_svmConfig);

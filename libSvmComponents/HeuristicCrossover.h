@@ -21,7 +21,7 @@ public:
 
 private:
     // @wdudzik aplha default value comes from: Kaya et al., A Novel Crossover Operator for Genetic Algorithms: Ring Crossover, arXiv:1105.0355, 2011.
-    double getChildParameter(double lowFitnessParameter, double highFitnessParameter, double alpha = 1.2) const;
+    double getChildParameter(double lowFitnessParameter, double highFitnessParameter, double alpha = 1.2);
 
     std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
     std::uniform_real_distribution<double> m_alphaRange;

@@ -22,7 +22,7 @@
 #include "CustomWidthGauss.h"
 #include "CustomKernelTraining.h"
 #include "libGeneticSvm/GridSearchWorkflow.h"
-#include "libLogger/loguru.hpp"
+#include "libPlatform/loguru.hpp"
 #include "RbfLinearInternals.h"
 #include "SvmValidationFactory.h"
 

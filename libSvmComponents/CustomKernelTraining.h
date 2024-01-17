@@ -7,7 +7,7 @@
 #include "SvmUtils.h"
 #include "SvmConfigStructures.h"
 #include "libPlatform/EnumStringConversions.h"
-#include "SvmLib/SvmLibImplementation.h"
+#include "SvmLib/libSvmImplementation.h"
 
 namespace svmComponents
 {
@@ -42,9 +42,10 @@ namespace svmComponents
 				try
 				{
 					auto& individual = *(first + i);
-					auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+					//auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+					auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType);
 
-					auto cl = reinterpret_cast<phd::svm::SvmLibImplementation*>(classifier.get());
+					auto cl = reinterpret_cast<phd::svm::libSvmImplementation*>(classifier.get());
 					cl->setAlphaTraining(m_trainAlpha);
 
 					svmUtils::setupSvmTerminationCriteria(*classifier, m_svmConfig);
@@ -139,9 +140,10 @@ inline void SvmTrainingCustomKernel::trainPopulation(Population<SvmCustomKernelC
 		try
 		{
 			auto& individual = *(first + i);
-			auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+			//auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+			auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType);
 
-			auto cl = reinterpret_cast<phd::svm::SvmLibImplementation*>(classifier.get());
+			auto cl = reinterpret_cast<phd::svm::libSvmImplementation*>(classifier.get());
 			cl->setAlphaTraining(m_trainAlpha);
 			
 			std::vector<Gene> newOne;
@@ -289,9 +291,10 @@ public:
 			try
 			{
 				auto& individual = *(first + i);
-				auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+				//auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+				auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType);
 
-				auto cl = reinterpret_cast<phd::svm::SvmLibImplementation*>(classifier.get());
+				auto cl = reinterpret_cast<phd::svm::libSvmImplementation*>(classifier.get());
 				cl->setAlphaTraining(m_trainAlpha);
 
 				svmUtils::setupSvmTerminationCriteria(*classifier, m_svmConfig);
@@ -372,9 +375,10 @@ inline void SvmTrainingCustomKernelFS::trainPopulation(Population<SvmCustomKerne
 		try
 		{
 			auto& individual = *(first + i);
-			auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+			//auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+			auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType);
 
-			auto cl = reinterpret_cast<phd::svm::SvmLibImplementation*>(classifier.get());
+			auto cl = reinterpret_cast<phd::svm::libSvmImplementation*>(classifier.get());
 			cl->setAlphaTraining(m_trainAlpha);
 
 			std::vector<Gene> newOne;

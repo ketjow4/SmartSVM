@@ -35,7 +35,7 @@ public:
 	void setKernel(KernelTypes kernelType) override;
 	SvmTypes getType() const override;
 	void setType(SvmTypes svmType) override;
-	void save(const filesystem::Path& filepath) override;
+	void save(const std::filesystem::path& filepath) override;
 	uint32_t getNumberOfKernelParameters(KernelTypes kernelType) const override;
 	uint32_t getNumberOfSupportVectors() const override;
 	std::vector<std::vector<float>> getSupportVectors() const override;
@@ -44,8 +44,8 @@ public:
 	void train(const dataset::Dataset<std::vector<float>, float>& trainingSet, bool probabilityNeeded = false) override;
 
 	double classificationProbability(const gsl::span<const float> sample) const override;
-	void setTerminationCriteria(const cv::TermCriteria& value) override;
-	cv::TermCriteria getTerminationCriteria() const override;
+	//void setTerminationCriteria(const cv::TermCriteria& value) override;
+	//cv::TermCriteria getTerminationCriteria() const override;
 	bool isTrained() const override;
 	bool canGiveProbabilityOutput() const override;
 
@@ -144,7 +144,7 @@ inline void EnsembleSvm::setType(SvmTypes /*svmType*/)
 	throw std::exception("Not implemented");
 }
 
-inline void EnsembleSvm::save(const filesystem::Path& filepath)
+inline void EnsembleSvm::save(const std::filesystem::path& filepath)
 {
 	for (auto i = 0u; i < m_svms.size(); ++i)
 	{
@@ -167,13 +167,13 @@ inline uint32_t EnsembleSvm::getNumberOfSupportVectors() const
 	return sv_number;
 }
 
-inline cv::Mat EnsembleSvm::getSupportVectors() const
+inline std::vector<std::vector<float>> EnsembleSvm::getSupportVectors() const
 {
 	auto a = m_svms[0]->getSupportVectors();
 	for (auto i = 1u; i < m_svms.size(); ++i)
 	{
 		auto b = m_svms[i]->getSupportVectors();
-		cv::vconcat(a, b, a);
+		a.insert(a.end(), b.begin(),b.end());
 	}
 	
 	return a;
@@ -190,16 +190,6 @@ inline void EnsembleSvm::train(const dataset::Dataset<std::vector<float>, float>
 }
 
 inline double EnsembleSvm::classificationProbability(const gsl::span<const float> /*sample*/) const
-{
-	throw std::exception("Not implemented");
-}
-
-inline void EnsembleSvm::setTerminationCriteria(const cv::TermCriteria& /*value*/)
-{
-	throw std::exception("Not implemented");
-}
-
-inline cv::TermCriteria EnsembleSvm::getTerminationCriteria() const
 {
 	throw std::exception("Not implemented");
 }

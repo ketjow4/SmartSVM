@@ -62,7 +62,7 @@ public:
     void train(const dataset::Dataset<std::vector<float>, float>& trainingSet, bool probabilityNeeded = false) override;
 
     double classificationProbability(const gsl::span<const float> sample) const override;
-    // void setTerminationCriteria(const cv::TermCriteria& value) override;
+    //void setTerminationCriteria(const cv::TermCriteria& value) override;
     // cv::TermCriteria getTerminationCriteria() const override;
     bool isTrained() const override;
     bool canGiveProbabilityOutput() const override;

@@ -62,7 +62,8 @@ void SvmTraining<chromosome>::trainPopulation(geneticComponents::Population<chro
         try
         {
             auto& individual = *(first + i);
-            auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+            //auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+            auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType);
 
             svmUtils::setupSvmTerminationCriteria(*classifier, m_svmConfig);
             svmUtils::setupSvmParameters(*classifier, m_svmParameters);
@@ -155,7 +156,8 @@ inline void SvmTrainingSSVM::trainPopulation(geneticComponents::Population<SvmSi
         try
         {
             auto& individual = *(first + i);
-            auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+            //auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType, m_svmConfig.m_groupPropagationMethod);
+            auto classifier = phd::svm::SvmFactory::create(m_svmConfig.m_implementationType);
 
             svmUtils::setupSvmTerminationCriteria(*classifier, m_svmConfig);
             svmUtils::setupSvmParameters(*classifier, individual.getKernel());

@@ -1,7 +1,7 @@
 #include <opencv2/ml.hpp>
 #include "SvmLib/SvmExceptions.h"
 #include "RbfLinearInternals.h"
-#include "SvmLib/SvmLibImplementation.h"
+#include "SvmLib/libSvmImplementation.h"
 
 namespace svmComponents
 {
@@ -120,7 +120,7 @@ geneticComponents::Population<SvmCustomKernelChromosome> CrossoverCompensationRb
 	{
 		auto index = 0u;
 		const auto targets = m_trainingSet.getLabels();
-		const auto trainingSetID = std::uniform_int_distribution<int>(0, static_cast<int>(m_trainingSet.size() - 1));
+		auto trainingSetID = std::uniform_int_distribution<int>(0, static_cast<int>(m_trainingSet.size() - 1));
 
 		for (auto& individual : population)
 		{
@@ -327,7 +327,7 @@ void SupportVectorPoolRbfLinear::addSupportVectors(const SvmCustomKernelChromoso
 	const auto classifier = chromosome.getClassifier();
 	if (classifier && classifier->isTrained())
 	{
-		cv::Mat supportVectors = classifier->getSupportVectors();
+		auto supportVectors = classifier->getSupportVectors();
 		auto individualDataset = chromosome.convertChromosome(trainingSet);
 
 		/*if (!classifier->getFeatureSet().empty())
@@ -339,12 +339,12 @@ void SupportVectorPoolRbfLinear::addSupportVectors(const SvmCustomKernelChromoso
 
 		auto& dataset = chromosome.getDataset();
 
-		for (auto i = 0; i < supportVectors.rows; i++)
+		for (auto i = 0; i < supportVectors.size(); i++)
 		{
 			//if (scores[i] > 0.95)
 			{
-				const float* sv = supportVectors.ptr<float>(i);
-				const gsl::span<const float> supportVector(sv, supportVectors.cols);
+				//const float* sv = supportVectors.ptr<float>(i);
+				const gsl::span<const float> supportVector(supportVectors[i].data(), supportVectors[i].size());
 
 				const auto positionInDataset = findPositionOfSupprotVector(individualDataset, supportVector);
 

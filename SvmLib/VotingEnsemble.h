@@ -2,12 +2,13 @@
 
 //#include <opencv2/ml.hpp>
 
-
+#include <filesystem>
+#include <fstream>
 #include "libPlatform/loguru.hpp"
 #include "ISvm.h"
 #include "SvmExceptions.h"
 #include "libSvmInternal.h"
-#include "libSvmplementation.h"
+#include "libSvmImplementation.h"
 #include "ExtraTreeWrapper.h"
 #include "EnsembleListSvm.h"
 
@@ -38,9 +39,8 @@ namespace phd {
 					m_classifieres.emplace_back(std::make_shared<phd::svm::EnsembleListSvm>(classifiers[i], true));
 				}
 
-				filesystem::FileSystem fs;
 
-				if (fs.exists(weights))
+				if (std::filesystem::exists(weights))
 				{
 					std::ifstream weightsFile(weights);
 					double weight;
@@ -234,10 +234,10 @@ namespace phd {
 				                        });			*/
 				return 0;
 			}
-			cv::Mat getSupportVectors() const override
+			std::vector<std::vector<float>> getSupportVectors() const override
 			{
 				LOG_F(WARNING, "getSupportVectors voting ensemble not implemented");
-				return cv::Mat();
+				return std::vector<std::vector<float>>();
 			}
 
 			
@@ -529,8 +529,8 @@ namespace phd {
 			SvmTypes getType() const override { throw std::exception("Not implemented Voting Ensemble 20"); }
 			void setType(SvmTypes /*svmType*/) override { throw std::exception("Not implemented Voting Ensemble 21"); }
 			void train(const dataset::Dataset<std::vector<float>, float>& /*trainingSet*/, bool /*probabilityNeeded*/) override { throw std::exception("Not implemented Voting Ensemble 22"); }
-			void setTerminationCriteria(const cv::TermCriteria& /*value*/) override { throw std::exception("Not implemented Voting Ensemble 23"); }
-			cv::TermCriteria getTerminationCriteria() const override { throw std::exception("Not implemented Voting Ensemble 24"); }
+			//void setTerminationCriteria(const cv::TermCriteria& /*value*/) override { throw std::exception("Not implemented Voting Ensemble 23"); }
+			//cv::TermCriteria getTerminationCriteria() const override { throw std::exception("Not implemented Voting Ensemble 24"); }
 			void setFeatureSet(const std::vector<svmComponents::Feature>& /*features*/, int /*numberOfFeatures*/) override { throw std::exception("Not implemented Voting Ensemble 25"); }
 			const std::vector<svmComponents::Feature>& getFeatureSet() override { throw std::exception("Not implemented Voting Ensemble 26"); }
 			uint32_t getNumberOfKernelParameters(KernelTypes /*kernelType*/) const override { throw std::exception("Not implemented Voting Ensemble 27"); }

@@ -21,7 +21,7 @@ public:
     geneticComponents::Population<SvmKernelChromosome> createPopulation(uint32_t populationSize) override;
 
 private:
-    const std::uniform_real_distribution<double> m_parameterDistribution;
+    std::uniform_real_distribution<double> m_parameterDistribution;
     phd::svm::KernelTypes m_kernelType;
     std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
     uint32_t m_parametersNumber;

@@ -24,7 +24,7 @@ struct SvmAlgorithmConfiguration
     const unsigned int m_svmIterationNumber;
     const svmMetricType m_estimationType;
     const std::shared_ptr<ISvmMetricsCalculator> m_estimationMethod;
-    const std::shared_ptr<IGroupPropagation> m_groupPropagationMethod;
+    //const std::shared_ptr<IGroupPropagation> m_groupPropagationMethod;
     const bool m_doVisualization;
     const unsigned int m_height;
     const unsigned int m_width;

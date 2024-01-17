@@ -40,7 +40,7 @@ SvmAlgorithmConfiguration::SvmAlgorithmConfiguration(const platform::Subtree& co
 		return platform::stringToEnum(name, m_translations);
 	}())
 	, m_estimationMethod(SvmMetricFactory::create(m_estimationType))
-	, m_groupPropagationMethod(std::make_shared<svmComponents::AverageAnswerPropagation>())
+	//, m_groupPropagationMethod(std::make_shared<svmComponents::AverageAnswerPropagation>())
 	, m_doVisualization(config.getValue<bool>("Svm.Visualization.Create"))
 	, m_height(config.getValue<int>("Svm.Visualization.Height"))
 	, m_width(config.getValue<int>("Svm.Visualization.Width"))

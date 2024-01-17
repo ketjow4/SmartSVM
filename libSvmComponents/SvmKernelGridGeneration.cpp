@@ -5,7 +5,7 @@
 #include "libSvmComponents/SvmKernelRandomGeneration.h"
 #include "LinearKernel.h"
 #include "PolyKernel.h"
-#include "libLogger/loguru.hpp"
+#include "libPlatform/loguru.hpp"
 
 namespace svmComponents
 {

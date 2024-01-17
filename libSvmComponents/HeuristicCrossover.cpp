@@ -12,7 +12,7 @@ HeuristicCrossover::HeuristicCrossover(std::unique_ptr<random::IRandomNumberGene
 {
 }
 
-double HeuristicCrossover::getChildParameter(double lowFitnessParameter, double highFitnessParameter, double alpha) const
+double HeuristicCrossover::getChildParameter(double lowFitnessParameter, double highFitnessParameter, double alpha)
 {
     auto newParameter = lowFitnessParameter + alpha * (highFitnessParameter - lowFitnessParameter);
     auto iterationCount = 0;

@@ -17,7 +17,7 @@ void MemeticFeatureCompensation::compensate(geneticComponents::Population<SvmFea
     if (compensationInfo.size() == population.size())
     {
         auto index = 0u;
-        const auto featureSetID = std::uniform_int_distribution<int>(0, static_cast<int>(m_trainingSet.getSample(0).size() - 1));
+        auto featureSetID = std::uniform_int_distribution<int>(0, static_cast<int>(m_trainingSet.getSample(0).size() - 1));
 
         for (auto& individual : population)
         {

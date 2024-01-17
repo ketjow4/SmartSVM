@@ -23,7 +23,7 @@ void CrossoverCompensation::compensate(geneticComponents::Population<SvmTraining
     {
         auto index = 0u;
         const auto targets = m_trainingSet.getLabels();
-        const auto trainingSetID = std::uniform_int_distribution<int>(0, static_cast<int>(m_trainingSet.size() - 1));
+        auto trainingSetID = std::uniform_int_distribution<int>(0, static_cast<int>(m_trainingSet.size() - 1));
 
         for (auto& individual : population)
         {

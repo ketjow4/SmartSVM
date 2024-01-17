@@ -1,12 +1,12 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/imgcodecs.hpp>
-#include <opencv2/viz/types.hpp>
+//#include <opencv2/viz/types.hpp>
 #include "SvmVisualization.h"
 
 #include "SvmLib/EnsembleListSvm.h"
 #include "SvmComponentsExceptions.h"
 #include "SvmLib/ISvm.h"
-#include "SvmLib/SvmLibImplementation.h"
+#include "SvmLib/libSvmImplementation.h"
 
 namespace svmComponents
 {
@@ -121,7 +121,7 @@ getUncertainDataset(const dataset::Dataset<std::vector<float>, float>& trainingS
 
 	for (auto i = 0u; i < samples.size(); ++i)
 	{
-		auto res = reinterpret_cast<phd::svm::SvmLibImplementation*>(&svm);
+		auto res = reinterpret_cast<phd::svm::libSvmImplementation*>(&svm);
 		auto result = res->classifyWithCertainty(samples[i]);
 		if (result == -100)   //if we are not sure we pass this example further into list
 		{
@@ -305,12 +305,12 @@ cv::Vec3b SvmVisualization::getSvColor(int64 index_in_training)
 		//I add wide gammas only to training there are not a part of chromosome anymore in this case we need to return blue and go on
 		if (static_cast<uint64>(genePosition) == genes.size())
 		{
-			return cv::viz::Color::green();
+			return cv::Vec3b(0, 250, 255);
 		}
 
 		if (genes[genePosition].gamma == 10)
 		{
-			return cv::viz::Color::blue();
+			return cv::Vec3b(255, 0, 0);
 		}
 		else
 		{
@@ -556,7 +556,7 @@ void SvmVisualization::visualizeCertaintyRegions(phd::svm::ISvm& svm)
 		std::vector<float> sample = { static_cast<float>(h) / static_cast<float>(m_image.cols), static_cast<float>(w) / static_cast<float>(m_image.rows) };
 
 	
-		auto res = reinterpret_cast<phd::svm::SvmLibImplementation*>(&svm);
+		auto res = reinterpret_cast<phd::svm::libSvmImplementation*>(&svm);
 		auto response = res->classifyWithCertainty(sample);
 
 		if (response == 1)
@@ -615,7 +615,7 @@ void SvmVisualization::visualizeCertaintyRegionsImprovement(phd::svm::ISvm& svm,
 		std::vector<float> sample = { static_cast<float>(h) / static_cast<float>(m_image.cols), static_cast<float>(w) / static_cast<float>(m_image.rows) };
 
 
-		auto res = reinterpret_cast<phd::svm::SvmLibImplementation*>(&no_last_node);
+		auto res = reinterpret_cast<phd::svm::libSvmImplementation*>(&no_last_node);
 		auto response = res->classifyWithCertainty(sample);
 
 		if (response == 1)
@@ -640,7 +640,7 @@ void SvmVisualization::visualizeCertaintyRegionsImprovement(phd::svm::ISvm& svm,
 		auto coordinates = uncertain[i];
 		std::vector<float> sample = { static_cast<float>(coordinates.second) / static_cast<float>(m_image.cols), static_cast<float>(coordinates.first) / static_cast<float>(m_image.rows) };
 
-		auto res = reinterpret_cast<phd::svm::SvmLibImplementation*>(&svm);
+		auto res = reinterpret_cast<phd::svm::libSvmImplementation*>(&svm);
 		auto response = res->classifyWithCertainty(sample);
 
 		if (response == 1)
@@ -817,241 +817,241 @@ void SvmVisualization::visualizeTraningData(const dataset::Dataset<std::vector<f
 void SvmVisualization::visualizeSupportVectors(phd::svm::ISvm& svm,
                                                const dataset::Dataset<std::vector<float>, float>& trainingDataset)
 {
-	const auto samples = trainingDataset.getSamples();
-	const auto targets = trainingDataset.getLabels();
-	auto supportVectors = svm.getSupportVectors();
+	// const auto samples = trainingDataset.getSamples();
+	// const auto targets = trainingDataset.getLabels();
+	// auto supportVectors = svm.getSupportVectors();
 
-	//auto SvmLib = reinterpret_cast<phd::svm::SvmLibImplementation*>(&svm);
-	for (int i = 0; i < supportVectors.rows; i++)
-	{
-		const float* sv = supportVectors.ptr<float>(i);
-		constexpr auto epsilon = 1e-3; //0.001;
-		auto positionSv = std::find_if(samples.begin(), samples.end(), [&sv,&epsilon](auto& sample)
-		{
-			return abs(sample[1] - sv[1]) < epsilon && abs(sample[0] - sv[0]) < epsilon;
-		}) - samples.begin();
+	// //auto libSvm = reinterpret_cast<phd::svm::libSvmImplementation*>(&svm);
+	// for (int i = 0; i < supportVectors.rows; i++)
+	// {
+	// 	const float* sv = supportVectors.ptr<float>(i);
+	// 	constexpr auto epsilon = 1e-3; //0.001;
+	// 	auto positionSv = std::find_if(samples.begin(), samples.end(), [&sv,&epsilon](auto& sample)
+	// 	{
+	// 		return abs(sample[1] - sv[1]) < epsilon && abs(sample[0] - sv[0]) < epsilon;
+	// 	}) - samples.begin();
 
-		if (targets[positionSv] == 1)
-		{
-			cv::drawMarker(m_image,
-			               cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
-			               getSvColor(positionSv),
-			               cv::MARKER_CROSS,
-			               markerCrossSize,
-			               markerThickness,
-			               lineType);
-			if (!m_scores.empty())
-				cv::putText(m_image, std::to_string(m_scores[i]), cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])), 0, 0.5,
-				            cv::viz::Color::red(), 1);
-		/*	if (!m_gammas.empty() && m_isChromosomeSetup)
-			{
-				cv::putText(m_image, std::to_string(static_cast<int>(m_chromosome.getDataset()[i].gamma)), cv::Point(normalizeToImageWidth(sv[0])+5, normalizeToImageHeight(sv[1]) + 5), 0, 0.5,
-					cv::viz::Color::red(), 1);
-			}*/
-		}
-		else
-		{
-			cv::drawMarker(m_image,
-			               cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
-			               getSvColor(positionSv),
-			               cv::MARKER_TILTED_CROSS,
-			               markerTiltedCrossSize,
-			               markerThickness,
-			               lineType);
-			if (!m_scores.empty())
-				cv::putText(m_image, std::to_string(m_scores[i]), cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])), 0, 0.5,
-				            cv::viz::Color::red(), 1);
-			/*if (!m_gammas.empty() && m_isChromosomeSetup)
-			{
-				cv::putText(m_image, std::to_string(static_cast<int>(m_chromosome.getDataset()[i].gamma)), cv::Point(normalizeToImageWidth(sv[0])+5, normalizeToImageHeight(sv[1]) + 5), 0, 0.5,
-					cv::viz::Color::red(), 1);
-			}*/
-		}
-	}
+	// 	if (targets[positionSv] == 1)
+	// 	{
+	// 		cv::drawMarker(m_image,
+	// 		               cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
+	// 		               getSvColor(positionSv),
+	// 		               cv::MARKER_CROSS,
+	// 		               markerCrossSize,
+	// 		               markerThickness,
+	// 		               lineType);
+	// 		if (!m_scores.empty())
+	// 			cv::putText(m_image, std::to_string(m_scores[i]), cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])), 0, 0.5,
+	// 			            cv::viz::Color::red(), 1);
+	// 	/*	if (!m_gammas.empty() && m_isChromosomeSetup)
+	// 		{
+	// 			cv::putText(m_image, std::to_string(static_cast<int>(m_chromosome.getDataset()[i].gamma)), cv::Point(normalizeToImageWidth(sv[0])+5, normalizeToImageHeight(sv[1]) + 5), 0, 0.5,
+	// 				cv::viz::Color::red(), 1);
+	// 		}*/
+	// 	}
+	// 	else
+	// 	{
+	// 		cv::drawMarker(m_image,
+	// 		               cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
+	// 		               getSvColor(positionSv),
+	// 		               cv::MARKER_TILTED_CROSS,
+	// 		               markerTiltedCrossSize,
+	// 		               markerThickness,
+	// 		               lineType);
+	// 		if (!m_scores.empty())
+	// 			cv::putText(m_image, std::to_string(m_scores[i]), cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])), 0, 0.5,
+	// 			            cv::viz::Color::red(), 1);
+	// 		/*if (!m_gammas.empty() && m_isChromosomeSetup)
+	// 		{
+	// 			cv::putText(m_image, std::to_string(static_cast<int>(m_chromosome.getDataset()[i].gamma)), cv::Point(normalizeToImageWidth(sv[0])+5, normalizeToImageHeight(sv[1]) + 5), 0, 0.5,
+	// 				cv::viz::Color::red(), 1);
+	// 		}*/
+	// 	}
+	// }
 }
 
 
 void SvmVisualization::visualizeSupportVectors(phd::svm::EnsembleListSvm svm,
 	const dataset::Dataset<std::vector<float>, float>& trainingDataset, std::vector<std::vector<cv::Vec3b>> colors)
 {
-	const auto samples = trainingDataset.getSamples();
-	const auto targets = trainingDataset.getLabels();
+	// const auto samples = trainingDataset.getSamples();
+	// const auto targets = trainingDataset.getLabels();
 
-	auto temp = svm.root;
-	auto colorID = 0;
-	while(temp)
-	{
-		auto supportVectors = temp->m_svm->getSupportVectors();
+	// auto temp = svm.root;
+	// auto colorID = 0;
+	// while(temp)
+	// {
+	// 	auto supportVectors = temp->m_svm->getSupportVectors();
 		
-		for (int i = 0; i < supportVectors.rows; i++)
-		{
-			const float* sv = supportVectors.ptr<float>(i);
-			constexpr auto epsilon = 1e-3; //0.001;
-			auto positionSv = std::find_if(samples.begin(), samples.end(), [&sv, &epsilon](auto& sample)
-				{
-					return abs(sample[1] - sv[1]) < epsilon && abs(sample[0] - sv[0]) < epsilon;
-				}) - samples.begin();
+	// 	for (int i = 0; i < supportVectors.rows; i++)
+	// 	{
+	// 		const float* sv = supportVectors.ptr<float>(i);
+	// 		constexpr auto epsilon = 1e-3; //0.001;
+	// 		auto positionSv = std::find_if(samples.begin(), samples.end(), [&sv, &epsilon](auto& sample)
+	// 			{
+	// 				return abs(sample[1] - sv[1]) < epsilon && abs(sample[0] - sv[0]) < epsilon;
+	// 			}) - samples.begin();
 
-				if (targets[positionSv] == 1)
-				{
-					cv::drawMarker(m_image,
-						cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
-						colors[colorID][1],
-						cv::MARKER_CROSS,
-						markerCrossSize,
-						markerThickness,
-						lineType);
-				}
-				else
-				{
-					cv::drawMarker(m_image,
-						cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
-						colors[colorID][1],
-						cv::MARKER_TILTED_CROSS,
-						markerTiltedCrossSize,
-						markerThickness,
-						lineType);
-				}
-		}
-		colorID++;
-		colorID = colorID % colors.size();
-		temp = temp->m_next;
-	}
+	// 			if (targets[positionSv] == 1)
+	// 			{
+	// 				cv::drawMarker(m_image,
+	// 					cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
+	// 					colors[colorID][1],
+	// 					cv::MARKER_CROSS,
+	// 					markerCrossSize,
+	// 					markerThickness,
+	// 					lineType);
+	// 			}
+	// 			else
+	// 			{
+	// 				cv::drawMarker(m_image,
+	// 					cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
+	// 					colors[colorID][1],
+	// 					cv::MARKER_TILTED_CROSS,
+	// 					markerTiltedCrossSize,
+	// 					markerThickness,
+	// 					lineType);
+	// 			}
+	// 	}
+	// 	colorID++;
+	// 	colorID = colorID % colors.size();
+	// 	temp = temp->m_next;
+	// }
 }
 
 void SvmVisualization::visualizeImprovementSupportVectors(phd::svm::ISvm& svm, const dataset::Dataset<std::vector<float>, float>& trainingDataset, cv::Mat lastNodeSvs)
 {
-	const auto samples = trainingDataset.getSamples();
-	const auto targets = trainingDataset.getLabels();
-	auto supportVectors = svm.getSupportVectors();
+	// const auto samples = trainingDataset.getSamples();
+	// const auto targets = trainingDataset.getLabels();
+	// auto supportVectors = svm.getSupportVectors();
 
-	//auto SvmLib = reinterpret_cast<phd::svm::SvmLibImplementation*>(&svm);
-	for (int i = 0; i < supportVectors.rows; i++)
-	{
-		const float* sv = supportVectors.ptr<float>(i);
-		constexpr auto epsilon = 1e-3; //0.001;
-		auto positionSv = std::find_if(samples.begin(), samples.end(), [&sv, &epsilon](auto& sample)
-			{
-				return abs(sample[1] - sv[1]) < epsilon && abs(sample[0] - sv[0]) < epsilon;
-			}) - samples.begin();
+	// //auto libSvm = reinterpret_cast<phd::svm::libSvmImplementation*>(&svm);
+	// for (int i = 0; i < supportVectors.rows; i++)
+	// {
+	// 	const float* sv = supportVectors.ptr<float>(i);
+	// 	constexpr auto epsilon = 1e-3; //0.001;
+	// 	auto positionSv = std::find_if(samples.begin(), samples.end(), [&sv, &epsilon](auto& sample)
+	// 		{
+	// 			return abs(sample[1] - sv[1]) < epsilon && abs(sample[0] - sv[0]) < epsilon;
+	// 		}) - samples.begin();
 
-			if (targets[positionSv] == 1)
-			{
-				cv::drawMarker(m_image,
-					cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
-					getSvColor(positionSv),
-					cv::MARKER_CROSS,
-					markerCrossSize,
-					markerThickness,
-					lineType);
-			}
-			else
-			{
-				cv::drawMarker(m_image,
-					cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
-					getSvColor(positionSv),
-					cv::MARKER_TILTED_CROSS,
-					markerTiltedCrossSize,
-					markerThickness,
-					lineType);
-			}
-	}
+	// 		if (targets[positionSv] == 1)
+	// 		{
+	// 			cv::drawMarker(m_image,
+	// 				cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
+	// 				getSvColor(positionSv),
+	// 				cv::MARKER_CROSS,
+	// 				markerCrossSize,
+	// 				markerThickness,
+	// 				lineType);
+	// 		}
+	// 		else
+	// 		{
+	// 			cv::drawMarker(m_image,
+	// 				cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
+	// 				getSvColor(positionSv),
+	// 				cv::MARKER_TILTED_CROSS,
+	// 				markerTiltedCrossSize,
+	// 				markerThickness,
+	// 				lineType);
+	// 		}
+	// }
 
-	supportVectors = lastNodeSvs;
+	// supportVectors = lastNodeSvs;
 
-	for (int i = 0; i < supportVectors.rows; i++)
-	{
-		const float* sv = supportVectors.ptr<float>(i);
-		constexpr auto epsilon = 1e-3; //0.001;
-		auto positionSv = std::find_if(samples.begin(), samples.end(), [&sv, &epsilon](auto& sample)
-			{
-				return abs(sample[1] - sv[1]) < epsilon && abs(sample[0] - sv[0]) < epsilon;
-			}) - samples.begin();
+	// for (int i = 0; i < supportVectors.rows; i++)
+	// {
+	// 	const float* sv = supportVectors.ptr<float>(i);
+	// 	constexpr auto epsilon = 1e-3; //0.001;
+	// 	auto positionSv = std::find_if(samples.begin(), samples.end(), [&sv, &epsilon](auto& sample)
+	// 		{
+	// 			return abs(sample[1] - sv[1]) < epsilon && abs(sample[0] - sv[0]) < epsilon;
+	// 		}) - samples.begin();
 
-			if (targets[positionSv] == 1)
-			{
-				cv::drawMarker(m_image,
-					cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
-					cv::Vec3b(254, 197, 28),
-					cv::MARKER_CROSS,
-					markerCrossSize,
-					markerThickness,
-					lineType);
-			}
-			else
-			{
-				cv::drawMarker(m_image,
-					cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
-					cv::Vec3b(254, 197, 28),
-					cv::MARKER_TILTED_CROSS,
-					markerTiltedCrossSize,
-					markerThickness,
-					lineType);
-			}
-	}
+	// 		if (targets[positionSv] == 1)
+	// 		{
+	// 			cv::drawMarker(m_image,
+	// 				cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
+	// 				cv::Vec3b(254, 197, 28),
+	// 				cv::MARKER_CROSS,
+	// 				markerCrossSize,
+	// 				markerThickness,
+	// 				lineType);
+	// 		}
+	// 		else
+	// 		{
+	// 			cv::drawMarker(m_image,
+	// 				cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
+	// 				cv::Vec3b(254, 197, 28),
+	// 				cv::MARKER_TILTED_CROSS,
+	// 				markerTiltedCrossSize,
+	// 				markerThickness,
+	// 				lineType);
+	// 		}
+	// }
 }
 
 std::vector<uchar> SvmVisualization::visualizeSVtoVectors(phd::svm::ISvm& svm, const dataset::Dataset<std::vector<float>, float>& trainingDataset)
 {
 	visualizeClassBoundries(svm);
 
-	std::vector<cv::Vec3b> colors{
-		cv::viz::Color::blue(), cv::viz::Color::red(), cv::viz::Color::green(),
-		cv::viz::Color::cherry(), cv::viz::Color::pink(), cv::viz::Color::purple(),
-		cv::viz::Color::yellow(), cv::viz::Color::lime(), cv::viz::Color::magenta(), cv::viz::Color::apricot(), cv::viz::Color::silver(),
-		cv::viz::Color::raspberry()
-	};
+	// std::vector<cv::Vec3b> colors{
+	// 	cv::viz::Color::blue(), cv::viz::Color::red(), cv::viz::Color::green(),
+	// 	cv::viz::Color::cherry(), cv::viz::Color::pink(), cv::viz::Color::purple(),
+	// 	cv::viz::Color::yellow(), cv::viz::Color::lime(), cv::viz::Color::magenta(), cv::viz::Color::apricot(), cv::viz::Color::silver(),
+	// 	cv::viz::Color::raspberry()
+	// };
 
-	const auto samples = trainingDataset.getSamples();
-	const auto targets = trainingDataset.getLabels();
-	auto supportVectors = svm.getSupportVectors();
-
-
-	for (auto value : m_SvToVec)
-	{
-		auto sample = samples[value.second];
-		{
-			cv::drawMarker(m_image,
-				cv::Point(normalizeToImageWidth(sample[0]), normalizeToImageHeight(sample[1])),
-				colors[value.first % colors.size()],
-				cv::MARKER_TILTED_CROSS,
-				3,
-				markerThickness,
-				lineType);
-		}
-	}
+	// const auto samples = trainingDataset.getSamples();
+	// const auto targets = trainingDataset.getLabels();
+	// auto supportVectors = svm.getSupportVectors();
 
 
-	for (int i = 0; i < supportVectors.rows; i++)
-	{
-		const float* sv = supportVectors.ptr<float>(i);
-		constexpr auto epsilon = 0.001;
-		auto positionSv = std::find_if(samples.begin(), samples.end(), [&sv, &epsilon](auto& sample)
-		{
-			return abs(sample[1] - sv[1]) < epsilon && abs(sample[0] - sv[0]) < epsilon;
-		}) - samples.begin();
+	// for (auto value : m_SvToVec)
+	// {
+	// 	auto sample = samples[value.second];
+	// 	{
+	// 		cv::drawMarker(m_image,
+	// 			cv::Point(normalizeToImageWidth(sample[0]), normalizeToImageHeight(sample[1])),
+	// 			colors[value.first % colors.size()],
+	// 			cv::MARKER_TILTED_CROSS,
+	// 			3,
+	// 			markerThickness,
+	// 			lineType);
+	// 	}
+	// }
 
-		if (targets[positionSv] == 1)
-		{
-			cv::drawMarker(m_image,
-			               cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
-			               colors[i % colors.size()],
-			               cv::MARKER_CROSS,
-			               markerCrossSize,
-			               markerThickness,
-			               lineType);
-		}
-		else
-		{
-			cv::drawMarker(m_image,
-			               cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
-			               colors[i % colors.size()],
-			               cv::MARKER_TILTED_CROSS,
-			               markerTiltedCrossSize,
-			               markerThickness,
-			               lineType);
-		}
-	}
+
+	// for (int i = 0; i < supportVectors.rows; i++)
+	// {
+	// 	const float* sv = supportVectors.ptr<float>(i);
+	// 	constexpr auto epsilon = 0.001;
+	// 	auto positionSv = std::find_if(samples.begin(), samples.end(), [&sv, &epsilon](auto& sample)
+	// 	{
+	// 		return abs(sample[1] - sv[1]) < epsilon && abs(sample[0] - sv[0]) < epsilon;
+	// 	}) - samples.begin();
+
+	// 	if (targets[positionSv] == 1)
+	// 	{
+	// 		cv::drawMarker(m_image,
+	// 		               cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
+	// 		               colors[i % colors.size()],
+	// 		               cv::MARKER_CROSS,
+	// 		               markerCrossSize,
+	// 		               markerThickness,
+	// 		               lineType);
+	// 	}
+	// 	else
+	// 	{
+	// 		cv::drawMarker(m_image,
+	// 		               cv::Point(normalizeToImageWidth(sv[0]), normalizeToImageHeight(sv[1])),
+	// 		               colors[i % colors.size()],
+	// 		               cv::MARKER_TILTED_CROSS,
+	// 		               markerTiltedCrossSize,
+	// 		               markerThickness,
+	// 		               lineType);
+	// 	}
+	// }
 
 	std::vector<uchar> buffer;
 	cv::imencode(".png", m_image, buffer);

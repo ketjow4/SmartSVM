@@ -2,7 +2,7 @@
 
 namespace svmComponents
 {
-const std::unordered_map<std::string, GroupStrategy> GroupsStrategyFactory::m_translations =
+std::unordered_map<std::string, GroupStrategy> GroupsStrategyFactory::m_translations =
 {
 	{"Median", GroupStrategy::MedianAnswer},
 	{"Max", GroupStrategy::MaxAnswer},

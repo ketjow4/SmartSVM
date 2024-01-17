@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
+#include <memory>
 
 #include "libPlatform/EnumStringConversions.h"
 
@@ -108,7 +109,7 @@ public:
 
 
 private:
-	const static std::unordered_map<std::string, GroupStrategy> m_translations;
+	static std::unordered_map<std::string, GroupStrategy> m_translations;
 	const static std::unordered_map<GroupStrategy, std::string> m_translationsToStr;
 
 };

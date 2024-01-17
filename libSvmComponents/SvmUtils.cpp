@@ -160,17 +160,17 @@ std::vector<unsigned> countLabels(unsigned numberOfClasses, const std::vector<Ge
 
 void setupSvmTerminationCriteria(phd::svm::ISvm& svm, const SvmAlgorithmConfiguration& config)
 {
-    if (config.m_useSvmIteration)
-    {
-        svm.setTerminationCriteria(cv::TermCriteria(cv::TermCriteria::EPS + cv::TermCriteria::MAX_ITER,
-                                                    config.m_svmIterationNumber,
-                                                    config.m_svmEpsilon));
-    }
-    else
-    {
-        constexpr int numberOfIterations = 0;
-        svm.setTerminationCriteria(cv::TermCriteria(cv::TermCriteria::EPS, numberOfIterations, config.m_svmEpsilon));
-    }
+    // if (config.m_useSvmIteration)
+    // {
+    //     svm.setTerminationCriteria(cv::TermCriteria(cv::TermCriteria::EPS + cv::TermCriteria::MAX_ITER,
+    //                                                 config.m_svmIterationNumber,
+    //                                                 config.m_svmEpsilon));
+    // }
+    // else
+    // {
+    //     constexpr int numberOfIterations = 0;
+    //     svm.setTerminationCriteria(cv::TermCriteria(cv::TermCriteria::EPS, numberOfIterations, config.m_svmEpsilon));
+    // }
 }
 
 

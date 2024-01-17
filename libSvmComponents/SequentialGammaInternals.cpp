@@ -1,7 +1,7 @@
 #include <opencv2/ml.hpp>
 #include "SvmLib/SvmExceptions.h"
 #include "SequentialGammaInternals.h"
-#include "SvmLib/SvmLibImplementation.h"
+#include "SvmLib/libSvmImplementation.h"
 
 namespace svmComponents
 {
@@ -111,7 +111,7 @@ geneticComponents::Population<SvmCustomKernelChromosome> CrossoverCompensationGa
 	{
 		auto index = 0u;
 		const auto targets = m_trainingSet.getLabels();
-		const auto trainingSetID = std::uniform_int_distribution<int>(0, static_cast<int>(m_trainingSet.size() - 1));
+		auto trainingSetID = std::uniform_int_distribution<int>(0, static_cast<int>(m_trainingSet.size() - 1));
 
 		for (auto& individual : population)
 		{
@@ -320,7 +320,7 @@ void SupportVectorPoolGamma::addSupportVectors(const SvmCustomKernelChromosome& 
 	{
 		//auto svm = reinterpret_cast<phd::svm::SvmLibImplementation*>(classifier.get());
 		//auto[ommit, scores] = svm->check_sv(trainingSet);
-		cv::Mat supportVectors = classifier->getSupportVectors();
+		auto supportVectors = classifier->getSupportVectors();
 		auto individualDataset = chromosome.convertChromosome(trainingSet);
 
 		/*if (!classifier->getFeatureSet().empty())
@@ -332,11 +332,11 @@ void SupportVectorPoolGamma::addSupportVectors(const SvmCustomKernelChromosome& 
 
 		auto& dataset = chromosome.getDataset();
 
-		for (auto i = 0; i < supportVectors.rows; i++)
+		for (auto i = 0; i < supportVectors.size(); i++)
 		{
 			{
-				const float* sv = supportVectors.ptr<float>(i);
-				const gsl::span<const float> supportVector(sv, supportVectors.cols);
+				//const float* sv = supportVectors.ptr<float>(i);
+				const gsl::span<const float> supportVector(supportVectors[i].data(), supportVectors[i].size());
 
 				const auto positionInDataset = findPositionOfSupprotVector(individualDataset, supportVector);
 

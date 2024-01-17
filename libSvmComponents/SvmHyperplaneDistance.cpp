@@ -5,12 +5,12 @@
 #include <fstream>
 
 
-#include "libLogger/loguru.hpp"
-#include "SvmLib/SvmLibImplementation.h"
+#include "libPlatform/loguru.hpp"
+#include "SvmLib/libSvmImplementation.h"
 #include "SvmAccuracyMetric.h"
 #include "SvmAucMetric.h"
 #include <iomanip>
-#include "libTime/TimeUtils.h"
+#include "libPlatform/TimeUtils.h"
 
 #pragma warning (disable: 4189)
 
@@ -158,7 +158,7 @@ void SvmHyperplaneDistance::classifySet(std::shared_ptr<phd::svm::ISvm> svmModel
                                         std::vector<SvmAnswer>& results) const
 {
 	results.reserve(targets.size());
-	auto svm = reinterpret_cast<phd::svm::SvmLibImplementation*>(svmModel.get());
+	auto svm = reinterpret_cast<phd::svm::libSvmImplementation*>(svmModel.get());
 	auto bias = svm->m_model->rho[0]; //only for binary classification
 	auto max = 0.0;
 	
@@ -195,7 +195,7 @@ void SvmHyperplaneDistance::setThresholds(std::shared_ptr<phd::svm::ISvm> svmMod
 	double& max_distance_normalized,
 	double& min_distance_normalized) const
 {
-	auto res = reinterpret_cast<phd::svm::SvmLibImplementation*>(svmModel.get());
+	auto res = reinterpret_cast<phd::svm::libSvmImplementation*>(svmModel.get());
 
 	auto epsilon = 0.000001;
 	//if (std::fabs(max_distance_raw - -*res->m_model->rho) < epsilon)
@@ -332,7 +332,7 @@ Metric SvmHyperplaneDistance::calculateMetric(const BaseSvmChromosome& individua
 	std::vector<SvmAnswer> results;
 	classifySet(svmModel, targets, samples, results);
 
-	auto svm = reinterpret_cast<phd::svm::SvmLibImplementation*>(svmModel.get());
+	auto svm = reinterpret_cast<phd::svm::libSvmImplementation*>(svmModel.get());
 	auto bias = svm->m_model->rho[0]; //only for binary classification
 
 
@@ -697,7 +697,7 @@ Metric SvmHyperplaneDistance::calculateMetric(const BaseSvmChromosome& individua
 	//if these threshold are not set they are not used and default value of -1111 is set for them
 	if (m_useSingleClassPrediction)
 	{
-		auto res = reinterpret_cast<phd::svm::SvmLibImplementation*>(svmModel.get());
+		auto res = reinterpret_cast<phd::svm::libSvmImplementation*>(svmModel.get());
 		res->setClassCertaintyThreshold(negativeClassDistance, positiveClassDistance, negativeClassDistance, positiveClassDistance);
 	}
 
@@ -705,7 +705,7 @@ Metric SvmHyperplaneDistance::calculateMetric(const BaseSvmChromosome& individua
 	ConfusionMatrix none(0, 0, 0, 0);
 
 	//auto distanceFitness = 1 - ((max_distance - min_distance) / 2);
-	auto SvmLibModel = reinterpret_cast<phd::svm::SvmLibImplementation*>(svmModel.get());
+	auto SvmLibModel = reinterpret_cast<phd::svm::libSvmImplementation*>(svmModel.get());
 	auto distanceFitness = 1 - ((SvmLibModel->getPositiveNormalizedCertainty() - SvmLibModel->getNegativeNormalizedCertainty()) / 2);
 
 	if (m_distanceSet) //special treatment when K grows 
@@ -1000,7 +1000,7 @@ void SvmHyperplaneDistance::calculateThresholds(const BaseSvmChromosome& individ
 	std::vector<SvmAnswer> results;
 	classifySet(svmModel, targets, samples, results);
 
-	auto svm = reinterpret_cast<phd::svm::SvmLibImplementation*>(svmModel.get());
+	auto svm = reinterpret_cast<phd::svm::libSvmImplementation*>(svmModel.get());
 	auto bias = svm->m_model->rho[0]; //only for binary classification
 
 
@@ -1342,7 +1342,7 @@ void SvmHyperplaneDistance::calculateThresholds(const BaseSvmChromosome& individ
 	//if these threshold are not set they are not used and default value of -1111 is set for them
 	if (m_useSingleClassPrediction)
 	{
-		auto res = reinterpret_cast<phd::svm::SvmLibImplementation*>(svmModel.get());
+		auto res = reinterpret_cast<phd::svm::libSvmImplementation*>(svmModel.get());
 		res->setClassCertaintyThreshold(negativeClassDistance, positiveClassDistance, negativeClassDistance, positiveClassDistance);
 	}
 	

@@ -98,6 +98,8 @@
         "xutility": "cpp",
         "*.ipp": "cpp",
         "gsl": "cpp",
-        "multi_span": "cpp"
+        "multi_span": "cpp",
+        "*.tcc": "cpp",
+        "memory_resource": "cpp"
     }
 }

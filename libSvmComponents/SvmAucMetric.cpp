@@ -1,5 +1,7 @@
 
 
+#include <unordered_set>
+#include <map>
 #include "libDataset/Dataset.h"
 #include "SvmAucMetric.h"
 #include "BaseSvmChromosome.h"
@@ -7,9 +9,10 @@
 #include <fstream>
 #include <set>
 
-#include "libLogger/loguru.hpp"
+#include "libPlatform/loguru.hpp"
 #include "SvmLib/EnsembleListSvm.h"
 #include "SvmLib/VotingEnsemble.h"
+
 
 namespace svmComponents
 {

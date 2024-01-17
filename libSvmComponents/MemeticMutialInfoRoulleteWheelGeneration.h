@@ -1,17 +1,18 @@
 #pragma once
 
 #include <memory>
+#include <filesystem>
 #include "libRandom/IRandomNumberGenerator.h"
 #include "libGeneticComponents/Population.h"
 #include "libGeneticComponents/IPopulationGeneration.h"
 #include "SvmFeatureSetMemeticChromosome.h"
-#include "libFileSystem/FileSystem.h"
 #include "libPlatform/SubtreeExceptions.h"
 #include "libPlatform/Subprocess.h"
 #include "libPlatform/StringUtils.h"
 #include <fstream>
 #include "SvmComponentsExceptions.h"
 #include "SmallerPoolExperiment.h"
+
 #include "TestApp/PythonPath.h"
 
 namespace svmComponents
@@ -41,14 +42,13 @@ inline void saveDataset24433(const dataset::Dataset<std::vector<float>, float>& 
     output.close();
 }
 
-inline std::vector<double> runMutualInfo(filesystem::Path treningSetPath, filesystem::Path outputPath, const dataset::Dataset<std::vector<float>, float>& /*trainingSet*/)
+inline std::vector<double> runMutualInfo(std::filesystem::path treningSetPath, std::filesystem::path outputPath, const dataset::Dataset<std::vector<float>, float>& /*trainingSet*/)
 {
     try
     {
-        filesystem::FileSystem fs;
 
-        auto pythonScriptPath = filesystem::Path("mutualInfo.py");
-        if (!fs.exists(pythonScriptPath))
+        auto pythonScriptPath = std::filesystem::path("mutualInfo.py");
+        if (!std::filesystem::exists(pythonScriptPath))
         {
             throw platform::FileNotFoundException(pythonScriptPath.string());
         }
@@ -57,7 +57,7 @@ inline std::vector<double> runMutualInfo(filesystem::Path treningSetPath, filesy
         saveDataset24433(trainingSet, tr_path);*/
 
     	//if file exists this mean that feature algorithm was already run 
-        if (! fs.exists(outputPath.parent_path().string() + "\\" + "probabilites_of_features.txt"))
+        if (!std::filesystem::exists(outputPath.parent_path().string() + "\\" + "probabilites_of_features.txt"))
         {
 	        const auto command = std::string(PYTHON_PATH + " mutualInfo.py -t "
 	            + treningSetPath.string() + " -o " + outputPath.string());

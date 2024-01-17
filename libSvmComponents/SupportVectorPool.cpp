@@ -4,7 +4,7 @@
 #include "SvmComponentsExceptions.h"
 #include "SupportVectorPool.h"
 
-#include "libLogger/loguru.hpp"
+#include "libPlatform/loguru.hpp"
 #include "SvmFeatureSetMemeticChromosome.h"
 
 namespace svmComponents
@@ -40,7 +40,7 @@ void SupportVectorPool::addSupportVectors(const SvmTrainingSetChromosome& chromo
     const auto classifier = chromosome.getClassifier();
     if (classifier && classifier->isTrained())
     {
-        cv::Mat supportVectors = classifier->getSupportVectors();
+        auto supportVectors = classifier->getSupportVectors();
         auto individualDataset = chromosome.convertChromosome(trainingSet);
         
         if(!classifier->getFeatureSet().empty())
@@ -52,10 +52,10 @@ void SupportVectorPool::addSupportVectors(const SvmTrainingSetChromosome& chromo
 
         auto& dataset = chromosome.getDataset();
 
-        for (auto i = 0; i < supportVectors.rows; i++)
+        for (auto i = 0; i < supportVectors.size(); i++)
         {
-            const float* sv = supportVectors.ptr<float>(i);
-            const gsl::span<const float> supportVector(sv, supportVectors.cols);
+            //const float* sv = supportVectors.ptr<float>(i);
+            const gsl::span<const float> supportVector(supportVectors[i].data(), supportVectors[i].size());
 
             const auto positionInDataset = findPositionOfSupprotVector(individualDataset, supportVector);
 
