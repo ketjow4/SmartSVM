@@ -1,0 +1,3 @@
+%comspec% /k "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64 10.0.18362.0 -vcvars_ver=14.16.27023
+conda activate Deeva
+python -m build --wheel
