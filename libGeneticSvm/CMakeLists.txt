@@ -49,7 +49,6 @@ add_compile_definitions(_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
 ################################################################################
 # Link with other targets.
 target_link_libraries(${PROJECT_NAME} PUBLIC
-    libDataProvider
     libDataset
     libPlatform
     libRandom
@@ -58,7 +57,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     libSvmStrategies
     SvmLib
     libGeneticComponents
-    libGeneticStrategies
 )
 
 #use_package(${PROJECT_NAME} OpenCV 3.3.1)

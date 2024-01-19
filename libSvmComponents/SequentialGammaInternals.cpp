@@ -1,4 +1,3 @@
-#include <opencv2/ml.hpp>
 #include "SvmLib/SvmExceptions.h"
 #include "SequentialGammaInternals.h"
 #include "SvmLib/libSvmImplementation.h"

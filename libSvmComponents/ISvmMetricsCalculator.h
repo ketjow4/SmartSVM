@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include <opencv2/ml.hpp>
 #include "libDataset/Dataset.h"
 #include "libSvmComponents/Metric.h"
 

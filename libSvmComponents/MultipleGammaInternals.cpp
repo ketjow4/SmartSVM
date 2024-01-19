@@ -1,5 +1,4 @@
 
-#include <opencv2/ml.hpp>
 #include "SvmLib/SvmExceptions.h"
 #include "MultipleGammaInternals.h"
 #include "SvmLib/libSvmImplementation.h"
