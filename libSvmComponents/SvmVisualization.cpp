@@ -1,8 +1,10 @@
-#include <opencv2/imgproc.hpp>
-#include <opencv2/imgcodecs.hpp>
+// #include <opencv2/imgproc.hpp>
+// #include <opencv2/imgcodecs.hpp>
 //#include <opencv2/viz/types.hpp>
-#include "SvmVisualization.h"
 
+#include <LodePng/lodepng.h>
+
+#include "SvmVisualization.h"
 #include "SvmLib/EnsembleListSvm.h"
 #include "SvmComponentsExceptions.h"
 #include "SvmLib/ISvm.h"
@@ -21,7 +23,7 @@ std::vector<uchar> SvmVisualization::createVisualization(phd::svm::ISvm& svm,
 	{
 		throw UntrainedSvmClassifierException();
 	}
-	m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	m_image = ImageBuffer(width, height);
 
 
 	if(trainingDataset.hasGroups())
@@ -38,11 +40,8 @@ std::vector<uchar> SvmVisualization::createVisualization(phd::svm::ISvm& svm,
 		//visualizeTraningData(trainingDataset);
 		visualizeSupportVectors(svm, trainingDataset);
 	}
-
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
 	
-	return buffer;
+	return m_image.encodeToPng();
 }
 
 std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::createVisualizationNewTrainingSet(phd::svm::ISvm& svm, int height, int width,
@@ -53,14 +52,14 @@ std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::create
 	{
 		throw UntrainedSvmClassifierException();
 	}
-	m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	m_image = ImageBuffer(width, height);
 
 	std::vector<std::pair<std::vector<uchar>, std::string>> visualizations;
 
 	visualizeClassBoundries(svm);
 	visualizeTestData(trainingDataset);
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
+	
+	std::vector<uchar> buffer = m_image.encodeToPng();
 
 	visualizations.emplace_back(buffer, "new_training_set");
 
@@ -74,10 +73,7 @@ std::vector<uchar> SvmVisualization::createVisualizationCertainty(phd::svm::ISvm
 	visualizeTestData(trainingDataset);
 	//visualizeSupportVectors(svm, trainingDataset);
 
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
-
-	return buffer;
+	return m_image.encodeToPng();
 }
 
 
@@ -87,14 +83,13 @@ std::vector<uchar> SvmVisualization::createVisualizationCertaintyNoSV(phd::svm::
 	visualizeCertaintyRegions(svm);
 	visualizeTestData(testDataset);
 
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
 
-	return buffer;
+	return m_image.encodeToPng();
+
 }
 
 std::vector<uchar> SvmVisualization::createVisualizationImprovementEnsembleList(phd::svm::ISvm& svm,
-	const dataset::Dataset<std::vector<float>, float>& trainingDataset, cv::Mat lastNodeSvs, phd::svm::ISvm& no_last_node, bool visualizeSVs)
+	const dataset::Dataset<std::vector<float>, float>& trainingDataset, std::vector<std::vector<float>> lastNodeSvs, phd::svm::ISvm& no_last_node, bool visualizeSVs)
 {
 	visualizeCertaintyRegionsImprovement(svm, no_last_node);
 	visualizeTestData(trainingDataset);
@@ -103,10 +98,8 @@ std::vector<uchar> SvmVisualization::createVisualizationImprovementEnsembleList(
 		visualizeImprovementSupportVectors(svm, trainingDataset, lastNodeSvs);
 	}
 
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
 
-	return buffer;
+	return m_image.encodeToPng();
 }
 
 
@@ -160,15 +153,13 @@ std::vector<uchar> SvmVisualization::differenceInClassification(phd::svm::ISvm& 
 			//}
 			//else
 			//{
-				m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = cv::Vec3b(234, 234, 18); //bgr red light
+				m_image.setPixel(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0]), RGBColor(18, 234, 234));
+				//m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = cv::Vec3b(234, 234, 18); //bgr red light
 			//}
 		}
 	}
 
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
-
-	return buffer;
+	return m_image.encodeToPng();
 }
 
 
@@ -180,28 +171,28 @@ std::vector<uchar> SvmVisualization::createVisualizationNewTrainingSet2(phd::svm
 	{
 		throw UntrainedSvmClassifierException();
 	}
-	m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	m_image = ImageBuffer(width, height);
+
 
 	std::vector<std::pair<std::vector<uchar>, std::string>> visualizations;
 
 	visualizeClassBoundries(svm);
 	visualizeTestData(dataset);
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
 
-	return buffer;
+
+	return m_image.encodeToPng();
 }
 
 std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::createVisualizationNewValidationSet(int height, int width,
 	const dataset::Dataset<std::vector<float>, float>& validationDataset)
-{
-	m_image = cv::Mat(height, width, CV_8UC3, grey);
+{	
+	m_image = ImageBuffer(width, height);
+
 
 	std::vector<std::pair<std::vector<uchar>, std::string>> visualizations;
 
 	visualizeTestData(validationDataset);
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
+	std::vector<uchar> buffer = m_image.encodeToPng();
 
 	visualizations.emplace_back(buffer, "__");
 
@@ -216,10 +207,8 @@ std::vector<uchar> SvmVisualization::basicVisualization(phd::svm::ISvm& svm,
 	//visualizeTraningData(trainingDataset);
 	visualizeSupportVectors(svm, trainingDataset);
 
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
 
-	return buffer;
+	return  m_image.encodeToPng();
 }
 
 std::vector<uchar> SvmVisualization::visualizationWithData(phd::svm::ISvm& svm,
@@ -231,25 +220,23 @@ std::vector<uchar> SvmVisualization::visualizationWithData(phd::svm::ISvm& svm,
 	//visualizeTraningData(trainingDataset);
 	//visualizeSupportVectors(svm, testDataset); //for now this is full set Tr + V here
 
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
 
-	return buffer;
+	return  m_image.encodeToPng();
 }
 
-cv::Vec3b SvmVisualization::getSvColor(int64 index_in_training)
+RGBColor SvmVisualization::getSvColor(long long index_in_training)
 {
 	if (!m_gammas.empty() && m_isChromosomeSetup)
 	{
-		std::vector<cv::Vec3b> colors{
-			// BGR (Blue, Green Red)
-			cv::Vec3b(254, 197, 28), //light blue
-			cv::Vec3b(0, 0, 204), //nice red
-			cv::Vec3b(51, 102, 51), //good green
-			cv::Vec3b(51, 153, 204), //gold
-			cv::Vec3b(204, 204, 255), //skin tone
-			cv::Vec3b(190, 183, 127), //dark sky blue
-			cv::Vec3b(229, 203, 212), //lavender
+		std::vector<RGBColor> colors{
+			// BGR (Blue, Green Red) -- FIX COLORS
+			RGBColor(254, 197, 28), //light blue
+			RGBColor(0, 0, 204), //nice red
+			RGBColor(51, 102, 51), //good green
+			RGBColor(51, 153, 204), //gold
+			RGBColor(204, 204, 255), //skin tone
+			RGBColor(190, 183, 127), //dark sky blue
+			RGBColor(229, 203, 212), //lavender
 			//cv::Vec3b(50, 50, 50), //
 			//cv::Vec3b(50, 50, 50), //
 		};
@@ -273,7 +260,7 @@ cv::Vec3b SvmVisualization::getSvColor(int64 index_in_training)
 
 		if(gamma < 0)
 		{
-			return cv::Vec3b(220, 56, 84); //purple
+			return RGBColor(220, 56, 84); //purple
 			//return cv::viz::Color::purple();
 		}
 
@@ -291,26 +278,26 @@ cv::Vec3b SvmVisualization::getSvColor(int64 index_in_training)
 		//fix for error in manual selection of dataset (due to notepad++ indexing from 1)
 		for (int i = 1; i < 10; ++i)
 		{
-			if (static_cast<uint64>(genePosition) == genes.size())
+			if (static_cast<uint64_t>(genePosition) == genes.size())
 			{
 				genePosition = std::find_if(genes.begin(), genes.end(), [index_in_training, i](Gene g)
 				{
 					return g.id == static_cast<std::uint64_t>(index_in_training + i);
 				}) - genes.begin();
-				if (static_cast<uint64>(genePosition) != genes.size())
+				if (static_cast<uint64_t>(genePosition) != genes.size())
 					break;
 			}
 		}
 
 		//I add wide gammas only to training there are not a part of chromosome anymore in this case we need to return blue and go on
-		if (static_cast<uint64>(genePosition) == genes.size())
+		if (static_cast<uint64_t>(genePosition) == genes.size())
 		{
-			return cv::Vec3b(0, 250, 255);
+			return RGBColor(0, 250, 255);
 		}
 
 		if (genes[genePosition].gamma == 10)
 		{
-			return cv::Vec3b(255, 0, 0);
+			return RGBColor(255, 0, 0);
 		}
 		else
 		{
@@ -332,7 +319,8 @@ std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::create
 	{
 		throw UntrainedSvmClassifierException();
 	}
-	m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	m_image = ImageBuffer(width, height);
+
 
 	std::vector<std::pair<std::vector<uchar>, std::string>> visualizations;
 
@@ -351,7 +339,8 @@ std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::create
 	//visualizations.emplace_back(visualizationWithData(svm, trainingDataset, validationDataset), "SmallerSVs");
 
 	
-	//m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	//m_image = ImageBuffer(width, height);
+
 	//visualizations.emplace_back(visualizeSVtoVectors(svm, trainingDataset), "mapSV_to_vectors");
 
 	return visualizations;
@@ -366,14 +355,17 @@ std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::create
 	{
 		throw UntrainedSvmClassifierException();
 	}
-	m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	m_image = ImageBuffer(width, height);
+
 
 	std::vector<std::pair<std::vector<uchar>, std::string>> visualizations;
 
 	//visualizations.emplace_back(basicVisualization(svm, trainingDataset, testDataset), "basic");
-	//m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	//m_image = ImageBuffer(width, height);
+
 	visualizations.emplace_back(visualizeSoftBoundries(svm), "softBoundaries");
-	//m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	//m_image = ImageBuffer(width, height);
+
 	visualizations.emplace_back(visualizationWithData(svm, trainingDataset, testDataset), "withTest");
 	visualizations.emplace_back(visualizationWithData(svm, trainingDataset, validationDataset), "withValidation");
 	visualizations.emplace_back(createVisualizationNewTrainingSet2(svm, height, width, trainingDataset), "NoSV_TrainingSet");
@@ -391,7 +383,8 @@ std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::create
 	//visualizations.emplace_back(visualizationWithData(svm, trainingDataset, testDataset), "SmallerSVs");
 
 
-	//m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	//m_image = ImageBuffer(width, height);
+
 	//visualizations.emplace_back(visualizeSVtoVectors(svm, trainingDataset), "mapSV_to_vectors");
 
 	return visualizations;
@@ -409,12 +402,14 @@ std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::create
 	{
 		throw UntrainedSvmClassifierException();
 	}
-	m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	m_image = ImageBuffer(width, height);
+
 
 	std::vector<std::pair<std::vector<uchar>, std::string>> visualizations;
 
 
-	//m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	//m_image = ImageBuffer(width, height);
+
 	visualizations.emplace_back(visualizationWithData(svm, trainingDataset, validationDataset), "withValidationData");
 	visualizations.emplace_back(createVisualizationNewTrainingSet2(svm, height, width, trainingDataset), "NoSV_TrainingSet");
 	visualizations.emplace_back(createVisualizationNewTrainingSet2(svm, height, width, validationDataset), "NoSV_ValidationSet");
@@ -434,16 +429,17 @@ std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::create
 	{
 		throw UntrainedSvmClassifierException();
 	}
-	m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	m_image = ImageBuffer(width, height);
+
 
 	std::vector<std::pair<std::vector<uchar>, std::string>> visualizations;
 
 
-	m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	m_image = ImageBuffer(width, height);
+
 
 	visualizeCertaintyRegions(svm);
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
+	std::vector<uchar> buffer = m_image.encodeToPng();
 	visualizations.emplace_back(buffer, "_certaintyMap");
 
 	return visualizations;
@@ -460,7 +456,8 @@ std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::create
 	{
 		throw UntrainedSvmClassifierException();
 	}
-	m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	m_image = ImageBuffer(width, height);
+
 
 	std::vector<std::pair<std::vector<uchar>, std::string>> visualizations;
 
@@ -470,9 +467,9 @@ std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::create
 	
 }
 
-cv::Vec3b rgbToCvColor(uchar r, uchar g, uchar b)
+RGBColor rgbToCvColor(uchar r, uchar g, uchar b)
 {
-	return cv::Vec3b(b - 30, g - 30, r - 30);
+	return RGBColor(b - 30, g - 30, r - 30);
 }
 
 std::vector<uchar> SvmVisualization::createEnsembleVisualizationPerNodeInternal(phd::svm::EnsembleListSvm svm, int , int ,
@@ -480,7 +477,7 @@ std::vector<uchar> SvmVisualization::createEnsembleVisualizationPerNodeInternal(
 	const dataset::Dataset<std::vector<float>, float>& test)
 {
 	//get constant colors for each node
-	std::vector<std::vector<cv::Vec3b>> colors = 
+	std::vector<std::vector<RGBColor>> colors = 
 	{
 
 	/*	{grey, yellow, darkGrey},
@@ -512,10 +509,7 @@ std::vector<uchar> SvmVisualization::createEnsembleVisualizationPerNodeInternal(
 	//visualizeTestData(validationDataset);
 	visualizeTestData(test);
 
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
-
-	return buffer;
+	return m_image.encodeToPng();
 }
 
 std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::createEnsembleImprobementVisualization(
@@ -523,14 +517,15 @@ std::vector<std::pair<std::vector<uchar>, std::string>> SvmVisualization::create
 	const dataset::Dataset<std::vector<float>, float>& trainingDataset,
 	const dataset::Dataset<std::vector<float>, float>& validationDataset,
 	const dataset::Dataset<std::vector<float>, float>& testDataset, 
-	cv::Mat lastNodeSvs,
+	std::vector<std::vector<float>> lastNodeSvs,
 	phd::svm::ISvm& no_last_node)
 {
 	if (!svm.isTrained())
 	{
 		throw UntrainedSvmClassifierException();
 	}
-	m_image = cv::Mat::zeros(height, width, CV_8UC3);
+	m_image = ImageBuffer(width, height);
+
 
 	std::vector<std::pair<std::vector<uchar>, std::string>> visualizations;
 
@@ -561,15 +556,18 @@ void SvmVisualization::visualizeCertaintyRegions(phd::svm::ISvm& svm)
 
 		if (response == 1)
 		{
-			m_image.at<cv::Vec3b>(w, h) = grey;
+			m_image.setPixel(w,h, grey);
+			//m_image.at<cv::Vec3b>(w, h) = grey;
 		}
 		else if (response == 0)
 		{
-			m_image.at<cv::Vec3b>(w, h) = darkGrey;
+			m_image.setPixel(w,h, darkGrey);
+			//m_image.at<cv::Vec3b>(w, h) = darkGrey;
 		}
 		else if (response == -100)
 		{
-			m_image.at<cv::Vec3b>(w, h) = unknownColor;
+			m_image.setPixel(w,h, unknownColor);
+			//m_image.at<cv::Vec3b>(w, h) = unknownColor;
 		}
 	}
 }
@@ -589,15 +587,18 @@ void SvmVisualization::visualizeCertaintyRegions(phd::svm::EnsembleListSvm& svm)
 
 		if (response == 1)
 		{
-			m_image.at<cv::Vec3b>(w, h) = grey;
+			m_image.setPixel(w,h, grey);
+			//m_image.at<cv::Vec3b>(w, h) = grey;
 		}
 		else if (response == 0)
 		{
-			m_image.at<cv::Vec3b>(w, h) = darkGrey;
+			m_image.setPixel(w,h, darkGrey);
+			//m_image.at<cv::Vec3b>(w, h) = darkGrey;
 		}
 		else if (response == -100)
 		{
-			m_image.at<cv::Vec3b>(w, h) = unknownColor;
+			m_image.setPixel(w,h, unknownColor);
+			//m_image.at<cv::Vec3b>(w, h) = unknownColor;
 		}
 	}
 }
@@ -620,15 +621,18 @@ void SvmVisualization::visualizeCertaintyRegionsImprovement(phd::svm::ISvm& svm,
 
 		if (response == 1)
 		{
-			m_image.at<cv::Vec3b>(w, h) = grey;
+			m_image.setPixel(w,h, grey);
+			//m_image.at<cv::Vec3b>(w, h) = grey;
 		}
 		else if (response == 0)
 		{
-			m_image.at<cv::Vec3b>(w, h) = darkGrey;
+			m_image.setPixel(w,h, darkGrey);
+			//m_image.at<cv::Vec3b>(w, h) = darkGrey;
 		}
 		else if (response == -100)
 		{
-			m_image.at<cv::Vec3b>(w, h) = unknownColor;
+			m_image.setPixel(w,h, unknownColor);
+			//m_image.at<cv::Vec3b>(w, h) = unknownColor;
 #pragma omp critical
 			uncertain.emplace_back(w, h);
 		}
@@ -645,15 +649,18 @@ void SvmVisualization::visualizeCertaintyRegionsImprovement(phd::svm::ISvm& svm,
 
 		if (response == 1)
 		{
-			m_image.at<cv::Vec3b>(coordinates.first, coordinates.second) = cv::Vec3b(114, 180, 213);
+			m_image.setPixel(coordinates.first, coordinates.second, RGBColor(114, 180, 213));
+			//m_image.at<cv::Vec3b>(coordinates.first, coordinates.second) = cv::Vec3b(114, 180, 213);
 		}
 		else if (response == 0)
 		{
-			m_image.at<cv::Vec3b>(coordinates.first, coordinates.second) = cv::Vec3b(39, 152, 180); //bgr
+			m_image.setPixel(coordinates.first, coordinates.second, RGBColor(39, 152, 180));
+			//m_image.at<cv::Vec3b>(coordinates.first, coordinates.second) = cv::Vec3b(39, 152, 180); //bgr
 		}
 		else if (response == -100)
 		{
-			m_image.at<cv::Vec3b>(coordinates.first, coordinates.second) = unknownColor;
+			m_image.setPixel(coordinates.first, coordinates.second, unknownColor);
+			//m_image.at<cv::Vec3b>(coordinates.first, coordinates.second) = unknownColor;
 
 		}
 	}
@@ -661,7 +668,7 @@ void SvmVisualization::visualizeCertaintyRegionsImprovement(phd::svm::ISvm& svm,
 }
 
 
-void SvmVisualization::visualizeClassBoundries(phd::svm::EnsembleListSvm svm, std::vector<std::vector<cv::Vec3b>> colors)
+void SvmVisualization::visualizeClassBoundries(phd::svm::EnsembleListSvm svm, std::vector<std::vector<RGBColor>> colors)
 {
 #pragma omp parallel for
 	for (int i = 0; i < m_image.rows * m_image.cols; i++)
@@ -679,11 +686,13 @@ void SvmVisualization::visualizeClassBoundries(phd::svm::EnsembleListSvm svm, st
 		
 		if (response == 1)
 		{
-			m_image.at<cv::Vec3b>(w, h) = color[0];
+			m_image.setPixel(w, h, color[0]);
+			//m_image.at<cv::Vec3b>(w, h) = color[0];
 		}
 		else
 		{
-			m_image.at<cv::Vec3b>(w, h) = color[2];
+			m_image.setPixel(w, h, color[2]);
+			//m_image.at<cv::Vec3b>(w, h) = color[2];
 		}
 	}
 }
@@ -708,11 +717,13 @@ void SvmVisualization::visualizeClassBoundries(phd::svm::ISvm& svm)
 		
 		if (response == 1)
 		{
-			m_image.at<cv::Vec3b>(w, h) = grey;
+			m_image.setPixel(w, h, grey);
+			//m_image.at<cv::Vec3b>(w, h) = grey;
 		}
 		else
 		{
-			m_image.at<cv::Vec3b>(w, h) = darkGrey;
+			m_image.setPixel(w, h, darkGrey);
+			//m_image.at<cv::Vec3b>(w, h) = darkGrey;
 		}
 	}
 }
@@ -729,9 +740,9 @@ void SvmVisualization::visualizeGroupsClassification(phd::svm::ISvm& svm, const 
 	auto groups = testDataset.getGroups();
 
 	//if group helped
-	cv::Vec3b positiveColor = cv::Vec3b(118, 221, 119);  // (119, 221, 118)
+	RGBColor positiveColor = RGBColor(118, 221, 119);  // (119, 221, 118)
 	//if groups worsen the result
-	cv::Vec3b negativeColor = cv::Vec3b(98, 105, 255);  //RGB: (255, 105, 98)
+	RGBColor negativeColor = RGBColor(98, 105, 255);  //RGB: (255, 105, 98)
 
 	for (auto i = 0U; i < testDataset.size(); i++)
 	{
@@ -743,22 +754,25 @@ void SvmVisualization::visualizeGroupsClassification(phd::svm::ISvm& svm, const 
 		{
 			if (static_cast<int>(targets[i]) == groupAnswer)
 			{
-				m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = positiveColor;
+				m_image.setPixel(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0]), positiveColor);
+				//m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = positiveColor;
 			}
 			else
 			{
-				m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = negativeColor;
+				m_image.setPixel(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0]), negativeColor);
+				//m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = negativeColor;
 			}
 		}
 		if(groupAnswer == result && result != targets[i])
 		{
-			m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = cv::Vec3b(190,119,0);
+			m_image.setPixel(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0]), RGBColor(190,119,0));
+			//m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = cv::Vec3b(190,119,0);
 		}
 
 	}
 }
 
-void SvmVisualization::visualizeTestData(const dataset::Dataset<std::vector<float>, float>& testDataset, cv::Vec3b positiveColor, cv::Vec3b negativeColor)
+void SvmVisualization::visualizeTestData(const dataset::Dataset<std::vector<float>, float>& testDataset, RGBColor positiveColor, RGBColor negativeColor)
 {
 	auto samples = testDataset.getSamples();
 	const auto targets = testDataset.getLabels();
@@ -768,14 +782,16 @@ void SvmVisualization::visualizeTestData(const dataset::Dataset<std::vector<floa
 		auto target = targets[i];
 		if (target == 1)
 		{
-			m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = positiveColor;
+			m_image.setPixel(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0]), positiveColor);
+			//m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = positiveColor;
 			/*m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]) + 1, normalizeToImageWidth(sample[0] ) + 1) = white;
 			m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0] ) +1) = white;
 			m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1] ) +1, normalizeToImageWidth(sample[0])) = white;*/
 		}
 		else
 		{
-			m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = negativeColor;
+			m_image.setPixel(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0]), negativeColor);
+			//m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0])) = negativeColor;
 			//m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]) + 1, normalizeToImageWidth(sample[0]) + 1) = black;
 			//m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]), normalizeToImageWidth(sample[0]) + 1) = black;
 			//m_image.at<cv::Vec3b>(normalizeToImageHeight(sample[1]) + 1, normalizeToImageWidth(sample[0])) = black;
@@ -793,23 +809,25 @@ void SvmVisualization::visualizeTraningData(const dataset::Dataset<std::vector<f
 		auto target = targets[i];
 		if (target == 1)
 		{
-			cv::drawMarker(m_image,
-			               cv::Point(normalizeToImageWidth(sample[0]), normalizeToImageHeight(sample[1])),
-			               black,
-			               cv::MARKER_CROSS,
-			               markerCrossSize,
-			               markerThickness,
-			               lineType);
+			m_image.drawMarker(normalizeToImageWidth(sample[0]), normalizeToImageHeight(sample[1]), black, MarkerType::CROSS, markerCrossSize, markerThickness);
+			// cv::drawMarker(m_image,
+			//                cv::Point(normalizeToImageWidth(sample[0]), normalizeToImageHeight(sample[1])),
+			//                black,
+			//                cv::MARKER_CROSS,
+			//                markerCrossSize,
+			//                markerThickness,
+			//                lineType);
 		}
 		else
 		{
-			cv::drawMarker(m_image,
-			               cv::Point(normalizeToImageWidth(sample[0]), normalizeToImageHeight(sample[1])),
-			               white,
-			               cv::MARKER_TILTED_CROSS,
-			               markerTiltedCrossSize,
-			               markerThickness,
-			               lineType);
+			m_image.drawMarker(normalizeToImageWidth(sample[0]), normalizeToImageHeight(sample[1]), white, MarkerType::TILTED_CROSS, markerCrossSize, markerThickness);
+			// cv::drawMarker(m_image,
+			//                cv::Point(normalizeToImageWidth(sample[0]), normalizeToImageHeight(sample[1])),
+			//                white,
+			//                cv::MARKER_TILTED_CROSS,
+			//                markerTiltedCrossSize,
+			//                markerThickness,
+			//                lineType);
 		}
 	}
 }
@@ -872,7 +890,7 @@ void SvmVisualization::visualizeSupportVectors(phd::svm::ISvm& svm,
 
 
 void SvmVisualization::visualizeSupportVectors(phd::svm::EnsembleListSvm svm,
-	const dataset::Dataset<std::vector<float>, float>& trainingDataset, std::vector<std::vector<cv::Vec3b>> colors)
+	const dataset::Dataset<std::vector<float>, float>& trainingDataset, std::vector<std::vector<RGBColor>> colors)
 {
 	// const auto samples = trainingDataset.getSamples();
 	// const auto targets = trainingDataset.getLabels();
@@ -919,7 +937,7 @@ void SvmVisualization::visualizeSupportVectors(phd::svm::EnsembleListSvm svm,
 	// }
 }
 
-void SvmVisualization::visualizeImprovementSupportVectors(phd::svm::ISvm& svm, const dataset::Dataset<std::vector<float>, float>& trainingDataset, cv::Mat lastNodeSvs)
+void SvmVisualization::visualizeImprovementSupportVectors(phd::svm::ISvm& svm, const dataset::Dataset<std::vector<float>, float>& trainingDataset, std::vector<std::vector<float>> lastNodeSvs)
 {
 	// const auto samples = trainingDataset.getSamples();
 	// const auto targets = trainingDataset.getLabels();
@@ -1053,10 +1071,10 @@ std::vector<uchar> SvmVisualization::visualizeSVtoVectors(phd::svm::ISvm& svm, c
 	// 	}
 	// }
 
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
+	//std::vector<uchar> buffer;
+	//cv::imencode(".png", m_image, buffer);
 
-	return buffer;
+	return m_image.encodeToPng();
 }
 
 std::vector<uchar> SvmVisualization::visualizeSoftBoundries(phd::svm::ISvm& svm)
@@ -1123,12 +1141,13 @@ std::vector<uchar> SvmVisualization::visualizeSoftBoundries(phd::svm::ISvm& svm)
 				colorValue = static_cast<uchar>(((input - min) / (max - min)) * (255 - 0) + 0); //255 - white 0 - black
 			}
 
-			m_image.at<cv::Vec3b>(i, j) = cv::Vec3b(colorValue, colorValue, colorValue);
+			m_image.setPixel(i,j, RGBColor(colorValue, colorValue, colorValue));
+			//m_image.at<cv::Vec3b>(i, j) = cv::Vec3b(colorValue, colorValue, colorValue);
 		}
 
-	std::vector<uchar> buffer;
-	cv::imencode(".png", m_image, buffer);
+	// std::vector<uchar> buffer;
+	// cv::imencode(".png", m_image, buffer);
 
-	return buffer;
+	return m_image.encodeToPng();
 }
 } // namespace svmComponents

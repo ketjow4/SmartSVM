@@ -31,15 +31,6 @@ set(ALL_FILES
 
 include_directories(../)
 
-set(BOOST_ROOT "../extern/boost.1.66.0.0/lib/native/include")
-
-find_package(Boost 1.66 REQUIRED)
-if(Boost_FOUND)
-  include_directories(${Boost_INCLUDE_DIRS})
-else()
-  message(STATUS "Boost NOT Found !")
-endif(Boost_FOUND)
-
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
 #add_dependencies (libRandom libPlatform)

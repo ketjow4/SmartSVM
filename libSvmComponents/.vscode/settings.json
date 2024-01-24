@@ -103,6 +103,10 @@
         "any": "cpp",
         "cinttypes": "cpp",
         "variant": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "execution": "cpp",
+        "memory_resource": "cpp",
+        "source_location": "cpp",
+        "pointers": "cpp"
     }
 }

@@ -7,14 +7,14 @@ namespace svmComponents
 Metric::Metric()
     : m_fitness(0)
     , m_additionalValue(0)
-    , m_confusionMatrix(boost::none)
+    , m_confusionMatrix()
 {
 }
 
 Metric::Metric(double fitness)
     : m_fitness(fitness)
 	, m_additionalValue(0)
-    , m_confusionMatrix(boost::none)
+    , m_confusionMatrix()
 {
 }
 

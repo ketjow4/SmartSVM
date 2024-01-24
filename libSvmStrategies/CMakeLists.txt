@@ -14,41 +14,14 @@ set(PROJECT_NAME libSvmStrategies)
 file(GLOB ALL_FILES CONFIGURE_DEPENDS "*.h" "*.cpp")
 
 
-set(OpenCV_DIR "../vcpkg/packages/opencv3_x64-windows/share/opencv3")
-find_package(OpenCV REQUIRED)
-
-
-
-
-
 include_directories(../)
 include_directories(../extern/gsl/include)
 
-set(BOOST_ROOT "../extern/boost.1.66.0.0/lib/native/include")
-
-find_package(Boost 1.66 REQUIRED)
-if(Boost_FOUND)
-  include_directories(${Boost_INCLUDE_DIRS})
-else()
-  message(STATUS "Boost NOT Found !")
-endif(Boost_FOUND)
 
 ################################################################################
 # Target
 ################################################################################
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
-
-
-if( OpenCV_FOUND )
-  # Additional Include Directories
-  include_directories( ${OpenCV_INCLUDE_DIRS} )
-
-  # Additional Library Directories
-  link_directories( ${OpenCV_LIB_DIR} )
-
-  # Additional Dependencies
-  # target_link_libraries( ${PROJECT_NAME} )
-endif()
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 

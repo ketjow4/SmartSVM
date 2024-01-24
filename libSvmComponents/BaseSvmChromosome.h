@@ -1,7 +1,7 @@
 
 #pragma once
 #include <chrono>
-#include <boost/optional/optional.hpp>
+#include <optional>
 #include "libGeneticComponents/BaseChromosome.h"
 #include "ConfusionMatrix.h"
 #include "SvmLib/ISvm.h"
@@ -22,8 +22,8 @@ public:
     void updateTime(std::chrono::duration<double, std::milli> classificationTime);
     std::chrono::duration<double, std::milli> getTime() const;
 
-    void updateConfusionMatrix(const boost::optional<ConfusionMatrix>& matrix);
-    boost::optional<ConfusionMatrix> getConfusionMatrix() const;
+    void updateConfusionMatrix(const std::optional<ConfusionMatrix>& matrix);
+    std::optional<ConfusionMatrix> getConfusionMatrix() const;
 
 
     void updateMetric(Metric metric)
@@ -69,7 +69,7 @@ public:
 protected:
     std::shared_ptr<phd::svm::ISvm> m_classifier;
     std::chrono::duration<double, std::milli> m_classificationTime;
-    boost::optional<ConfusionMatrix> m_confusionMatrix;
+    std::optional<ConfusionMatrix> m_confusionMatrix;
     Metric m_metric;
 };
 
@@ -99,7 +99,7 @@ inline std::chrono::duration<double, std::milli> BaseSvmChromosome::getTime() co
     return m_classificationTime;
 }
 
-inline void BaseSvmChromosome::updateConfusionMatrix(const boost::optional<ConfusionMatrix>& matrix)
+inline void BaseSvmChromosome::updateConfusionMatrix(const std::optional<ConfusionMatrix>& matrix)
 {
     if (matrix)
     {
@@ -107,7 +107,7 @@ inline void BaseSvmChromosome::updateConfusionMatrix(const boost::optional<Confu
     }
 }
 
-inline boost::optional<ConfusionMatrix> BaseSvmChromosome::getConfusionMatrix() const
+inline std::optional<ConfusionMatrix> BaseSvmChromosome::getConfusionMatrix() const
 {
     return m_confusionMatrix;
 }

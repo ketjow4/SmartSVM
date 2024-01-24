@@ -2,7 +2,6 @@
 #pragma once
 
 #include <random>
-#include <gsl/string_span>
 #include "libPlatform/Subtree.h"
 #include "libSvmComponents/SvmKernelChromosome.h"
 #include "libSvmComponents/SvmComponentsExceptions.h"

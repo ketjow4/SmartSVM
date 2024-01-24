@@ -1,4 +1,4 @@
-
+#include <iostream>
 #include "MemeticTraningSetAdaptation.h"
 #include "SvmComponentsExceptions.h"
 #include "SvmUtils.h"

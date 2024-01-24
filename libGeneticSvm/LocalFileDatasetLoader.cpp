@@ -240,7 +240,7 @@ void LocalFileDatasetLoader::loadDataAndNormalize()
 	catch (const std::exception& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
-		std::cout << exception.what();
+		//std::cout << exception.what();
 	}
 }
 

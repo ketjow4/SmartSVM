@@ -7,6 +7,8 @@
 #include <set>
 
 #include "libPlatform/loguru.hpp"
+#include <numeric>
+#include <cassert>
 //#include "libSvmComponents/IGroupPropagation.h"
 
 namespace phd { namespace svm

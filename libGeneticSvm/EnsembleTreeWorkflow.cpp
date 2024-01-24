@@ -1,3 +1,5 @@
+
+#include <fstream>
 #include "libPlatform/loguru.hpp"
 #include "libPlatform/StringUtils.h"
 #include "libSvmComponents/ConfusionMatrixMetrics.h"
@@ -1411,10 +1413,10 @@ EnsembleTreeWorkflow::scoreEnsemble(std::shared_ptr<phd::svm::EnsembleListSvm> e
 		{
 			ensembleFile << "### length\tSV \tAuc V\tAuc Test\tConfusion matrix validation(4 numbers)\tConfusion matrix test(4 numbers)\n";
 		}
-		ensembleFile << ensemble->list_length << sep << SvNumber << sep << validationFitness << sep << testFitness << sep << validationCM << sep << testCM <<
+		ensembleFile << ensemble->list_length << sep << SvNumber << sep << validationFitness << sep << testFitness << sep << validationCM.value() << sep << testCM.value() <<
 				sep;
-		ensembleFile << validationCertainFitness << sep << validationCertainCM << sep << testCertainFitness << sep << testCertainCM << sep;
-		ensembleFile << validationUncertainFitness << sep << validationUncertainCM << sep << testUncertainFitness << sep << testUncertainCM << "\n";
+		ensembleFile << validationCertainFitness << sep << validationCertainCM.value() << sep << testCertainFitness << sep << testCertainCM.value() << sep;
+		ensembleFile << validationUncertainFitness << sep << validationUncertainCM.value() << sep << testUncertainFitness << sep << testUncertainCM.value() << "\n";
 
 		ensembleFile.close();
 	}

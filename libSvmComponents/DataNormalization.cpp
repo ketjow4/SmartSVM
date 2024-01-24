@@ -1,4 +1,5 @@
 
+#include <numeric>
 #include "DataNormalization.h"
 #include "SvmComponentsExceptions.h"
 #include "libPlatform/loguru.hpp"

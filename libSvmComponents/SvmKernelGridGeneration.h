@@ -2,7 +2,7 @@
 #pragma once
 
 #include <memory>
-#include <opencv2/ml.hpp>
+//#include <opencv2/ml.hpp>
 #include "libRandom/IRandomNumberGenerator.h"
 #include "libGeneticComponents/IPopulationGeneration.h"
 #include "libSvmComponents/SvmKernelChromosome.h"

@@ -117,7 +117,7 @@ public:
 
 	chromosomeType crossoverChromosomes(const chromosomeType& parentA, const chromosomeType& /*parentB*/) override
 	{
-		std::cout << "crossover\n";
+		//std::cout << "crossover\n";
 		return parentA;
 	}
 
@@ -220,7 +220,7 @@ public:
 
 	void mutatePopulation(geneticComponents::Population<SvmTrainingSetChromosome>& /*population*/) override
 	{
-		std::cout << "mutation\n";
+		//std::cout << "mutation\n";
 	}
 	
 	void mutateChromosome(SvmTrainingSetChromosome& /*chromosome*/) override

@@ -79,16 +79,6 @@ set(ALL_FILES
 include_directories(../)
 include_directories(../extern/gsl/include)
 
-set(BOOST_ROOT "../extern/boost.1.66.0.0/lib/native/include")
-
-find_package(Boost 1.66 REQUIRED)
-if(Boost_FOUND)
-  include_directories(${Boost_INCLUDE_DIRS})
-else()
-  message(STATUS "Boost NOT Found !")
-endif(Boost_FOUND)
-
-
 
 
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
@@ -101,5 +91,3 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 
 add_compile_definitions(_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
 
-#use_package(${PROJECT_NAME} Microsoft.Gsl 0.1.2.2)
-#use_package(${PROJECT_NAME} boost 1.66.0.0)

@@ -1,6 +1,6 @@
 
 #include <algorithm>
-#include <opencv2/core.hpp>
+//#include <opencv2/core.hpp>
 #include "SvmComponentsExceptions.h"
 #include "SupportVectorPool.h"
 

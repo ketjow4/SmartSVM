@@ -1,4 +1,5 @@
 //#include "libStrategies/TabularDataProviderStrategy.h"
+#include <fstream>
 #include "libStrategies/FileSinkStrategy.h"
 #include "libSvmStrategies/CreateSvmVisualizationStrategy.h"
 #include "libGeneticStrategies/CreatePopulationStrategy.h"

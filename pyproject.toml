@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=42", 
+    "wheel", 
+    "pybind11",
+    "ninja",
+    "cmake>=3.12"]
+build-backend = "setuptools.build_meta"
+
+
+[tool.distutils.bdist_wheel]
+universal = 1
+
+[tool.poetry.dependencies]
+python = "*"

@@ -12,12 +12,12 @@ UnsupportedKernelTypeException::UnsupportedKernelTypeException(const std::string
 }
 
 UnsupportedKernelTypeException::UnsupportedKernelTypeException(phd::svm::KernelTypes kernelType)
-    : PlatformException("Kernel: " + gsl::to_string(kernelTypeToString(kernelType)) + " is unsupported")
+    : PlatformException("Kernel: " + kernelTypeToString(kernelType) + " is unsupported")
 {
 }
 
 GridSearchUnsupportedKernelTypeException::GridSearchUnsupportedKernelTypeException(phd::svm::KernelTypes kernelType)
-    : PlatformException("Kernel: " + gsl::to_string(kernelTypeToString(kernelType)) + " is unsupported in grid search algorithm")
+    : PlatformException("Kernel: " + kernelTypeToString(kernelType) + " is unsupported in grid search algorithm")
 {
 }
 

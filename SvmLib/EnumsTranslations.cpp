@@ -5,19 +5,9 @@
 
 namespace phd { namespace svm
 {
-struct StringSpanComparator final
+KernelTypes stringToKernelType(std::string& kernelName)
 {
-    typedef StringSpanComparator is_transparent;
-
-    bool operator()(const gsl::cstring_span<>& lhs, const gsl::cstring_span<>& rhs) const
-    {
-        return lhs < rhs;
-    }
-};
-
-KernelTypes stringToKernelType(gsl::cstring_span<> kernelName)
-{
-    const static std::map<std::string, KernelTypes, StringSpanComparator> translations =
+    const static std::map<std::string, KernelTypes> translations =
     {
         {"RBF", KernelTypes::Rbf},
         {"POLY", KernelTypes::Poly},
@@ -32,29 +22,29 @@ KernelTypes stringToKernelType(gsl::cstring_span<> kernelName)
     {
         return iterator->second;
     }
-    throw UnsupportedKernelTypeException(gsl::to_string(kernelName));
+    throw UnsupportedKernelTypeException(kernelName);
 }
 
-gsl::cstring_span<> kernelTypeToString(KernelTypes kernelType)
+std::string kernelTypeToString(KernelTypes kernelType)
 {
     switch (kernelType)
     {
     case KernelTypes::Custom:
-        return gsl::ensure_z("Custom kernel");
+        return std::string("Custom kernel");
     case KernelTypes::Linear:
-        return gsl::ensure_z("Linear kernel");
+        return std::string("Linear kernel");
     case KernelTypes::Poly:
-        return gsl::ensure_z("Polynomial kernel");
+        return std::string("Polynomial kernel");
     case KernelTypes::Rbf:
-        return gsl::ensure_z("Radial basis function (RBF)");
+        return std::string("Radial basis function (RBF)");
     case KernelTypes::Sigmoid:
-        return gsl::ensure_z("Sigmoid kernel");
+        return std::string("Sigmoid kernel");
     case KernelTypes::Chi2:
-        return gsl::ensure_z("Exponential Chi2 kernel");
+        return std::string("Exponential Chi2 kernel");
     case KernelTypes::Inter:
-        return gsl::ensure_z("Histogram intersection kernel");
+        return std::string("Histogram intersection kernel");
     default:
-        return gsl::ensure_z("Unknown kernel type");
+        return std::string("Unknown kernel type");
     }
 }
 

@@ -10,7 +10,7 @@ UnsupportedKernelTypeException::UnsupportedKernelTypeException(const std::string
 }
 
 UnsupportedKernelTypeException::UnsupportedKernelTypeException(KernelTypes kernelType)
-    : PlatformException("Kernel: " + gsl::to_string(kernelTypeToString(kernelType)) + " is unsupported")
+    : PlatformException("Kernel: " + kernelTypeToString(kernelType) + " is unsupported")
 {
 }
 

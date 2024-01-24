@@ -1,14 +1,14 @@
 
 #pragma once
 
-#include <gsl/gsl>
+#include <string>
 #include "ISvm.h"
 
 namespace phd { namespace svm
 {
-KernelTypes stringToKernelType(gsl::cstring_span<> kernelName);
+KernelTypes stringToKernelType(std::string& kernelName);
 
-gsl::cstring_span<> kernelTypeToString(KernelTypes kernelType);
+std::string kernelTypeToString(KernelTypes kernelType);
 
 std::string svmTypeToString(SvmTypes svmType);
 }}// namespace phd::svm

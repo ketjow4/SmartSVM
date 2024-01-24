@@ -1,6 +1,6 @@
 #pragma once
 
-//#include <opencv2/ml.hpp>
+
 
 #include "ISvm.h"
 #include "SvmExceptions.h"

@@ -2,7 +2,7 @@
 
 #pragma once
 #include "ConfusionMatrix.h"
-#include <boost/optional/optional.hpp>
+#include <optional>
 
 namespace svmComponents
 {
@@ -18,6 +18,6 @@ public:
 
     double m_fitness;
     double m_additionalValue;
-    boost::optional<ConfusionMatrix> m_confusionMatrix;
+    std::optional<ConfusionMatrix> m_confusionMatrix;
 };
 } // namespace svmComponents

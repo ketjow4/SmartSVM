@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include "libStrategies/DiskFile.h"
 #include "GeneticWorkflowResultLogger.h"
 

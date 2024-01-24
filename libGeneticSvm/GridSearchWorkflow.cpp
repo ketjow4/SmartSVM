@@ -1,4 +1,5 @@
 #include <set>
+#include <fstream>
 #include <libStrategies/FileSinkStrategy.h>
 #include "libSvmStrategies/CreateSvmVisualizationStrategy.h"
 #include "libSvmComponents/SvmValidationStrategy.h"

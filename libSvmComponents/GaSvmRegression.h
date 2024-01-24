@@ -40,15 +40,15 @@ namespace svmComponents
 
         void setupMask()
         {
-            std::ifstream ifs(R"(D:\datasetsFolds2\CLASH\valid_in_train.txt)");
-            std::string content((std::istreambuf_iterator<char>(ifs)),
-                                (std::istreambuf_iterator<char>()));
+            // std::ifstream ifs(R"(D:\datasetsFolds2\CLASH\valid_in_train.txt)");
+            // std::string content((std::istreambuf_iterator<char>(ifs)),
+            //                     (std::istreambuf_iterator<char>()));
 
-            auto indexes = platform::stringUtils::splitString(content, ',');
-            for(const auto& i : indexes)
-            {
-                validInTrainIndex.emplace(std::stoi(i));
-            }
+            // auto indexes = platform::stringUtils::splitString(content, ',');
+            // for(const auto& i : indexes)
+            // {
+            //     validInTrainIndex.emplace(std::stoi(i));
+            // }
         }
 
         size_t size()
