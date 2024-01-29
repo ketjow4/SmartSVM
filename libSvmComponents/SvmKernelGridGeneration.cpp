@@ -44,7 +44,7 @@ SvmKernelGridGeneration::SvmKernelGridGeneration(std::uniform_real_distribution<
 
 geneticComponents::Population<SvmKernelChromosome> SvmKernelGridGeneration::createGridPopulation(uint32_t populationSize) const
 {
-    const cv::ml::ParamGrid parameterGrid(m_parameterDistribution.min(), m_parameterDistribution.max(), calculateLogStep(populationSize));
+    const ParamGrid parameterGrid(m_parameterDistribution.min(), m_parameterDistribution.max(), calculateLogStep(populationSize));
     
     switch (m_kernelType)
     {
@@ -60,7 +60,7 @@ geneticComponents::Population<SvmKernelChromosome> SvmKernelGridGeneration::crea
     }
     case phd::svm::KernelTypes::Poly:
     {
-        PolyKernel kernel{ parameterGrid, cv::ml::ParamGrid(2,8, 1), m_isRegression };
+        PolyKernel kernel{ parameterGrid, ParamGrid(2,8, 1), m_isRegression };
         return kernel.createGridSearchPopulation();
     }
     default:

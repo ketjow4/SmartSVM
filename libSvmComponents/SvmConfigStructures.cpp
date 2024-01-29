@@ -78,16 +78,16 @@ GridSearchConfiguration::GridSearchConfiguration(SvmAlgorithmConfiguration svmCo
 {
 }
 
-cv::ml::ParamGrid GridSearchConfiguration::parseGridParameters(const std::string& gridName, const platform::Subtree& config)
+ParamGrid GridSearchConfiguration::parseGridParameters(const std::string& gridName, const platform::Subtree& config)
 {
-	static const auto emptyGrid = cv::ml::ParamGrid(0, 0, 1);
+	static const auto emptyGrid = ParamGrid(0, 0, 1);
 	validateGridName(gridName);
 	if (config.contains("GridSearch." + gridName + ".Min"))
 	{
 		auto gridMin = config.getValue<double>("GridSearch." + gridName + ".Min");
 		auto gridMax = config.getValue<double>("GridSearch." + gridName + ".Max");
 		auto gridLogStep = config.getValue<double>("GridSearch." + gridName + ".LogStep");
-		return cv::ml::ParamGrid(gridMin, gridMax, gridLogStep);
+		return ParamGrid(gridMin, gridMax, gridLogStep);
 	}
 	return emptyGrid;
 }

@@ -3,7 +3,7 @@
 
 namespace svmComponents
 {
-RbfPolyGlobalKernel::RbfPolyGlobalKernel(cv::ml::ParamGrid cGrid, cv::ml::ParamGrid gammaGrid, cv::ml::ParamGrid degreeGrid, cv::ml::ParamGrid tGrid, bool isRegression)
+RbfPolyGlobalKernel::RbfPolyGlobalKernel(ParamGrid cGrid, ParamGrid gammaGrid, ParamGrid degreeGrid, ParamGrid tGrid, bool isRegression)
 	: m_cGrid([&cGrid]()
 	{
 		if (cGrid.minVal <= 0.0)
@@ -137,22 +137,22 @@ geneticComponents::Population<SvmKernelChromosome> RbfPolyGlobalKernel::createGr
 	return geneticComponents::Population<SvmKernelChromosome>(population);
 }
 
-void RbfPolyGlobalKernel::calculateGrids()
-{
-	m_cGrid = calculateNewGrid(m_cGrid, m_svm->getC());
-	m_gammaGrid = calculateNewGrid(m_gammaGrid, m_svm->getGamma());
-}
+// void RbfPolyGlobalKernel::calculateGrids()
+// {
+// 	m_cGrid = calculateNewGrid(m_cGrid, m_svm->getC());
+// 	m_gammaGrid = calculateNewGrid(m_gammaGrid, m_svm->getGamma());
+// }
 
-std::string RbfPolyGlobalKernel::logSvmParameters()
-{
-	return "Svm parameters(gamma, C):\t" +
-			std::to_string(m_svm->getGamma()) + "\t" +
-			std::to_string(m_svm->getC());
-}
+// std::string RbfPolyGlobalKernel::logSvmParameters()
+// {
+// 	return "Svm parameters(gamma, C):\t" +
+// 			std::to_string(m_svm->getGamma()) + "\t" +
+// 			std::to_string(m_svm->getC());
+// }
 
-void RbfPolyGlobalKernel::performGridSearch(cv::Ptr<cv::ml::TrainData> /*trainingSet*/, unsigned /*numberOfFolds*/)
-{
-	throw std::exception("Not implemented");
-	//m_svm->trainAuto(trainingSet, numberOfFolds, m_cGrid, m_gammaGrid);
-}
+// void RbfPolyGlobalKernel::performGridSearch(cv::Ptr<TrainData> /*trainingSet*/, unsigned /*numberOfFolds*/)
+// {
+// 	throw std::exception("Not implemented");
+// 	//m_svm->trainAuto(trainingSet, numberOfFolds, m_cGrid, m_gammaGrid);
+// }
 } // namespace svmComponents

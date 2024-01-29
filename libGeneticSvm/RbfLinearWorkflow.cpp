@@ -312,7 +312,7 @@ void RbfLinearWorkflow::runGeneticAlgorithm()
 		                                                                       m_algorithmConfig.m_svmConfig,
 		                                                                       m_algorithmConfig.m_svmConfig.m_estimationType == svmComponents::svmMetricType::
 		                                                                       Auc),
-	                                                                       std::make_shared<svmComponents::LinearKernel>(cv::ml::ParamGrid(0.001, 1050, 10),
+	                                                                       std::make_shared<svmComponents::LinearKernel>(svmComponents::ParamGrid(0.001, 1050, 10),
 	                                                                                                                  false)),
 	                      m_loadingWorkflow);
 

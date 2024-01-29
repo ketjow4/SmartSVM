@@ -4,7 +4,7 @@
 
 namespace svmComponents
 {
-RbfKernel::RbfKernel(cv::ml::ParamGrid cGrid, cv::ml::ParamGrid gammaGrid, bool isRegression)
+RbfKernel::RbfKernel(ParamGrid cGrid, ParamGrid gammaGrid, bool isRegression)
     : m_cGrid([&cGrid]()
     {
         if (cGrid.minVal <= 0.0)
@@ -68,21 +68,21 @@ geneticComponents::Population<SvmKernelChromosome> RbfKernel::createGridSearchPo
 }
 
 
-void RbfKernel::calculateGrids()
-{
-    m_cGrid = calculateNewGrid(m_cGrid, m_svm->getC());
-    m_gammaGrid = calculateNewGrid(m_gammaGrid, m_svm->getGamma());
-}
+// void RbfKernel::calculateGrids()
+// {
+//     m_cGrid = calculateNewGrid(m_cGrid, m_svm->getC());
+//     m_gammaGrid = calculateNewGrid(m_gammaGrid, m_svm->getGamma());
+// }
 
-std::string RbfKernel::logSvmParameters()
-{
-    return "Svm parameters(gamma, C):\t" +
-        std::to_string(m_svm->getGamma()) + "\t" +
-        std::to_string(m_svm->getC());
-}
+// std::string RbfKernel::logSvmParameters()
+// {
+//     return "Svm parameters(gamma, C):\t" +
+//         std::to_string(m_svm->getGamma()) + "\t" +
+//         std::to_string(m_svm->getC());
+// }
 
-void RbfKernel::performGridSearch(cv::Ptr<cv::ml::TrainData> trainingSet, unsigned numberOfFolds)
-{
-    m_svm->trainAuto(trainingSet, numberOfFolds, m_cGrid, m_gammaGrid);
-}
+// void RbfKernel::performGridSearch(cv::Ptr<TrainData> trainingSet, unsigned numberOfFolds)
+// {
+//     m_svm->trainAuto(trainingSet, numberOfFolds, m_cGrid, m_gammaGrid);
+// }
 } // namespace svmComponents

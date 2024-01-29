@@ -1444,7 +1444,7 @@ std::shared_ptr<phd::svm::ISvm> EnsembleTreeWorkflow::runGridSearch(IDatasetLoad
 	//}
 	//else
 	{
-		kernel = std::make_shared<svmComponents::RbfKernel>(cv::ml::ParamGrid(0.001, 1050, 10), cv::ml::ParamGrid(0.001, 1050, 10), false);
+		kernel = std::make_shared<svmComponents::RbfKernel>(svmComponents::ParamGrid(0.001, 1050, 10), svmComponents::ParamGrid(0.001, 1050, 10), false);
 	}
 
 	//ORIGINAL VERSION

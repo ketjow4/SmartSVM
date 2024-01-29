@@ -3,7 +3,7 @@
 
 namespace svmComponents
 {
-LinearKernel::LinearKernel(cv::ml::ParamGrid cGrid, bool isRegression)
+LinearKernel::LinearKernel(ParamGrid cGrid, bool isRegression)
 	: m_cGrid([&cGrid]()
 	{
 		if (cGrid.minVal <= 0.0)
@@ -49,19 +49,19 @@ geneticComponents::Population<SvmKernelChromosome> LinearKernel::createGridSearc
 	return geneticComponents::Population<SvmKernelChromosome>(population);
 }
 
-void LinearKernel::calculateGrids()
-{
-	m_cGrid = calculateNewGrid(m_cGrid, m_svm->getC());
-}
+// void LinearKernel::calculateGrids()
+// {
+// 	m_cGrid = calculateNewGrid(m_cGrid, m_svm->getC());
+// }
 
-std::string LinearKernel::logSvmParameters()
-{
-	return "Svm parameters(C):\t" +
-			std::to_string(m_svm->getC());
-}
+// std::string LinearKernel::logSvmParameters()
+// {
+// 	return "Svm parameters(C):\t" +
+// 			std::to_string(m_svm->getC());
+// }
 
-void LinearKernel::performGridSearch(cv::Ptr<cv::ml::TrainData> trainingSet, unsigned numberOfFolds)
-{
-	m_svm->trainAuto(trainingSet, numberOfFolds, m_cGrid);
-}
+// void LinearKernel::performGridSearch(cv::Ptr<cv::ml::TrainData> trainingSet, unsigned numberOfFolds)
+// {
+// 	m_svm->trainAuto(trainingSet, numberOfFolds, m_cGrid);
+// }
 } // namespace svmComponents

@@ -3,7 +3,7 @@
 
 namespace svmComponents
 {
-PolyKernel::PolyKernel(cv::ml::ParamGrid cGrid, cv::ml::ParamGrid degreeGrid, bool isRegression)
+PolyKernel::PolyKernel(ParamGrid cGrid, ParamGrid degreeGrid, bool isRegression)
 	: m_cGrid([&cGrid]()
 	{
 		if (cGrid.minVal <= 0.0)
@@ -70,22 +70,22 @@ geneticComponents::Population<SvmKernelChromosome> PolyKernel::createGridSearchP
 	return geneticComponents::Population<SvmKernelChromosome>(population);
 }
 
-void PolyKernel::calculateGrids()
-{
-	m_cGrid = calculateNewGrid(m_cGrid, m_svm->getC());
-	m_degreeGrid = calculateNewGrid(m_degreeGrid, m_svm->getGamma());
-}
+// void PolyKernel::calculateGrids()
+// {
+// 	m_cGrid = calculateNewGrid(m_cGrid, m_svm->getC());
+// 	m_degreeGrid = calculateNewGrid(m_degreeGrid, m_svm->getGamma());
+// }
 
-std::string PolyKernel::logSvmParameters()
-{
-	return "Svm parameters(degree, C):\t" +
-			std::to_string(m_svm->getDegree()) + "\t" +
-			std::to_string(m_svm->getC());
-}
+// std::string PolyKernel::logSvmParameters()
+// {
+// 	return "Svm parameters(degree, C):\t" +
+// 			std::to_string(m_svm->getDegree()) + "\t" +
+// 			std::to_string(m_svm->getC());
+// }
 
-void PolyKernel::performGridSearch(cv::Ptr<cv::ml::TrainData> /*trainingSet*/, unsigned /*numberOfFolds*/)
-{
-	throw std::exception("Not implemented");
-	//m_svm->trainAuto(trainingSet, numberOfFolds, m_cGrid, m_degreeGrid);
-}
+// void PolyKernel::performGridSearch(cv::Ptr<cv::ml::TrainData> /*trainingSet*/, unsigned /*numberOfFolds*/)
+// {
+// 	throw std::exception("Not implemented");
+// 	//m_svm->trainAuto(trainingSet, numberOfFolds, m_cGrid, m_degreeGrid);
+// }
 } // namespace svmComponents

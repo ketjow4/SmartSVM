@@ -146,8 +146,8 @@ void SequentialGammaWorkflow::initializeGeneticAlgorithm()
 			                                                                       m_algorithmConfig.m_svmConfig,
 			                                                                       m_algorithmConfig.m_svmConfig.m_estimationType == svmComponents::svmMetricType::
 			                                                                       BalancedAccuracy),
-		                                                                       std::make_shared<svmComponents::RbfKernel>(cv::ml::ParamGrid(0.001, 1050, 10),
-		                                                                                                                  cv::ml::ParamGrid(0.001, 1050, 10),
+		                                                                       std::make_shared<svmComponents::RbfKernel>(svmComponents::ParamGrid(0.001, 1050, 10),
+		                                                                                                                  svmComponents::ParamGrid(0.001, 1050, 10),
 		                                                                                                                  false)),
 		                      m_loadingWorkflow);
 

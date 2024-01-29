@@ -3,7 +3,6 @@
 
 #include <memory>
 #include <unordered_map>
-#include <opencv2/ml.hpp>
 #include "libPlatform/Subtree.h"
 #include "libSvmComponents/BaseKernelGridSearch.h"
 #include "libSvmComponents/ISvmMetricsCalculator.h"
@@ -47,7 +46,7 @@ struct GridSearchConfiguration
 									 std::shared_ptr<ISvmTraining<SvmKernelChromosome>> training,
 									 std::shared_ptr<BaseKernelGridSearch> kernel);
 
-    static cv::ml::ParamGrid parseGridParameters(const std::string& gridName, const platform::Subtree& config);
+    static ParamGrid parseGridParameters(const std::string& gridName, const platform::Subtree& config);
 
     const SvmAlgorithmConfiguration m_svmConfig;
     const unsigned int m_numberOfFolds;

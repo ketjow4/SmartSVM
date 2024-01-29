@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 set(CMAKE_TOOLCHAIN_FILE ./vcpkg/scripts/buildsystems/vcpkg.cmake)
-project(DeevaPythonModule LANGUAGES CXX)
-set(PROJECT_NAME DeevaPythonModule)
+project(DeevaPythonPackage LANGUAGES CXX)
+set(PROJECT_NAME DeevaPythonPackage)
 
 set(PY_VERSION_SUFFIX "")
 set(PY_FULL_VERSION ${PROJECT_VERSION}${PY_VERSION_SUFFIX})
@@ -21,7 +21,19 @@ include_directories(./extern)
 include_directories(./extern/gsl/include)
 
 
+# Use the currently active Conda environment
+# list(APPEND CMAKE_PREFIX_PATH "${PYTHON_EXECUTABLE}")
+
+# set(CMAKE_PREFIX_PATH "C:/Users/Wojtek/Anaconda3/envs/Deeva_python_310")
+# set(PYTHON_EXECUTABLE "C:/Users/Wojtek/Anaconda3/envs/Deeva_python_310/python.exe")
+
+# set(Python_FIND_VIRTUALENV ONLY)
+
+# message(STATUS "Before find Python: ${PYTHON_EXECUTABLE}")
+
 find_package(Python COMPONENTS Interpreter Development REQUIRED)
+
+# message(STATUS "After find Python:  ${PYTHON_EXECUTABLE}")
 
 message(STATUS "Python:")
 message(STATUS "    Python_INCLUDE_DIRS: ${Python_INCLUDE_DIRS}")
