@@ -14,7 +14,7 @@ platform::Subtree DefaultSvmConfig::getDefault()
     config.putValue<std::string>("Svm.OutputFolderPath", ".\\");
     config.putValue<std::string>("Svm.Visualization.Filename", "visualization.png");
     config.putValue<std::string>("Svm.TxtLogFilename", "results.txt");
-    config.putValue<bool>("Svm.Visualization.Create", false);
+    config.putValue<bool>("Svm.Visualization.Create", true);
     config.putValue<int>("Svm.Visualization.Width", 500);
     config.putValue<int>("Svm.Visualization.Height", 500);
     config.putValue<std::string>("Svm.Metric", "Accuracy");
@@ -292,7 +292,7 @@ platform::Subtree DefaultMemeticConfig::getDefault()
     // @wdudzik Crossover selection
     config.putValue<std::string>("Svm.MemeticTrainingSetSelection.CrossoverSelection.Name", "LocalGlobalSelection");
     config.putValue<double>("Svm.MemeticTrainingSetSelection.CrossoverSelection.LocalGlobalSelection.HighLowCoefficient", 0.5);
-    config.putValue<double>("Svm.MemeticTrainingSetSelection.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
+    config.putValue<bool>("Svm.MemeticTrainingSetSelection.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
 
     // @wdudzik Crossover
     config.putValue<std::string>("Svm.MemeticTrainingSetSelection.Crossover.Name", "Memetic");
@@ -397,7 +397,7 @@ platform::Subtree DefaultFeaturesMemeticConfig::getDefault()
     // @wdudzik Crossover selection
     config.putValue<std::string>("Svm.MemeticFeatureSetSelection.CrossoverSelection.Name", "LocalGlobalSelection");
     config.putValue<double>("Svm.MemeticFeatureSetSelection.CrossoverSelection.LocalGlobalSelection.HighLowCoefficient", 0.5);
-    config.putValue<double>("Svm.MemeticFeatureSetSelection.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
+    config.putValue<bool>("Svm.MemeticFeatureSetSelection.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
 
     // @wdudzik Crossover
     config.putValue<std::string>("Svm.MemeticFeatureSetSelection.Crossover.Name", "Memetic");
@@ -691,7 +691,7 @@ platform::Subtree CustomKernelConfig::getDefault()
     //// @wdudzik Crossover selection
     config.putValue<std::string>("Svm.CustomKernel.CrossoverSelection.Name", "LocalGlobalSelection");
     config.putValue<double>("Svm.CustomKernel.CrossoverSelection.LocalGlobalSelection.HighLowCoefficient", 0.5);
-    config.putValue<double>("Svm.CustomKernel.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
+    config.putValue<bool>("Svm.CustomKernel.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
 
     //// @wdudzik Crossover
     //config.putValue<std::string>("Svm.CustomKernel.Crossover.Name", "Memetic");
@@ -764,7 +764,7 @@ platform::Subtree DefaultSequentialGammaConfig::getDefault()
 	// @wdudzik Crossover selection
 	config.putValue<std::string>("Svm.SequentialGamma.CrossoverSelection.Name", "LocalGlobalSelection");
 	config.putValue<double>("Svm.SequentialGamma.CrossoverSelection.LocalGlobalSelection.HighLowCoefficient", 0.5);
-	config.putValue<double>("Svm.SequentialGamma.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
+	config.putValue<bool>("Svm.SequentialGamma.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
 
 	// @wdudzik Crossover
 	config.putValue<std::string>("Svm.SequentialGamma.Crossover.Name", "Memetic");
@@ -825,7 +825,7 @@ platform::Subtree DefaultMultipleGammaMASVMConfig::getDefault()
 	// @wdudzik Crossover selection
 	config.putValue<std::string>("Svm.MultipleGammaMASVM.CrossoverSelection.Name", "LocalGlobalSelection");
 	config.putValue<double>("Svm.MultipleGammaMASVM.CrossoverSelection.LocalGlobalSelection.HighLowCoefficient", 0.5);
-	config.putValue<double>("Svm.MultipleGammaMASVM.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
+	config.putValue<bool>("Svm.MultipleGammaMASVM.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
 
 	// @wdudzik Crossover
 	config.putValue<std::string>("Svm.MultipleGammaMASVM.Crossover.Name", "Memetic");
@@ -891,7 +891,7 @@ platform::Subtree DefaultRbfLinearConfig::getDefault()
     // @wdudzik Crossover selection
     config.putValue<std::string>("Svm.RbfLinear.CrossoverSelection.Name", "LocalGlobalSelection");
     config.putValue<double>("Svm.RbfLinear.CrossoverSelection.LocalGlobalSelection.HighLowCoefficient", 0.5);
-    config.putValue<double>("Svm.RbfLinear.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
+    config.putValue<bool>("Svm.RbfLinear.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
 
     // @wdudzik Crossover
     config.putValue<std::string>("Svm.RbfLinear.Crossover.Name", "Memetic");
@@ -959,7 +959,7 @@ platform::Subtree DefaultSequentialGammaWithFeatureSelectionConfig::getDefault()
     // @wdudzik Crossover selection
     config.putValue<std::string>("Svm.SequentialGamma.CrossoverSelection.Name", "LocalGlobalSelection");
     config.putValue<double>("Svm.SequentialGamma.CrossoverSelection.LocalGlobalSelection.HighLowCoefficient", 0.5);
-    config.putValue<double>("Svm.SequentialGamma.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
+    config.putValue<bool>("Svm.SequentialGamma.CrossoverSelection.LocalGlobalSelection.IsLocalMode", false);
 
     // @wdudzik Crossover
     config.putValue<std::string>("Svm.SequentialGamma.Crossover.Name", "Memetic");

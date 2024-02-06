@@ -178,11 +178,30 @@ Subtree::Subtree(const std::filesystem::path& path)
 
 void Subtree::putNode(const std::string& nodeName, const Subtree& node)
 {
-    if (nodeName.empty())
+    // Split the node name by dots and navigate the nested structure
+    std::vector<std::string> nodeNames = platform::stringUtils::splitString(nodeName, '.');
+
+    // Navigate the nested structure
+    nlohmann::json* currentNode = &m_root;
+    for (const auto& name : nodeNames)
     {
-        throw EmptyNameException();
+        if (!name.empty())
+        {
+            auto it = currentNode->find(name);
+
+            // If the node doesn't exist, create it
+            if (it == currentNode->end())
+            {
+                it = currentNode->emplace(name, nlohmann::json::object()).first;
+            }
+
+            // Move to the next level in the hierarchy
+            currentNode = &it.value();
+        }
     }
-    m_root[nodeName] = node.m_root;
+
+    // Assign the value to the final node
+    *currentNode = node.getRoot();
 }
 
 void Subtree::putNode(const std::string& nodeName, const std::vector<Subtree>& nodeArray)
@@ -202,9 +221,30 @@ const nlohmann::json& Subtree::getChild(const std::string& nodeName) const
 {
     try
     {
-        return m_root.at(nodeName);
+    std::vector<std::string> nodeNames = platform::stringUtils::splitString(nodeName, '.');
+
+    // Navigate the nested structure
+    const nlohmann::json* currentNode = &m_root;
+    for (const auto& name : nodeNames)
+    {
+        if (!name.empty())
+        {
+            auto it = currentNode->find(name);
+
+            // If the node doesn't exist, throw an exception
+            if (it == currentNode->end())
+            {
+                throw ChildNotFoundException(name);
+            }
+
+            // Move to the next level in the hierarchy
+            currentNode = &it.value();
+        }
     }
-    catch (const std::out_of_range&)
+
+    return *currentNode;
+    }
+    catch (const std::exception&)
     {
         throw ChildNotFoundException(nodeName);
     }

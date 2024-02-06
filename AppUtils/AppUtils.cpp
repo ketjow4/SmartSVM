@@ -381,7 +381,7 @@ namespace testApp
         cxxopts::Options options("SmartSVM", "Allowed options");
 
         options.add_options()
-        ("c,configFile", "json config file to load", cxxopts::value<std::string>()) 
+        //("c,configFile", "json config file to load", cxxopts::value<std::string>()) 
         ("d,datafolder", "path to the folder in which dataset files are stored\n", cxxopts::value<std::string>())
         ("o,outputfolder", "path to the folder in which results will be stored (on default the same as datafolder", cxxopts::value<std::string>())
         //("v,verbosity", "Level of verbosity of program (affects the number of files created with saved results)", cxxopts::value<testApp::Verbosity>()->default_value(Verbosity::Standard))
@@ -390,7 +390,7 @@ namespace testApp
         auto result = options.parse(argc, argv);
 
    
-        config.configFile = result["configFile"].as<std::string>();
+        //config.configFile = result["configFile"].as<std::string>();
         config.datafolder = result["datafolder"].as<std::string>();
         config.outputFolder = result["outputfolder"].as<std::string>();
         //config.verbosity = result["verbosity"].as<testApp::Verbosity>();

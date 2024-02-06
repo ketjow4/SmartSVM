@@ -1231,7 +1231,7 @@ int main(int argc, char* argv[])
 		//loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;
 		auto config = testApp::parseCommandLineArguments(argc, argv);
 
-		if (std::filesystem::exists(config.outputFolder))
+		if (!std::filesystem::exists(config.outputFolder))
 		{
 			std::filesystem::create_directories(config.outputFolder);
 		}

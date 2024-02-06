@@ -122,6 +122,7 @@ SvmKernelChromosome SvmKernelGridGeneration::getDefaultKenerlParameters()
             {
             	gamma_value = 1.0 / static_cast<double>(m_trainingData->getSample(0).size());
             }
+            return SvmKernelChromosome(phd::svm::KernelTypes::Rbf, { 1,gamma_value }, m_isRegression);
             LOG_F(INFO, "Added default sci-kit params to population: C=1, gamma=%f", gamma_value);
         }
         else

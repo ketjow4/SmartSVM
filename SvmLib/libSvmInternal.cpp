@@ -3332,7 +3332,7 @@ std::string svm_save_model_to_string(const svm_model* model)
     svm_buffer << string_format("certaintyPositiveClassOnly %.17g\n", param.m_certaintyPositiveClassOnly);
     svm_buffer << string_format("certaintyNegativeNormalizedClassOnly %.17g\n", param.m_certaintyNegativeNormalizedClassOnly);
     svm_buffer << string_format("certaintyPositiveNormalizedClassOnly %.17g\n", param.m_certaintyPositiveNormalizedClassOnly);
-    svm_buffer << string_format("groupStrategy %s\n", model->groupStrategyName->c_str());
+    //svm_buffer << string_format("groupStrategy %s\n", model->groupStrategyName->c_str());
 
     if (param.features != nullptr)
     {
@@ -3582,13 +3582,13 @@ bool read_model_header(FILE *fp, svm_model* model)
         {
             FSCANF(fp, "%lf", &param.m_certaintyPositiveNormalizedClassOnly);
         }
-        else if (strcmp(cmd, "groupStrategy") == 0)
-        {
-            char name[256];
-            FSCANF(fp, "%s", &name);
-            auto ptr = new std::string(name);
-            model->groupStrategyName = ptr;
-        }
+        // else if (strcmp(cmd, "groupStrategy") == 0)
+        // {
+        //     char name[256];
+        //     FSCANF(fp, "%s", &name);
+        //     auto ptr = new std::string(name);
+        //     model->groupStrategyName = ptr;
+        // }
 		else if (strcmp(cmd, "rbf_custom_gamma") == 0)
 		{
 			unsigned long long size = 0;
@@ -3750,12 +3750,12 @@ bool read_model_header_from_string(std::string model_txt, svm_model* model)
         {
             header >> param.m_certaintyPositiveNormalizedClassOnly;
         }
-        else if (strcmp(cmd.c_str(), "groupStrategy") == 0)
-        {
-            auto ptr = new std::string();
-            header >> *ptr;
-            model->groupStrategyName = ptr;
-        }
+        // else if (strcmp(cmd.c_str(), "groupStrategy") == 0)
+        // {
+        //     auto ptr = new std::string();
+        //     header >> *ptr;
+        //     model->groupStrategyName = ptr;
+        // }
 
     	
         else if (strcmp(cmd.c_str(), "kernel_type") == 0)

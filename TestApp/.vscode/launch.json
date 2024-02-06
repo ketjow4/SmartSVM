@@ -5,24 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(Windows) Launch",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/build/Debug/TestApp.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "console": "externalTerminal"
-        },
-        {
             "name": "(msvc) Launch",
             "type": "cppvsdbg",
             "request": "launch",
             // Resolved by CMake Tools:
             "program": "${command:cmake.launchTargetPath}",
-            "args": [],
-            "stopAtEntry": true,
+            "args": ["--datafolder", "E:\\PythonDeevaTests", "--outputfolder", "E:\\PythonDeevaTests_Results"],
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [
                 {

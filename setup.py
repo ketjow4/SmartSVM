@@ -41,6 +41,7 @@ class CMakeBuild(build_ext):
 
         debug = int(os.environ.get("DEBUG", 0)) if self.debug is None else self.debug
         cfg = "Debug" if debug else "Release"
+        print(f'Configuration: {cfg}')
 
         # CMake lets you override the generator - we need to check this.
         # Can be set with Conda-Build, for example.
@@ -116,6 +117,8 @@ class CMakeBuild(build_ext):
             if hasattr(self, "parallel") and self.parallel:
                 # CMake 3.12+ only.
                 build_args += [f"-j{self.parallel}"]
+            else:
+                build_args += [f"-j 8"]
 
         build_temp = Path(self.build_temp) / ext.name
         if not build_temp.exists():
@@ -124,46 +127,47 @@ class CMakeBuild(build_ext):
         subprocess.run(
             ["cmake", ext.sourcedir, *cmake_args], cwd=build_temp, check=True
         )
+        print(f'Running cmake build:  cmake --build . {build_args}')
         subprocess.run(
             ["cmake", "--build", ".", *build_args], cwd=build_temp, check=True
         )
 
 
-cpp_args = ['/std:c++latest', '/WX-', '/permissive-',  '/wd4251', '/wd4275', '/wd4503', '/wd4840', '/FC', '/errorReport:prompt', '/GR',
-            '/Zi', '/Gm-', '/O2', '/sdl', #remember change /Od to O2 for optimization, now only for debug purposes
-            '/Zc:inline', '/fp:precise', '/openmp', '/GS', '/Zc:twoPhase-', '/D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS'
-            ]
+# cpp_args = ['/std:c++latest', '/WX-', '/permissive-',  '/wd4251', '/wd4275', '/wd4503', '/wd4840', '/FC', '/errorReport:prompt', '/GR',
+#             '/Zi', '/Gm-', '/O2', '/sdl', #remember change /Od to O2 for optimization, now only for debug purposes
+#             '/Zc:inline', '/fp:precise', '/openmp', '/GS', '/Zc:twoPhase-', '/D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS'
+#             ]
 
-link_args = [
-    #'/LTCG:incremental',
-    '/NXCOMPAT', '/DEBUG', '/MACHINE:X64', '/OPT:REF', '/OPT:ICF', '/WX:NO'
-    ]
+# link_args = [
+#     #'/LTCG:incremental',
+#     '/NXCOMPAT', '/DEBUG', '/MACHINE:X64', '/OPT:REF', '/OPT:ICF', '/WX:NO'
+#     ]
 
    
 
-root = f'D:\\Deeva_PHD\\Deeva\\trunk\\src\\DeevaSvm'
+# root = f'D:\\Deeva_PHD\\Deeva\\trunk\\src\\DeevaSvm'
 
-libs = f'D:\\Deeva_PHD\\Deeva\\trunk\\src\\DeevaSvm\\packages'
+# libs = f'D:\\Deeva_PHD\\Deeva\\trunk\\src\\DeevaSvm\\packages'
 
-boost = f'{libs}\\boost.1.66.0.0\\lib\\native\\include'
-opencv = f'{libs}\\OpenCV.3.3.1\\include'
-eigen = f'{libs}\\Eigen.3.3.4\\include'
-gsl = f'{libs}\\Microsoft.Gsl.0.1.2.2\\build\\native\\include'
+# boost = f'{libs}\\boost.1.66.0.0\\lib\\native\\include'
+# opencv = f'{libs}\\OpenCV.3.3.1\\include'
+# eigen = f'{libs}\\Eigen.3.3.4\\include'
+# gsl = f'{libs}\\Microsoft.Gsl.0.1.2.2\\build\\native\\include'
 
-boost_po_bin = f'{libs}\\boost_program_options-vc141.1.66.0.0\\lib\\native'
-boost_fs_bin = f'{libs}\\boost_filesystem-vc141.1.66.0.0\\lib\\native'
-boost_system_bin = f'{libs}\\boost_system-vc141.1.66.0.0\\lib\\native'
+# boost_po_bin = f'{libs}\\boost_program_options-vc141.1.66.0.0\\lib\\native'
+# boost_fs_bin = f'{libs}\\boost_filesystem-vc141.1.66.0.0\\lib\\native'
+# boost_system_bin = f'{libs}\\boost_system-vc141.1.66.0.0\\lib\\native'
 
-openc_core_bin = f'{libs}\\OpenCV-Core.3.3.1\\lib\\native\\lib\\x64'
-openc_hg_bin = f'{libs}\\OpenCV-Highgui.3.3.1\\lib\\native\\lib\\x64'
-openc_imgc_bin = f'{libs}\\OpenCV-Imgcodecs.3.3.1\\lib\\native\\lib\\x64'
-openc_imgp_bin = f'{libs}\\OpenCV-Imgproc.3.3.1\\lib\\native\\lib\\x64'
-openc_ml_bin = f'{libs}\\OpenCV-Ml.3.3.1\\lib\\native\\lib\\x64'
-openc_v_bin = f'{libs}\\OpenCV-Video.3.3.1\\lib\\native\\lib\\x64'
-openc_vio_bin = f'{libs}\\OpenCV-Videoio.3.3.1\\lib\\native\\lib\\x64'
+# openc_core_bin = f'{libs}\\OpenCV-Core.3.3.1\\lib\\native\\lib\\x64'
+# openc_hg_bin = f'{libs}\\OpenCV-Highgui.3.3.1\\lib\\native\\lib\\x64'
+# openc_imgc_bin = f'{libs}\\OpenCV-Imgcodecs.3.3.1\\lib\\native\\lib\\x64'
+# openc_imgp_bin = f'{libs}\\OpenCV-Imgproc.3.3.1\\lib\\native\\lib\\x64'
+# openc_ml_bin = f'{libs}\\OpenCV-Ml.3.3.1\\lib\\native\\lib\\x64'
+# openc_v_bin = f'{libs}\\OpenCV-Video.3.3.1\\lib\\native\\lib\\x64'
+# openc_vio_bin = f'{libs}\\OpenCV-Videoio.3.3.1\\lib\\native\\lib\\x64'
 
 #RELEASE
-other_libs = f'{root}\\bin\\x64\\Release'
+# other_libs = f'{root}\\bin\\x64\\Release'
 
 #DEBUG
 #other_libs = f'{root}\\bin\\x64\\Debug'
@@ -171,10 +175,10 @@ other_libs = f'{root}\\bin\\x64\\Release'
 # python_folders = f'{root}\\..\\..\\extern\\python37'
 # python_libs_folder = f'{root}\\..\\..\\extern\\python37\\libs'
 
-python_folders = f'C:/anaconda3/'
-python_libs_folder = f'C:/anaconda3/libs'
+# python_folders = f'C:/anaconda3/'
+# python_libs_folder = f'C:/anaconda3/libs'
 
-sfc_module = CMakeExtension(
+cpp_svm_module = CMakeExtension(
     'DeevaPythonPackage',
     #sources=['module.cpp', 'DatasetLoader.cpp'],
     sourcedir=".",
@@ -232,25 +236,25 @@ sfc_module = CMakeExtension(
 #    extra_link_args =link_args,
     )
 
-dll_path = 'dlls\\'
+# dll_path = 'dlls\\'
 
-data_files = [
-    #f'{dll_path}libLogger.dll',
-    f'{dll_path}opencv_core331.dll',
-    f'{dll_path}opencv_ml331.dll',
-    f'{dll_path}opencv_highgui331.dll',
-    f'{dll_path}opencv_imgcodecs331.dll',
-    f'{dll_path}opencv_imgproc331.dll',
-    f'{dll_path}opencv_video331.dll',
-    f'{dll_path}opencv_videoio331.dll',
-              ]
+# data_files = [
+#     #f'{dll_path}libLogger.dll',
+#     f'{dll_path}opencv_core331.dll',
+#     f'{dll_path}opencv_ml331.dll',
+#     f'{dll_path}opencv_highgui331.dll',
+#     f'{dll_path}opencv_imgcodecs331.dll',
+#     f'{dll_path}opencv_imgproc331.dll',
+#     f'{dll_path}opencv_video331.dll',
+#     f'{dll_path}opencv_videoio331.dll',
+#               ]
 
 setup(
     author = 'Wojciech Dudzik',
     name='DeevaPythonPackage',
-    version='0.3.7',
+    version='0.3.9',
     description='Python package with Evolutionary SVM C++ code (PyBind11)',
-    ext_modules=[sfc_module],
+    ext_modules=[cpp_svm_module],
 
     cmdclass={"build_ext": CMakeBuild},
     #srcipts=['mutualInfo.py'],

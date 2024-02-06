@@ -64,6 +64,13 @@ add_compile_definitions(_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 
+
+# ONLY MSVC
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/INCREMENTAL")
+#set_target_properties(${PROJECT_NAME} PROPERTIES "/MP")
+add_compile_options(/MP)
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/debug:fastlink")
+
 ################################################################################
 # Dependencies
 ################################################################################

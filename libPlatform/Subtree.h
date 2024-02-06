@@ -159,7 +159,9 @@
 #include <filesystem>
 #include <vector>
 #include <stdexcept>
+#include <iostream>
 
+#include "StringUtils.h"
 #include "SubtreeExceptions.h"
 
 namespace platform
@@ -216,7 +218,31 @@ void Subtree::putValue(const std::string& name, const T& value)
         throw std::invalid_argument("Empty name");
     }
 
-    m_root[name] = value;
+    //m_root[name] = value;
+
+    using json = nlohmann::json;
+    std::vector<std::string> nodeNames = platform::stringUtils::splitString(name, '.');
+
+        // Create the nested structure
+    json* currentNode = &m_root;
+    for (const auto& nodeName : nodeNames)
+    {
+        if (!nodeName.empty())
+        {
+            // If the node doesn't exist, create it as an empty object
+            if (!currentNode->contains(nodeName))
+            {
+                (*currentNode)[nodeName] = json::object();
+            }
+
+            // Move to the next level in the hierarchy
+            currentNode = &(*currentNode)[nodeName];
+        }
+    }
+
+    // Set the value for the last node in the hierarchy
+    (*currentNode) = value;
+
 }
 
 template <typename T>
@@ -231,7 +257,30 @@ void Subtree::putValue(const std::string& name, const std::vector<T>& value)
         throw std::invalid_argument("Empty vector");
     }
 
-    m_root[name] = value;
+    //m_root[name] = value;
+     // Split the node name by dots and create a nested structure
+    using json = nlohmann::json;
+    std::vector<std::string> nodeNames = platform::stringUtils::splitString(name, '.');
+
+        // Create the nested structure
+    json* currentNode = &m_root;
+    for (const auto& nodeName : nodeNames)
+    {
+        if (!nodeName.empty())
+        {
+            // If the node doesn't exist, create it as an empty object
+            if (!currentNode->contains(nodeName))
+            {
+                (*currentNode)[nodeName] = json::object();
+            }
+
+            // Move to the next level in the hierarchy
+            currentNode = &(*currentNode)[nodeName];
+        }
+    }
+
+    // Set the value for the last node in the hierarchy
+    (*currentNode) = value;
 }
 
 template <typename T>
@@ -259,6 +308,36 @@ T Subtree::getValue(const std::string& propertyName) const
 template <typename T>
 T Subtree::getImplementation(const std::string& propertyName) const
 {
-    return m_root.at(propertyName).get<T>();
+      std::vector<std::string> nodeNames = platform::stringUtils::splitString(propertyName, '.');
+    using json = nlohmann::json;
+
+     // Navigate the nested structure
+    const json* currentNode = &m_root;
+    for (const auto& nodeName : nodeNames)
+    {
+        if (!nodeName.empty())
+        {
+            auto it = currentNode->find(nodeName);
+
+            // If the node doesn't exist, throw an exception
+            if (it == currentNode->end())
+            {
+                throw PropertyNotFoundException(propertyName);
+            }
+
+            // Move to the next level in the hierarchy
+            currentNode = &it.value();
+        }
+    }
+
+    // Try to convert the final node to the specified type
+    try
+    {
+        return currentNode->get<T>();
+    }
+    catch (const std::exception&)
+    {
+        throw WrongConversionException(propertyName, typeid(T).name());
+    }
 }
 } //namespace platform

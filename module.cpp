@@ -356,6 +356,12 @@ PYBIND11_MODULE(DeevaPythonPackage, m) {
         //.def("putValue", &Subtree::putValue<std::string>)
         .def("putValue", [](Subtree& self, const std::string& name, const std::string& value)
             { return self.putValue<std::string>(name, value); })
+        .def("putValue", [](Subtree& self, const std::string& name, const double& value)
+            { return self.putValue<double>(name, value); })
+        .def("putValue", [](Subtree& self, const std::string& name, const bool& value)
+        { return self.putValue<bool>(name, value); })
+        .def("putValue", [](Subtree& self, const std::string& name, const long& value)
+        { return self.putValue<long>(name, value); })
         //.def("putValue", &Subtree::putValue<long>)
         //.def("putValue", &Subtree::putValue<double>)
         .def("to_string", &Subtree::writeToString)
@@ -377,6 +383,6 @@ PYBIND11_MODULE(DeevaPythonPackage, m) {
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else
-    m.attr("__version__") = "0.3.7";
+    m.attr("__version__") = "0.3.9";
 #endif
 }

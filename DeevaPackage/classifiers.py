@@ -7,10 +7,10 @@ def alma_wrapper(dataset):
     algorithm = AlmaClassifier()
     config = algorithm.config
 
-    config.putValue("Svm.MemeticTrainingSetSelection.StopCondition.MeanFitness.Epsilon", "0.001")
-    config.putValue("Svm.GeneticKernelEvolution.StopCondition.MeanFitness.Epsilon", "0.001")
+    config.putValue("Svm.MemeticTrainingSetSelection.StopCondition.MeanFitness.Epsilon", 0.001)
+    config.putValue("Svm.GeneticKernelEvolution.StopCondition.MeanFitness.Epsilon", 0.001)
     config.putValue("Svm.Metric", "AUC")
-    config.putValue("Svm.MemeticFeatureSetSelection.NumberOfClassExamples", "2")
+    config.putValue("Svm.MemeticFeatureSetSelection.NumberOfClassExamples", 2)
     algorithm.config = config
 
     print(config)
