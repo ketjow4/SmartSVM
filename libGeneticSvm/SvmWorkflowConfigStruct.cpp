@@ -8,8 +8,8 @@ SvmWokrflowConfiguration::SvmWokrflowConfiguration(const platform::Subtree& conf
 	                           config.getValue<std::filesystem::path>("Svm.TestData"),
 	                           config.getValue<std::filesystem::path>("Svm.OutputFolderPath"),
 	                           config.getValue<std::string>("Svm.Visualization.Filename"),
-	                           config.getValue<std::string>("Svm.TxtLogFilename")
-	                           //testApp::verbosityFromString(config.getValue<std::string>("Svm.LogVerbosity"))
+	                           config.getValue<std::string>("Svm.TxtLogFilename"),
+	                           platform::verbosityFromString(config.getValue<std::string>("Svm.LogVerbosity"))
 							   )
 {
 }
@@ -19,8 +19,8 @@ SvmWokrflowConfiguration::SvmWokrflowConfiguration(std::filesystem::path trainin
                                                    std::filesystem::path testDataPath,
                                                    std::filesystem::path outputFolderPath,
                                                    std::string visualizationFilename,
-                                                   std::string txtLogFilename
-                                                   //testApp::Verbosity verbosity_
+                                                   std::string txtLogFilename,
+                                                   platform::Verbosity verbosity_
 												   )
 	: trainingDataPath(std::move(trainingDataPath))
 	, validationDataPath(std::move(validationDataPath))
@@ -28,7 +28,7 @@ SvmWokrflowConfiguration::SvmWokrflowConfiguration(std::filesystem::path trainin
 	, outputFolderPath(std::move(outputFolderPath))
 	, visualizationFilename(std::move(visualizationFilename))
 	, txtLogFilename(std::move(txtLogFilename))
-	//, verbosity(verbosity_)
+	, verbosity(verbosity_)
 {
 }
 } // namespace genetic

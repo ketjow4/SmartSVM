@@ -19,6 +19,7 @@ set(Header_Files
     "PlatformException.h"
     "TimeUtils.h"
     "InterfaceDeclaration.h"
+    "Verbosity.h"
     "loguru.hpp"
 )
 source_group("Header Files" FILES ${Header_Files})

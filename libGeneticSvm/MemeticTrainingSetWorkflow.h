@@ -126,7 +126,6 @@ private:
     std::shared_ptr<AllModelsLogger> m_allModelsLogger;
 
     const SvmWokrflowConfiguration m_config;
-    //logger::LogFrontend m_logger;
     GeneticWorkflowResultLogger m_resultLogger;
 
     static constexpr const char* m_algorithmName = "Memetic";

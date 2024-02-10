@@ -67,8 +67,4 @@ NumpyDatasetLoader::NumpyDatasetLoader(py::array_t<float> tr_x, py::array_t<floa
 	  , m_validationSet(convertToDataset(val_x, val_y))
 	  , m_testSet(convertToDataset(test_x, test_y))
 {
-
-    //auto path = "E:\\PythonDeevaTests\\2D_shapes\\1\\train.csv";
-    //m_traningSet = phd::data::readCsv(path);
-
 }

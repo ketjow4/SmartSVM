@@ -2,12 +2,12 @@
 #include <iostream>
 #include "libStrategies/DiskFile.h"
 #include "GeneticWorkflowResultLogger.h"
+#include "libPlatform/loguru.hpp"
 
 namespace genetic
 {
 void GeneticWorkflowResultLogger::logToFile(const std::filesystem::path& outputPath)
 {
-    //logger::LogFrontend logger;
     try
     {
         filesystem::DiskFile resultFile(outputPath, "a");
@@ -16,9 +16,9 @@ void GeneticWorkflowResultLogger::logToFile(const std::filesystem::path& outputP
             resultFile.write(gsl::span<const unsigned char>(reinterpret_cast<const unsigned char*>(logMessage.c_str()), logMessage.length()));
         }
     }
-    catch (const std::exception& /*exception*/)
+    catch (const std::exception& exception)
     {
-        //logger.LOG(logger::LogLevel::Error, exception.what());
+        LOG_F(ERROR, "Error: %s", exception.what());
     }
 }
 

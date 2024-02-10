@@ -38,7 +38,6 @@ namespace genetic
 		, m_testSet(nullptr)
 		, m_generationNumber(0)
 		, m_numberOfClassExamples(m_algorithmConfig.m_numberOfClassExamples)
-		//, m_initialNumberOfClassExamples(m_algorithmConfig.m_numberOfClassExamples)
 	{
 		m_shrinkTrainingSet = false;
 	}
@@ -47,8 +46,11 @@ namespace genetic
 	{
 		initializeGeneticAlgorithm();
 		runGeneticAlgorithm();
-		m_resultLogger.logToFile(std::filesystem::path(m_config.outputFolderPath.string() + m_config.txtLogFilename));
 
+		if(m_config.verbosity != platform::Verbosity::None)
+        {
+			m_resultLogger.logToFile(std::filesystem::path(m_config.outputFolderPath.string() + m_config.txtLogFilename));
+		}
 		return m_population.getBestOne().getClassifier();
 	}
 
@@ -86,20 +88,14 @@ namespace genetic
 			m_gammaRange = { bestOne->getGamma() / 10, bestOne->getGamma(), bestOne->getGamma() * 10, bestOne->getGamma() * 100, bestOne->getGamma() * 1000 };
 			m_CValue = bestOne->getC();
 
-
 			//set all parameters in here!!!!
 			//std::vector<double> gammaTest = {/*0.1,*/ 10, 500, 1000 };
 			//m_gammaRange = gammaTest;
 			//m_CValue = 1000; 
-
-
-
 		}
 		catch (const std::exception& exception)
 		{
 			LOG_F(ERROR, "Error: %s", exception.what());
-			std::cout << exception.what();
-			//m_logger.LOG(logger::LogLevel::Error, exception.what());
 		}
 	}
 
@@ -206,16 +202,12 @@ namespace genetic
 				m_savePngElement.launch(image, m_pngNameSource);
 			}
 
-
-			//logAllModels(testPopulation);
 			logResults(m_population, testPopulation);
 		}
 		catch (const std::exception& exception)
 		{
 			LOG_F(ERROR, "Error: %s", exception.what());
-			std::cout << exception.what();
 			throw;
-			//m_logger.LOG(logger::LogLevel::Error, std::string("Unknown exception: ") + exception.what());
 		}
 	}
 
@@ -298,7 +290,7 @@ namespace genetic
 				{
 					localGlobal->setMode(IsModeLocal);
 				}
-				//logAllModels(testPopulation);
+
 				logResults(m_population, testPopulation);
 			}
 		}

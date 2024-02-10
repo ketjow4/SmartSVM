@@ -1,4 +1,3 @@
-//#include "libStrategies/TabularDataProviderStrategy.h"
 #include "libStrategies/FileSinkStrategy.h"
 #include "libSvmStrategies/CreateSvmVisualizationStrategy.h"
 #include "libGeneticStrategies/CreatePopulationStrategy.h"
@@ -53,8 +52,11 @@ std::shared_ptr<phd::svm::ISvm> GaSvmWorkflow::run()
 {
     initialize();
     runGeneticAlgorithm();
-    m_resultLogger.logToFile(std::filesystem::path(m_config.outputFolderPath.string() + m_config.txtLogFilename));
 
+    if(m_config.verbosity != platform::Verbosity::None)
+    {
+        m_resultLogger.logToFile(std::filesystem::path(m_config.outputFolderPath.string() + m_config.txtLogFilename));
+    }
     return (getBestChromosomeInGeneration().getClassifier());
 }
 
@@ -142,7 +144,7 @@ void GaSvmWorkflow::runGeneticAlgorithm()
             auto nextGeneration = m_selectionElement.launch(m_population, newPopulation);
 
             auto nextGeneration2 = nextGeneration;
-            m_validationTestDataElement.launch(nextGeneration2, *m_testSet); //tutaj ma by� kopia 
+            m_validationTestDataElement.launch(nextGeneration2, *m_testSet);
 
             m_population = m_selectionElement.launch(m_population, nextGeneration);
 

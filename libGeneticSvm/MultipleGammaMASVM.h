@@ -70,8 +70,7 @@ namespace genetic
 		svmComponents::MultipleGammaCompensationInformation m_compensationGenerationElement;
 
 		std::vector<svmComponents::Gene> m_svPool;
-		unsigned int m_numberOfClassExamples;
-		//unsigned int m_initialNumberOfClassExamples;
+		unsigned int m_numberOfClassExamples;		
 
 		GeneticWorkflowResultLogger m_resultLogger;
 

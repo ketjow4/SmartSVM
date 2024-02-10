@@ -579,7 +579,6 @@ float EnsembleListSvm::LastNodeScheme(const gsl::span<const float> sample) const
 	return result;
 }
 
-#pragma optimize("", on)
 
 
 std::pair<float,int> EnsembleListSvm::LastNodeSchemeAndNode(const gsl::span<const float> sample) const
@@ -623,7 +622,6 @@ std::pair<float,int> EnsembleListSvm::LastNodeSchemeAndNode(const gsl::span<cons
 	return { result, nodeId };
 }
 
-#pragma optimize("", off)
 
 
 std::pair<float, int> EnsembleListSvm::classifyWithNode(const gsl::span<const float> sample) const

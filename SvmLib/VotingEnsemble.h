@@ -157,7 +157,7 @@ namespace phd {
 				return final_answer > 0 ? 1.0f : 0.0f;
 			}
 
-#pragma optimize("", off)
+
 
 			
 			float classifyNodeWeights(const gsl::span<const float> sample) const
@@ -204,7 +204,6 @@ namespace phd {
 				return final_answer > 0 ? 1.0f : 0.0f;
 			}
 
-#pragma optimize("", on)
 			
 			void save(const std::filesystem::path& filepath) override
 			{

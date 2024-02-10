@@ -37,7 +37,7 @@ const std::unordered_map<std::string, SvmAlgorithm> SvmAlgorithmFactory::m_trans
 {
     { "GridSearch", SvmAlgorithm::GridSearch },
     { "GridSearchNoFS", SvmAlgorithm::GridSearch },
-    { "GridSearchOpenCV", SvmAlgorithm::GridSearchOpenCV },
+    //{ "GridSearchOpenCV", SvmAlgorithm::GridSearchOpenCV },
     { "Alga", SvmAlgorithm::Alga },
     { "Alma", SvmAlgorithm::Alma },
     { "FSAlma", SvmAlgorithm::FSAlma },
@@ -48,7 +48,7 @@ const std::unordered_map<std::string, SvmAlgorithm> SvmAlgorithmFactory::m_trans
     { "KTF", SvmAlgorithm::KTF },
     { "TF", SvmAlgorithm::TF },
     { "FT", SvmAlgorithm::FT },
-    { "SSVM", SvmAlgorithm::SSVM},
+    { "SESVM", SvmAlgorithm::SESVM},
     { "RandomSearch", SvmAlgorithm::RandomSearch },
     { "RandomSearchInitPop", SvmAlgorithm::RandomSearchInitPop},
     { "RandomSearchEvoHelp", SvmAlgorithm::RandomSearchEvoHelp },
@@ -63,12 +63,12 @@ const std::unordered_map<std::string, SvmAlgorithm> SvmAlgorithmFactory::m_trans
     { "RbfLinearCoevolutionFSCEONE", SvmAlgorithm::RbfLinearCoevolution},
     { "RbfLinearCoevolutionFSCEMAX", SvmAlgorithm::RbfLinearCoevolution},
     { "RbfLinearCoevolutionFSCENOT", SvmAlgorithm::RbfLinearCoevolution},
-    { "Ensemble", SvmAlgorithm::Ensemble}, //Based on ALMA algorithm
-    { "EnsembleTree", SvmAlgorithm::EnsembleTree},
-    {"SequentialGammaFS", SvmAlgorithm::SequentialGammaFS},
-    {"ImplementationTest", SvmAlgorithm::ImplementationTest},
-    {"SESVM_Corrected", SvmAlgorithm::SESVM_Corrected},
-    {"BigSetsEnsemble", SvmAlgorithm::BigSetsEnsemble},
+    { "Ensemble", SvmAlgorithm::Ensemble}, 
+    { "EnsembleTree", SvmAlgorithm::EnsembleTree}, 
+    { "SequentialGammaFS", SvmAlgorithm::SequentialGammaFS},
+    { "ImplementationTest", SvmAlgorithm::ImplementationTest},
+    { "SESVM_Corrected", SvmAlgorithm::SESVM_Corrected},
+    { "BigSetsEnsemble", SvmAlgorithm::BigSetsEnsemble},
 
 };
 
@@ -79,13 +79,6 @@ std::unique_ptr<ISvmAlgorithm> SvmAlgorithmFactory::createAlgorightm(const platf
 
     switch (platform::stringToEnum(algorithmName, m_translations))
     {
-    case SvmAlgorithm::GridSearchOpenCV:
-    {
-        return nullptr;
-        //return std::make_unique<GridSearchWorkflowOpenCV>(SvmWokrflowConfiguration(config),
-        //                                                  GridSearchConfiguration(config),
-        //                                                  loadingWorkflow);
-    }
     case SvmAlgorithm::GridSearch:
     {
         return std::make_unique<GridSearchWorkflow>(SvmWokrflowConfiguration(config),
@@ -143,7 +136,7 @@ std::unique_ptr<ISvmAlgorithm> SvmAlgorithmFactory::createAlgorightm(const platf
     {
         return std::make_unique<FTGeneticWorkflow>(SvmWokrflowConfiguration(config), TFGeneticEvolutionConfiguration(config, loadingWorkflow, "FT"));
     }
-    case SvmAlgorithm::SSVM:
+    case SvmAlgorithm::SESVM:
     {
         return std::make_unique<SimultaneousWorkflow>(SvmWokrflowConfiguration(config), SimultaneousWorkflowConfig(config, loadingWorkflow), loadingWorkflow);
     }

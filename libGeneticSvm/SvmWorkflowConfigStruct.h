@@ -3,7 +3,7 @@
 
 #include <filesystem>
 #include "libPlatform/Subtree.h"
-//#include "AppUtils/Verbosity.h"
+#include "libPlatform/Verbosity.h"
 
 namespace genetic
 {
@@ -16,8 +16,8 @@ struct SvmWokrflowConfiguration
                              std::filesystem::path testDataPath,
                              std::filesystem::path outputFolderPath,
                              std::string visualizationFilename,
-                             std::string txtLogFilename
-							 //testApp::Verbosity verbosity = testApp::Verbosity::Standard
+                             std::string txtLogFilename,
+							 platform::Verbosity verbosity = platform::Verbosity::Standard
                              );
 
     const std::filesystem::path trainingDataPath;
@@ -26,6 +26,6 @@ struct SvmWokrflowConfiguration
     std::filesystem::path outputFolderPath;
     const std::string visualizationFilename;
     const std::string txtLogFilename;
-    //const testApp::Verbosity verbosity;
+    const platform::Verbosity verbosity;
 };
 } // namespace genetic

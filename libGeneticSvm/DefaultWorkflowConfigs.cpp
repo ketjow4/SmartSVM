@@ -553,12 +553,12 @@ const std::vector<std::string>& DefaultGridSearchConfig::getAllGridsNames()
     return paramsNames;
 }
 
-platform::Subtree DefaultSSVMConfig::getDefault()
+platform::Subtree DefaultSESVMConfig::getDefault()
 {
     auto config = DefaultSvmConfig::getDefault();
 
-    config.putValue("Name", "SSVM");
-    config.putValue<bool>("Svm.SSVM.Svm.isRegression", false);
+    config.putValue("Name", "SESVM");
+    config.putValue<bool>("Svm.SESVM.Svm.isRegression", false);
 
     // @wdudzik Insert default configs for algorithms used in KTF
     config.putNode("Svm.MemeticTrainingSetSelection", DefaultMemeticConfig::getDefault().getNode("Svm.MemeticTrainingSetSelection"));
@@ -566,9 +566,9 @@ platform::Subtree DefaultSSVMConfig::getDefault()
     config.putNode("Svm.MemeticFeatureSetSelection", DefaultFeaturesMemeticConfig::getDefault().getNode("Svm.MemeticFeatureSetSelection"));
 
     // @wdudzik Choose which algorithm will run in KTF
-    config.putValue("Svm.SSVM.KernelOptimization.Name", "GeneticKernelEvolution");
-    config.putValue("Svm.SSVM.TrainingSetOptimization.Name", "MemeticTrainingSetSelection");
-    config.putValue("Svm.SSVM.FeatureSetOptimization.Name", "MemeticFeatureSetSelection");
+    config.putValue("Svm.SESVM.KernelOptimization.Name", "GeneticKernelEvolution");
+    config.putValue("Svm.SESVM.TrainingSetOptimization.Name", "MemeticTrainingSetSelection");
+    config.putValue("Svm.SESVM.FeatureSetOptimization.Name", "MemeticFeatureSetSelection");
 
 	
 
@@ -576,9 +576,9 @@ platform::Subtree DefaultSSVMConfig::getDefault()
     auto superIndividualAlpha = 0.2;
 	//auto truncationCoefficient = 2 / (2*2 + superIndividualAlpha);
     auto truncationCoefficient = 1 / (2 + superIndividualAlpha);
-	config.putValue("Svm.SSVM.SelectionOperator.Name", "TruncationSelection");
-	config.putValue<double>("Svm.SSVM.SelectionOperator.TruncationSelection.TruncationCoefficient", truncationCoefficient);
-	config.putValue("Svm.SSVM.PopulationSize", 20);
+	config.putValue("Svm.SESVM.SelectionOperator.Name", "TruncationSelection");
+	config.putValue<double>("Svm.SESVM.SelectionOperator.TruncationSelection.TruncationCoefficient", truncationCoefficient);
+	config.putValue("Svm.SESVM.PopulationSize", 20);
 
     return config;
 }

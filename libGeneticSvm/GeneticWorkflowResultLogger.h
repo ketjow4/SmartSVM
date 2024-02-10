@@ -160,7 +160,7 @@ void GeneticWorkflowResultLogger::logKernelParameters(chromosome individual, std
 		logInfo += std::to_string(individual.getClassifier()->getC()).append("\t");
 		break;
     default:
-        logInfo += "Custom kernel\t"; 
+        logInfo += "Custom kernel (not supported logging)\t"; 
     }
 }
 

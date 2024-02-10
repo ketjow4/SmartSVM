@@ -41,10 +41,6 @@ namespace genetic
 	                               const std::vector<unsigned long long>& valIds)
 	{
 
-		
-		
-
-		
 		auto joined_tr_val = joinSets(dataset, validationSet);
 		std::vector<unsigned long long>  joined_ids;
 		joined_ids.insert(joined_ids.end(), ids.begin(), ids.end());
@@ -310,12 +306,12 @@ void EnsembleTreeWorkflow::addLastNodeWithFullSvm(std::shared_ptr<phd::svm::List
 		//
 		
 		//SE-SVM as last node
-		auto sesvmConfig = genetic::DefaultSSVMConfig::getDefault();
+		auto sesvmConfig = genetic::DefaultSESVMConfig::getDefault();
 
 		sesvmConfig.putValue<std::string>("Svm.Metric", "AUC");
 		//setupStopCondition(almaConfig);
 		auto outputfolderName = m_full_config.getValue<std::string>("Svm.OutputFolderPath");
-		std::cout << "output folder " << outputfolderName << "\n";
+		//std::cout << "output folder " << outputfolderName << "\n";
 		sesvmConfig.putValue<std::string>("Svm.OutputFolderPath", outputfolderName);
 		sesvmConfig.putValue<std::string>("Svm.TxtLogFilename", "sesvm_log.txt");
 		sesvmConfig.putValue<std::string>("Svm.ValidationData", m_full_config.getValue<std::string>("Svm.ValidationData"));
@@ -433,7 +429,7 @@ std::shared_ptr<phd::svm::ListNodeSvm> EnsembleTreeWorkflow::trainHelperNewDatas
 				{
 					
 				
-				std::cout << "ID:" << m_listLength << "\n";
+				//std::cout << "ID:" << m_listLength << "\n";
 				auto configurationForNode = EnsembleTreeWorkflowConfig(m_full_config, datasets);
 
 				bool newDatasetFlow = true;
@@ -513,7 +509,6 @@ std::shared_ptr<phd::svm::ListNodeSvm> EnsembleTreeWorkflow::trainHelperNewDatas
 				catch (const std::exception& e)
 				{
 					LOG_F(ERROR, "Error: %s", e.what());
-					std::cout << e.what();
 					throw;
 				}
 
@@ -742,7 +737,6 @@ std::shared_ptr<phd::svm::ListNodeSvm> EnsembleTreeWorkflow::trainHelperNewDatas
 			catch (const std::exception& e)
 			{
 				LOG_F(ERROR, "Error: %s", e.what());
-				std::cout << e.what();
 				throw;
 			}
 				
@@ -779,7 +773,6 @@ std::shared_ptr<phd::svm::ListNodeSvm> EnsembleTreeWorkflow::trainHelperNewDatas
 	catch (const std::exception& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
-		std::cout << e.what();
 		throw;
 	}
 
@@ -859,7 +852,7 @@ std::shared_ptr<phd::svm::ListNodeSvm> EnsembleTreeWorkflow::trainHelper(std::sh
 			}
 			else
 			{
-				std::cout << "ID:" << m_listLength << "\n";
+				//std::cout << "ID:" << m_listLength << "\n";
 				auto configurationForNode = EnsembleTreeWorkflowConfig(m_full_config, datasets);
 
 				SvmHelper helper(m_config, configurationForNode, datasets, m_algorithmConfig.m_addSvToTraining,
@@ -1089,7 +1082,6 @@ std::shared_ptr<phd::svm::ListNodeSvm> EnsembleTreeWorkflow::trainHelper(std::sh
 	catch (const std::exception& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
-		std::cout << e.what();
 		throw;
 	}
 
@@ -1423,7 +1415,6 @@ EnsembleTreeWorkflow::scoreEnsemble(std::shared_ptr<phd::svm::EnsembleListSvm> e
 	catch (const std::exception& exception)
 	{
 		LOG_F(ERROR, exception.what());
-		std::cout << exception.what();
 		throw;
 	}
 
@@ -1563,8 +1554,10 @@ std::shared_ptr<phd::svm::ISvm> EnsembleTreeWorkflow::run()
 		                              bestOneConfustionMatrix,
 		                              bestOneTestMatrix);
 
-		m_resultLogger.logToFile(m_resultFilePath);
-
+		if(m_config.verbosity != platform::Verbosity::None)
+		{
+			m_resultLogger.logToFile(m_resultFilePath);
+		}
 
 		//TODO think about stopping timer at this point, everythin below is just some additional stuff calculating
 		
@@ -1683,8 +1676,7 @@ std::shared_ptr<phd::svm::ISvm> EnsembleTreeWorkflow::run()
 	}
 	catch (const std::exception& e)
 	{
-		LOG_F(ERROR, "Error: %s", e.what());
-		std::cout << e.what() << "\n";
+		LOG_F(ERROR, "Error: %s", e.what());		
 		throw;
 	}
 }

@@ -9,7 +9,6 @@
 #include "libGeneticSvm/GeneticWorkflowResultLogger.h"
 #include "libGeneticSvm/IDatasetLoader.h"
 
-//#include "libStrategies/TabularDataProviderStrategy.h"
 #include "libStrategies/FileSinkStrategy.h"
 #include "libGeneticStrategies/CreatePopulationStrategy.h"
 #include "libSvmComponents/SvmValidationStrategy.h"
@@ -94,7 +93,6 @@ private:
 	unsigned int m_generationNumber;
 
 	const SvmWokrflowConfiguration m_config;
-	//logger::LogFrontend m_logger;
 	GeneticWorkflowResultLogger m_resultLogger;
 	std::shared_ptr<AllModelsLogger> m_allModelsLogger;
 

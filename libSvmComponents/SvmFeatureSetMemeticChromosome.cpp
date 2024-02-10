@@ -7,7 +7,7 @@ SvmFeatureSetMemeticChromosome::SvmFeatureSetMemeticChromosome(std::vector<Featu
 {
 }
 
-//#pragma optimize("", off)
+
 
 dataset::Dataset<std::vector<float>, float> SvmFeatureSetMemeticChromosome::convertChromosome(
     const dataset::Dataset<std::vector<float>, float>& trainingDataSet) const
@@ -45,7 +45,7 @@ dataset::Dataset<std::vector<float>, float> SvmFeatureSetMemeticChromosome::conv
     //return dataset;
 }
 
-//#pragma optimize("", on)
+
 
 std::unordered_set<std::uint64_t> SvmFeatureSetMemeticChromosome::convertToSet() const
 {

@@ -55,16 +55,16 @@ TFGeneticEvolutionConfiguration::TFGeneticEvolutionConfiguration(const platform:
 }
 
 SimultaneousWorkflowConfig::SimultaneousWorkflowConfig(const platform::Subtree& config, IDatasetLoader& loadingWorkflow)
-    : m_populationSize(config.getValue<unsigned int>("Svm.SSVM.PopulationSize"))
+    : m_populationSize(config.getValue<unsigned int>("Svm.SESVM.PopulationSize"))
 	, m_config(config)
     , m_svmConfig(config)
-    , m_trainingSetOptimization(TrainingSetOptimizationWorkflowFactory::create(config, loadingWorkflow, "Svm.SSVM"))
-    , m_kernelOptimization(KernelOptimizationWorkflowFactory::create(config, loadingWorkflow, "Svm.SSVM"))
-    , m_featureSetOptimization(FeatureSetOptimizationWorkflowFactory::create(config, loadingWorkflow, "Svm.SSVM"))
-    , m_stopCondition(StopConditionFactory::create<SvmSimultaneousChromosome>(config.getNode("Svm." + config.getValue<std::string>("Svm.SSVM.KernelOptimization.Name"))))
+    , m_trainingSetOptimization(TrainingSetOptimizationWorkflowFactory::create(config, loadingWorkflow, "Svm.SESVM"))
+    , m_kernelOptimization(KernelOptimizationWorkflowFactory::create(config, loadingWorkflow, "Svm.SESVM"))
+    , m_featureSetOptimization(FeatureSetOptimizationWorkflowFactory::create(config, loadingWorkflow, "Svm.SESVM"))
+    , m_stopCondition(StopConditionFactory::create<SvmSimultaneousChromosome>(config.getNode("Svm." + config.getValue<std::string>("Svm.SESVM.KernelOptimization.Name"))))
     , m_svmTraining(std::make_shared<SvmTrainingSSVM>(m_svmConfig,
                                                       m_svmConfig.m_estimationType == svmMetricType::Auc))
-    , m_selectionElement(SelectionFactory::create<SvmSimultaneousChromosome>(config.getNode("Svm.SSVM")))
+    , m_selectionElement(SelectionFactory::create<SvmSimultaneousChromosome>(config.getNode("Svm.SESVM")))
 {
 }
 

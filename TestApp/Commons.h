@@ -1048,7 +1048,7 @@ inline void runSpecified(std::filesystem::path pathToFold,
                          std::map<uint32_t, KernelParams>& gridSearchResults,
                          std::vector<std::string>& filters,
                          bool withFeatureSelection,
-                         testApp::Verbosity verbosity)
+                         platform::Verbosity verbosity)
 {
 	try
 	{
@@ -1210,7 +1210,10 @@ inline void runSpecified(std::filesystem::path pathToFold,
 					}
 				}
 
-				testApp::createSummaryFile(config, summaryFile, logFileNames, verbosity);
+				if (verbosity == testApp::Verbosity::Minimal)
+				{
+					testApp::createSummaryFile(config, summaryFile, logFileNames, verbosity);
+				}
 		}
 	}
 	catch (const std::exception& e)

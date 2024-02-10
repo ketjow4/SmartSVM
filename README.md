@@ -23,6 +23,20 @@ git clone https://github.com/microsoft/vcpkg/tree/2023.12.12
 conda activate python310
 python setup.py bdist_wheel
 
-
 Do not run this
 .\vcpkg install opencv[vtk]   --- warning this take long time (45-60 minutes to build)
+
+
+## TODO list
+
+- Add python test
+- Add wrapper for all relevant algorithms
+- CI build package on GHA
+- Add our datasets
+- Add examples
+- Add python code for analysing the summaries (as used in Phd)
+- Fix SE-SVM (feature selection init) and ECE-SVM (extra tree at the end)
+- Publish to pip
+- Create documentation
+- Generate python stubs
+- Add microbenchmarks 

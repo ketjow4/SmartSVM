@@ -28,15 +28,20 @@ private:
     KernelOptimizationWorkflow m_kernelOptimization;
     std::filesystem::path m_resultFilePath;
     GeneticAlternatingEvolutionConfiguration m_algorithmConfig;
-
-    //logger::LogFrontend m_logger;
+    SvmWokrflowConfiguration m_generalConfig;
 };
 
 template <class chromosome>
 void AlgaWorkflow::log(IGeneticWorkflow<chromosome>& workflow)
 {
-    workflow.getResultLogger().logToFile(m_resultFilePath);
-    workflow.getResultLogger().logToConsole();
+    if(m_generalConfig.verbosity != platform::Verbosity::None)
+    {
+        workflow.getResultLogger().logToFile(m_resultFilePath);
+    }
+    if(m_generalConfig.verbosity == platform::Verbosity::All)
+    {
+        workflow.getResultLogger().logToConsole();
+    }
     workflow.getResultLogger().clearLog();
 }
 

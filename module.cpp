@@ -136,6 +136,7 @@ private:
 class ALMA_python : public GeneticSvm
 {
 public:
+    //ALMA_python( verbosity, outputFolder, paramDict)
 	ALMA_python()
 	{
         std::cout << "Called constructor of ALMA" << std::endl;
@@ -159,7 +160,7 @@ public:
 
         loguru::flush();
 
-        m_config = genetic::DefaultSSVMConfig::getDefault();
+        m_config = genetic::DefaultSESVMConfig::getDefault();
     }
 };
 

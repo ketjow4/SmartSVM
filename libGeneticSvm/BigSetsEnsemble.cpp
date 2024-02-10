@@ -46,8 +46,6 @@ BigSetsEnsemble::BigSetsEnsemble(const SvmWokrflowConfiguration& config,
 	m_joined_T_V = joinSets(m_loadingWorkflow.getTraningSet(), m_loadingWorkflow.getValidationSet());
 }
 
-#pragma optimize("", off)
-
 std::shared_ptr<phd::svm::ISvm> BigSetsEnsemble::run()
 {
 	try
@@ -107,6 +105,7 @@ std::shared_ptr<phd::svm::ISvm> BigSetsEnsemble::run()
 		std::vector<BaseSvmChromosome> vec;
 		vec.emplace_back(to_test);
 		Population<BaseSvmChromosome> pop{ std::move(vec) };
+		//TODO 10.02.2024 Remove AUC calculation at all as it is wrong (never think of how to properly join multiple SVMs in cascade for AUC calculation)
 		//Calculate AUC for end report - TODO fix parrarell computation
 		m_validation.launchSingleThread(pop, m_loadingWorkflow.getValidationSet()); //pop has 1 classifier so inside AUC calculation there is parallelism
 		auto copy = pop;
@@ -127,15 +126,16 @@ std::shared_ptr<phd::svm::ISvm> BigSetsEnsemble::run()
 			bestOneConfustionMatrix,
 			bestOneTestMatrix);
 
-		m_resultLogger.logToFile(m_resultFilePath);
-
+		if(m_config.verbosity != platform::Verbosity::None)
+		{
+			m_resultLogger.logToFile(m_resultFilePath);
+		}
 
 		return ensemble;
 	}
 	catch (const std::exception& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
-		std::cout << e.what() << "\n";
 		throw;
 	}
 }
@@ -170,7 +170,10 @@ void BigSetsEnsemble::logResults(std::shared_ptr<phd::svm::EnsembleListSvm> tree
 
 	auto resultFilePath = m_resultFilePath;
 	resultFilePath += "_all_trees.txt";
-	m_resultLogger.logToFile(resultFilePath);
+	if(m_config.verbosity != platform::Verbosity::None)
+	{
+		m_resultLogger.logToFile(resultFilePath);
+	}
 }
 
 std::pair<double, int> BigSetsEnsemble::evaluateEnsemble(const dataset::Dataset<std::vector<float>, float>& dataset, bool testSet,
@@ -558,7 +561,7 @@ std::shared_ptr<phd::svm::ListNodeSvm> BigSetsEnsemble::trainHelperNewDatasetFlo
 			{
 				try
 				{
-					std::cout << "ID:" << m_listLength << "\n";
+					//std::cout << "ID:" << m_listLength << "\n";
 					auto configurationForNode = EnsembleTreeWorkflowConfig(m_full_config, datasets);
 
 					bool newDatasetFlow = true;
@@ -641,7 +644,6 @@ std::shared_ptr<phd::svm::ListNodeSvm> BigSetsEnsemble::trainHelperNewDatasetFlo
 				catch (const std::exception& e)
 				{
 					LOG_F(ERROR, "Error: %s", e.what());
-					std::cout << e.what();
 					throw;
 				}
 
@@ -872,7 +874,6 @@ std::shared_ptr<phd::svm::ListNodeSvm> BigSetsEnsemble::trainHelperNewDatasetFlo
 			catch (const std::exception& e)
 			{
 				LOG_F(ERROR, "Error: %s", e.what());
-				std::cout << e.what();
 				throw;
 			}
 
@@ -906,7 +907,6 @@ std::shared_ptr<phd::svm::ListNodeSvm> BigSetsEnsemble::trainHelperNewDatasetFlo
 	catch (const std::exception& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
-		std::cout << e.what();
 		throw;
 	}
 
@@ -1056,6 +1056,4 @@ std::tuple<dataset::Dataset<std::vector<float>, float>, std::vector<unsigned lon
 	return std::make_tuple(newTraining, newTrainingIds, newValidation, newValidationIds);
 }
 
-
-#pragma optimize("", on)
 } // namespace genetic

@@ -76,6 +76,6 @@ private:
     dataset::Dataset<std::vector<float>, float> m_validationSet;
     dataset::Dataset<std::vector<float>, float> m_testSet;
 
-    static constexpr const char* m_algorithmName = "SSVM";
+    static constexpr const char* m_algorithmName = "SESVM";
 };
 } // namespace genetic

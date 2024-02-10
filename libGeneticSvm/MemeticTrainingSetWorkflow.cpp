@@ -76,14 +76,21 @@ MemeticTraningSetWorkflow::MemeticTraningSetWorkflow(const SvmWokrflowConfigurat
 std::shared_ptr<phd::svm::ISvm> MemeticTraningSetWorkflow::run()
 {
     static unsigned int numberOfRun = 1;
-    auto outputPaht = m_config.outputFolderPath.string();
-    auto  logger = std::make_shared<AllModelsLogger>( numberOfRun++, outputPaht, m_loadingWorkflow );
-    m_allModelsLogger = logger;
+    
+    if(m_config.verbosity == platform::Verbosity::All)
+	{
+        auto outputPaht = m_config.outputFolderPath.string();
+        auto  logger = std::make_shared<AllModelsLogger>( numberOfRun++, outputPaht, m_loadingWorkflow );
+        m_allModelsLogger = logger;
+    }
 
     initialize();
     runGeneticAlgorithm();
-    m_resultLogger.logToFile(std::filesystem::path(m_config.outputFolderPath.string() + m_config.txtLogFilename));
-
+    
+    if(m_config.verbosity != platform::Verbosity::None)
+    {
+        m_resultLogger.logToFile(std::filesystem::path(m_config.outputFolderPath.string() + m_config.txtLogFilename));
+    }
     return (getBestChromosomeInGeneration().getClassifier());
 }
 
@@ -186,7 +193,6 @@ geneticComponents::Population<svmComponents::SvmTrainingSetChromosome> MemeticTr
     catch (const std::exception& exception)
     {
         LOG_F(ERROR, "Error: %s", exception.what());
-        std::cout << exception.what();
         throw;
     }
 	
@@ -258,9 +264,11 @@ void MemeticTraningSetWorkflow::runGeneticAlgorithm()
             {
                 localGlobal->setMode(IsModeLocal);
             }
-
-            logAllModels(testPopulation);
-
+            
+            if(m_config.verbosity == platform::Verbosity::All)
+            {
+                logAllModels(testPopulation);
+            }
             logResults(m_population, testPopulation);
         }
     }
@@ -274,7 +282,7 @@ void MemeticTraningSetWorkflow::initialize()
 {
     static unsigned int numberOfRun = 1;
     auto outputPaht = m_config.outputFolderPath.string();
-    if (m_allModelsLogger == nullptr)
+    if (m_allModelsLogger == nullptr && m_config.verbosity == platform::Verbosity::All)
     {
         auto  logger = std::make_shared<AllModelsLogger>(numberOfRun++, outputPaht, m_loadingWorkflow);
         m_allModelsLogger = logger;
@@ -359,7 +367,6 @@ geneticComponents::Population<svmComponents::SvmTrainingSetChromosome> MemeticTr
     catch (const std::exception& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
-        std::cout << exception.what();
         throw;
     }
 }
@@ -443,13 +450,15 @@ void MemeticTraningSetWorkflow::initializeGeneticAlgorithm()
             m_savePngElement.launch(image, m_pngNameSource);
         }
 
-        logAllModels(testPopulation);
+        if(m_config.verbosity == platform::Verbosity::All)
+        {
+            logAllModels(testPopulation);
+        }
         logResults(m_population, testPopulation);
     }
     catch (const std::exception& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
-		std::cout << exception.what();
 		throw;
     }
 }

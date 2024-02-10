@@ -13,6 +13,7 @@ AlgaWorkflow::AlgaWorkflow(const SvmWokrflowConfiguration& config,
     , m_kernelOptimization(std::move(algorithmConfig.m_kernelOptimization))
     , m_resultFilePath(std::filesystem::path(config.outputFolderPath.string() + config.txtLogFilename))
     , m_algorithmConfig(std::move(algorithmConfig))
+    , m_generalConfig(config)
 {
 }
 
@@ -56,7 +57,7 @@ std::shared_ptr<phd::svm::ISvm> AlgaWorkflow::run()
 //
 //    auto gen = 0;
 //
-//	for (int i = 0; i < 2; i++)
+//	for (int i = 0; i < 5; i++)
 //	{
 //        
 //        m_trainingSetOptimization->setTimer(timer);

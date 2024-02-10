@@ -11,7 +11,7 @@ namespace svmComponents
 {
 
 
-#pragma optimize("", off)
+
 
 std::array<std::array<uint32_t, 2>, 2> handleGroups(phd::svm::ISvm& svmModel,
                                                     const dataset::Dataset<std::vector<float>, float>& testSamples)
@@ -40,7 +40,6 @@ std::array<std::array<uint32_t, 2>, 2> handleGroups(phd::svm::ISvm& svmModel,
 	return matrix;
 }
 
-#pragma optimize("", on)
 
 
 std::array<std::array<uint32_t, 2>, 2> handleGroups(const BaseSvmChromosome& individual,

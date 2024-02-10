@@ -147,7 +147,6 @@ void SimultaneousWorkflow::logAllModels(AllModelsLogger& logger)
 			   testbestOneConfustionMatrix);
 }
 
-//#pragma optimize("", off)
 
 void SimultaneousWorkflow::createVisualization()
 {
@@ -162,6 +161,7 @@ std::shared_ptr<phd::svm::ISvm> SimultaneousWorkflow::run()
 {
 	static unsigned int numberOfRun = 1;
 	auto outputPaht = m_config.outputFolderPath.string();
+   
 	AllModelsLogger logger{ numberOfRun, outputPaht, m_workflow };
 
     std::vector<svmComponents::BaseSvmChromosome> classifier;
@@ -178,8 +178,10 @@ std::shared_ptr<phd::svm::ISvm> SimultaneousWorkflow::run()
 	        createVisualization();
         }
 
-        logAllModels(logger);
-
+        if (m_config.verbosity == platform::Verbosity::All)
+        {
+            logAllModels(logger);
+        }
         while (!isFinished())
         {
             performEvolution();
@@ -190,12 +192,19 @@ std::shared_ptr<phd::svm::ISvm> SimultaneousWorkflow::run()
                 createVisualization();
             }
 
-            logAllModels(logger);
+            if (m_config.verbosity == platform::Verbosity::All)
+            {
+                logAllModels(logger);
+            }
         }
 
         classifier.push_back(m_pop.getBestOne()); //return best in here
         logentries.push_back(*m_resultLogger.getLogEntries().crbegin());
-        m_resultLogger.logToFile(m_resultFilePath);
+
+        if (m_config.verbosity != platform::Verbosity::None)
+        {
+            m_resultLogger.logToFile(m_resultFilePath);
+        }
         m_resultLogger.clearLog();
     }
 
@@ -205,17 +214,17 @@ std::shared_ptr<phd::svm::ISvm> SimultaneousWorkflow::run()
         std::ifstream timeOfInitPython(m_config.outputFolderPath.string() + "\\timeOfEnsembleFeatures.txt");
         double time = 0.0;
         timeOfInitPython >> time;
-        std::cout << time << "\n";
+        //std::cout << time << "\n";
         m_timer->decreaseTime(time * 1000); //converting to miliseconds
     }
     
 	if(numberOfRun != 1)
     {
-        std::cout << "SESVM Adding time of feature selection\n";
+        //std::cout << "SESVM Adding time of feature selection\n";
 	    std::ifstream timeOfInitPython(m_config.outputFolderPath.string() + "\\timeOfEnsembleFeatures.txt");
 	    double time = 0.0;
 	    timeOfInitPython >> time;
-	    std::cout << time << "\n";
+	    //std::cout << time << "\n";
 	    m_timer->addTime(time * 1000); //converting to miliseconds
     }
 
@@ -248,19 +257,23 @@ std::shared_ptr<phd::svm::ISvm> SimultaneousWorkflow::run()
     //s.append("\n");
 
     a.push_back(s);
-
-	logger.save(outputPaht + "\\" + std::to_string(numberOfRun) + "\\populationTextLog.txt");
+    
+    if (m_config.verbosity == platform::Verbosity::All)
+	{
+        logger.save(outputPaht + "\\" + std::to_string(numberOfRun) + "\\populationTextLog.txt");
+    }
     //m_resultLogger.logToFile(m_resultFilePath);
 
     m_resultLogger.setEntries(a);
-    m_resultLogger.logToFile(m_resultFilePath);
-    
+    if (m_config.verbosity != platform::Verbosity::None)
+    {
+        m_resultLogger.logToFile(m_resultFilePath);
+    }
+
     numberOfRun++;
 
     return bestOne->getClassifier(); //m_pop.getBestOne().getClassifier(); //return best in here
 }
-
-//#pragma optimize("", on)
 
 void SimultaneousWorkflow::init()
 {   
@@ -435,7 +448,7 @@ void SimultaneousWorkflow::log()
                                   m_generationNumber,
                                   Accuracy(bestOneConfustionMatrix),
                                   m_pop.getBestOne().featureSetSize(),
-					m_pop.getBestOne().trainingSetSize() * 2, //TODO fix for multiclass
+					              m_pop.getBestOne().trainingSetSize() * 2, //TODO fix for multiclass
                                   bestOneConfustionMatrix,
 								  testbestOneConfustionMatrix);
 }

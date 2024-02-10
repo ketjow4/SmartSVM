@@ -44,7 +44,7 @@ void runFeatureSelectionForTimeMeasure(std::filesystem::path treningSetPath)
 	const auto command = std::string(PYTHON_PATH + " featureSelection.py -t "
 		+ treningSetPath.string());
 
-	std::cout << "Starting python script\n";
+	//std::cout << "Starting python script\n";
 
 	const auto [output, ret] = platform::subprocess::launchWithPipe(command);
 	
@@ -52,7 +52,7 @@ void runFeatureSelectionForTimeMeasure(std::filesystem::path treningSetPath)
 
 std::shared_ptr<phd::svm::ISvm> RbfLinearCoevolutionWorkflow::run()
 {
-	runFeatureSelectionForTimeMeasure("");
+	//runFeatureSelectionForTimeMeasure("");
 	
 	auto rbf_linear = std::make_shared<CoevolutionHelper>(m_config, svmComponents::RbfLinearConfig(m_subtreeConfig, m_workflow.getTraningSet()), m_workflow, "RBF_LINEAR_C001", m_subtreeConfig);
 	auto rbf_linear_C01 = std::make_shared<CoevolutionHelper>(m_config, svmComponents::RbfLinearConfig(m_subtreeConfig, m_workflow.getTraningSet()), m_workflow, "RBF_LINEAR_C01", m_subtreeConfig);
@@ -137,12 +137,6 @@ std::shared_ptr<phd::svm::ISvm> RbfLinearCoevolutionWorkflow::run()
 			m_population.erase(m_population.begin() + 3, m_population.end());
 
 			runIndicator = std::vector<bool>(m_population.size(), true);
-
-			//for debugging
-			/*for (auto& pop : m_population)
-			{
-				std::cout << "In population: " << pop->m_algorithmName << "\n";
-			}*/
 		}
 
 		for (auto i = 0u; i < m_population.size(); i++)
@@ -220,13 +214,15 @@ std::shared_ptr<phd::svm::ISvm> RbfLinearCoevolutionWorkflow::run()
 		{
 			return a->getBest().getFitness() < b->getBest().getFitness();
 		});
-	
 
-	for(auto& pop : m_population)
+	if (m_config.verbosity != platform::Verbosity::None)
 	{
-		pop->logToFile();
-	}
 
+		for (auto &pop : m_population)
+		{
+			pop->logToFile();
+		}
+	}
 	//need to sort in descending for saving results
 	std::sort(m_population.begin(), m_population.end(),
 		[](std::shared_ptr<CoevolutionHelper> a, std::shared_ptr<CoevolutionHelper> b)
@@ -290,7 +286,10 @@ std::shared_ptr<phd::svm::ISvm> CoevolutionHelper::run()
 
 	runGeneticAlgorithm();
 
-	logToFile();
+	if(m_config.verbosity != platform::Verbosity::None)
+	{
+		logToFile();
+	}
 	return m_population.getBestOne().getClassifier();
 }
 
@@ -637,7 +636,6 @@ void CoevolutionHelper::getGammasFromGridSearch()
 	catch (const std::exception& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
-		std::cout << exception.what();
 	}
 }
 
@@ -796,12 +794,10 @@ void CoevolutionHelper::initMemetic(bool extendOnRbfToLinear)
 	catch (const svmComponents::EmptySupportVectorPool& exception)
 	{
 		LOG_F(ERROR, "With gamma %f  Error: %s", m_currentGamma, exception.what());
-		std::cout << exception.what();
 	}
 	catch (const std::exception& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
-		std::cout << exception.what();
 		throw;
 	}
 }
@@ -901,12 +897,10 @@ void CoevolutionHelper::memeticAlgorithm()
 	catch (const svmComponents::EmptySupportVectorPool& exception)
 	{
 		LOG_F(ERROR, "With gamma %f  Error: %s", m_currentGamma, exception.what());
-		std::cout << exception.what();
 	}
 	catch (const std::exception& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
-		std::cout << exception.what();
 		throw;
 	}
 }
@@ -1007,13 +1001,11 @@ bool CoevolutionHelper::memeticAlgorithmSingleIteration()
 	catch (const svmComponents::EmptySupportVectorPool& exception)
 	{
 		LOG_F(ERROR, "With gamma %f  Error: %s", m_currentGamma, exception.what());
-		std::cout << exception.what();
 		return true;
 	}
 	catch (const std::exception& exception)
 	{
-		LOG_F(ERROR, "Error: %s", exception.what());
-		std::cout << exception.what();
+		LOG_F(ERROR, "Error: %s", exception.what());	
 		throw;
 	}
 }

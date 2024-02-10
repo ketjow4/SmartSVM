@@ -10,7 +10,7 @@
 #include "libGeneticSvm/SvmWorkflowConfigStruct.h"
 #include "libGeneticSvm/LocalFileDatasetLoader.h"
 
-#include "AppUtils/Verbosity.h"
+#include "libPlatform/Verbosity.h"
 
 namespace testApp
 {
@@ -45,7 +45,7 @@ namespace testApp
 		std::filesystem::path configFile;
 		std::string datafolder;
 		std::string outputFolder;
-		testApp::Verbosity verbosity;
+		platform::Verbosity verbosity;
 	};
 
 	configTestApp parseCommandLineArguments(int argc, char** argv);

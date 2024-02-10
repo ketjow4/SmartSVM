@@ -10,7 +10,6 @@
 #include "libGeneticSvm/IGeneticWorkflow.h"
 #include "libGeneticSvm/GeneticWorkflowResultLogger.h"
 #include "libGeneticSvm/LocalFileDatasetLoader.h"
-//#include "libStrategies/TabularDataProviderStrategy.h"
 #include "libStrategies/FileSinkStrategy.h"
 #include "libSvmStrategies/CreateSvmVisualizationStrategy.h"
 #include "libGeneticStrategies/CreatePopulationStrategy.h"
@@ -53,6 +52,7 @@ public:
     geneticComponents::Population<svmComponents::SvmTrainingSetChromosome> initNoEvaluate(int /*popSize*/) override { throw; }
     void performGeneticOperations(geneticComponents::Population<svmComponents::SvmTrainingSetChromosome>& /*population*/) override{}
     unsigned int getInitialTrainingSetSize() override;
+   
     void setK(unsigned int /*k*/) override
     {
        throw std::exception("Not implemented K setting in GaSvmWorkflow");
@@ -109,7 +109,6 @@ private:
     unsigned int m_generationNumber;
     
     const SvmWokrflowConfiguration m_config;
-    //logger::LogFrontend m_logger;
     GeneticWorkflowResultLogger m_resultLogger;
 
     static constexpr const char* m_algorithmName = "GASVM ";

@@ -151,7 +151,7 @@ Metric SvmHyperplaneDistance::calculateMetric(const BaseSvmChromosome& /*individ
 	//}
 }
 
-//#pragma optimize("", off)
+
 void SvmHyperplaneDistance::classifySet(std::shared_ptr<phd::svm::ISvm> svmModel,
                                         gsl::span<const float> targets,
                                         gsl::span<const std::vector<float>> samples,
@@ -187,7 +187,6 @@ void SvmHyperplaneDistance::classifySet(std::shared_ptr<phd::svm::ISvm> svmModel
 	std::sort(results.begin(), results.end(), [&](const SvmAnswer& a, const SvmAnswer& b) { return a.m_sumAnswer < b.m_sumAnswer;  });
 }
 
-//#pragma optimize("", on)
 
 void SvmHyperplaneDistance::setThresholds(std::shared_ptr<phd::svm::ISvm> svmModel, 
 	double& max_distance_raw, 
@@ -215,7 +214,7 @@ void SvmHyperplaneDistance::setThresholds(std::shared_ptr<phd::svm::ISvm> svmMod
 	res->setCertaintyThreshold(min_distance_raw, max_distance_raw, min_distance_normalized, max_distance_normalized);
 }
 
-//#pragma optimize("", off)
+
 
 
 //original version of metric calculation
@@ -309,7 +308,7 @@ void SvmHyperplaneDistance::setThresholds(std::shared_ptr<phd::svm::ISvm> svmMod
 //}
 //
 
-//#pragma optimize("", off)
+
 
 Metric SvmHyperplaneDistance::calculateMetric(const BaseSvmChromosome& individual, const dataset::Dataset<std::vector<float>, float>& testSamples,
 	bool /*isTestSet*/) const
@@ -744,7 +743,6 @@ Metric SvmHyperplaneDistance::calculateMetric(const BaseSvmChromosome& individua
 
 
 
-//#pragma optimize("", off)
 
 //void SvmHyperplaneDistance::calculateThresholds(const BaseSvmChromosome& individual, const dataset::Dataset<std::vector<float>, float>& testSamples)
 //{
@@ -1353,5 +1351,4 @@ void SvmHyperplaneDistance::calculateThresholds(const BaseSvmChromosome& individ
 	}*/
 }
 
-#pragma optimize("", on)
 } // namespace svmComponents

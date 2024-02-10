@@ -272,10 +272,10 @@ void GridSearchWorkflow::doGridSearch(const dataset::Dataset<std::vector<float>,
 			});
 
 
-		// if(m_config.verbosity == testApp::Verbosity::Standard || m_config.verbosity == testApp::Verbosity::All)
-		// {
-		// 	log("gridSearchFitnessLog_subset" + std::to_string(m_algorithmConfig.m_subsetSize), m_config, populationValidationFitness);
-		// }
+		if(m_config.verbosity == platform::Verbosity::Standard || m_config.verbosity == platform::Verbosity::All)
+		{
+			log("gridSearchFitnessLog_subset" + std::to_string(m_algorithmConfig.m_subsetSize), m_config, populationValidationFitness);
+		}
 		
 		//used these results in initialization of custom gammas
 		getValuesForCustomKernel(populationValidationFitness);

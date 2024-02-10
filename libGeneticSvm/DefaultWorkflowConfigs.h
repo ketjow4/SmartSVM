@@ -86,7 +86,7 @@ public:
     static const std::vector<std::string>& getAllGridsNames();
 };
 
-class DefaultSSVMConfig
+class DefaultSESVMConfig
 {
 public:
     static platform::Subtree getDefault();

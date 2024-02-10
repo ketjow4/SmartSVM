@@ -17,7 +17,6 @@ set(Headers
     "../AppUtils/framework.h"
     "../AppUtils/pch.h"
     "../AppUtils/PythonFeatureSelection.h"
-    "../AppUtils/Verbosity.h"
     "../extern/cxxopts/cxxopts.hpp"
 )
 source_group("Headers" FILES ${Headers})

@@ -1,4 +1,3 @@
-//#include "libStrategies/TabularDataProviderStrategy.h"
 #include "libStrategies/FileSinkStrategy.h"
 #include "libGeneticStrategies/CreatePopulationStrategy.h"
 #include "libSvmComponents/SvmValidationStrategy.h"
@@ -56,14 +55,21 @@ GeneticKernelEvolutionWorkflow::GeneticKernelEvolutionWorkflow(const SvmWokrflow
 std::shared_ptr<phd::svm::ISvm> GeneticKernelEvolutionWorkflow::run()
 {
 	static unsigned int numberOfRun = 1;
-	auto outputPaht = m_config.outputFolderPath.string();
-	auto logger = std::make_shared<AllModelsLogger>(numberOfRun++, outputPaht, m_loadingWorkflow);
-	m_allModelsLogger = logger;
-
+	
+	if(m_config.verbosity == platform::Verbosity::All)
+	{
+		auto outputPath = m_config.outputFolderPath.string();
+		auto logger = std::make_shared<AllModelsLogger>(numberOfRun++, outputPath, m_loadingWorkflow);
+		m_allModelsLogger = logger;
+	}
 	initialize();
 	runGeneticAlgorithm();
 
-	m_resultLogger.logToFile(std::filesystem::path(m_config.outputFolderPath.string() + m_config.txtLogFilename));
+
+	if(m_config.verbosity != platform::Verbosity::None)
+	{
+		m_resultLogger.logToFile(std::filesystem::path(m_config.outputFolderPath.string() + m_config.txtLogFilename));
+	}
 
 	return (getBestChromosomeInGeneration().getClassifier());
 }
@@ -111,13 +117,16 @@ void GeneticKernelEvolutionWorkflow::initializeGeneticAlgorithm()
 			m_savePngElement.launch(image, m_pngNameSource);
 		}
 
-		logAllModels(population, testPopulation);
+		if(m_config.verbosity == platform::Verbosity::All)
+		{
+			logAllModels(population, testPopulation);
+		}
+	
 		logResults(population, testPopulation);
 	}
 	catch (const std::exception& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
-		std::cout << exception.what();
 	}
 }
 
@@ -186,7 +195,11 @@ void GeneticKernelEvolutionWorkflow::runGeneticAlgorithm()
 				m_savePngElement.launch(image, m_pngNameSource);
 			}
 
-			logAllModels(m_population, nextGeneration2);
+
+			if(m_config.verbosity == platform::Verbosity::All)
+			{
+				logAllModels(m_population, nextGeneration2);
+			}
 			logResults(m_population, nextGeneration2);
 			isStop = m_stopConditionElement.launch(nextGeneration);
 		}
@@ -194,7 +207,6 @@ void GeneticKernelEvolutionWorkflow::runGeneticAlgorithm()
 	catch (const std::exception& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
-		std::cout << exception.what();
 	}
 }
 
@@ -202,7 +214,7 @@ void GeneticKernelEvolutionWorkflow::initialize()
 {
 	static unsigned int numberOfRun = 1;
 	auto outputPaht = m_config.outputFolderPath.string();
-	if (m_allModelsLogger == nullptr)
+	if (m_allModelsLogger == nullptr && m_config.verbosity == platform::Verbosity::All)
 	{
 		auto logger = std::make_shared<AllModelsLogger>(numberOfRun++, outputPaht, m_loadingWorkflow);
 		m_allModelsLogger = logger;
@@ -272,7 +284,6 @@ geneticComponents::Population<svmComponents::SvmKernelChromosome> GeneticKernelE
 	catch (const std::exception& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
-		std::cout << exception.what();
 		throw;
 	}
 }
@@ -303,11 +314,6 @@ geneticComponents::Population<svmComponents::SvmKernelChromosome> GeneticKernelE
 {
 	try
 	{
-		//auto name = m_fullConfig.getValue<std::string>("Generation.Name");
-
-		//auto s = m_fullConfig.writeToString();
-		//std::cout << s;
-		
 		auto initialKernelParametersRange = svmUtils::getRange("Svm.GeneticKernelEvolution.Generation.Grid", m_fullConfig);
 		auto isRegression = m_fullConfig.getValue<bool>("Svm.GeneticKernelEvolution.Generation.isRegression");
 		auto popGenerator = std::make_unique<SvmKernelGridGeneration>(initialKernelParametersRange,
@@ -323,7 +329,6 @@ geneticComponents::Population<svmComponents::SvmKernelChromosome> GeneticKernelE
 	catch (const std::exception& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
-		std::cout << exception.what();
 		throw;
 	}
 }

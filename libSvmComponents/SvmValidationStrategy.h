@@ -67,7 +67,6 @@ std::string SvmValidationStrategy<chromosome>::getDescription() const
     return "Estimate population fitness based on given estimation method";
 }
 
-//#pragma optimize("", off)
 
 template <class chromosome>
 geneticComponents::Population<chromosome>& SvmValidationStrategy<chromosome>::launch(geneticComponents::Population<chromosome>& population,
@@ -115,7 +114,6 @@ auto SvmValidationStrategy<chromosome>::updateFitness(chromosome& individual, co
     return begin;
 }
 
-//#pragma optimize("", on)
 
 //template <>
 //inline auto SvmValidationStrategy<svmComponents::SvmFeatureSetChromosome>::updateFitness(
