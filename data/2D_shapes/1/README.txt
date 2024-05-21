@@ -1,0 +1,1 @@
+validation is the same as training !!!!
