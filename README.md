@@ -1,7 +1,7 @@
 # SmartSVM
 
 
-How to setup VCPKG manager
+How to setup VCPKG manager --- Not needed anymore
 
 https://thatonegamedev.com/cpp/how-to-manage-dependencies-with-cmake-and-vcpkg/
 
@@ -32,7 +32,7 @@ Do not run this
 - Add python test
 - Add wrapper for all relevant algorithms
 - CI build package on GHA
-- Add our datasets
+- Add our datasets --- Done (at least for 2D datasets), need to fix names
 - Add examples
 - Add python code for analysing the summaries (as used in Phd)
 - Fix SE-SVM (feature selection init) and ECE-SVM (extra tree at the end)

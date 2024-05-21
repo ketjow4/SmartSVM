@@ -1,0 +1,78 @@
+To set up tests and support incremental development for a Python package with a C++ extension built using CMake, you can follow these steps:
+
+1. Use setup.py for Development
+Modify your setup.py to support development installations. This is often done by adding the setuptools.setup() entry with appropriate parameters. For example:
+
+python
+Copy code
+from setuptools import setup, Extension
+
+setup(
+    # ... other setup parameters ...
+
+    ext_modules=[
+        Extension(
+            # Your extension module details here
+        ),
+    ],
+
+    # Add this to enable in-place build for development
+    zip_safe=False,
+)
+2. Use pip install -e for Development
+Install your package in development mode using:
+
+bash
+Copy code
+pip install -e .
+This installs your package in "editable" mode, meaning changes to your source code take effect immediately without requiring reinstallation.
+
+3. Create a Separate tests Directory
+Organize your project by creating a tests directory in the root of your project. Place your test files inside this directory.
+
+4. Use a Testing Framework
+Choose a testing framework for Python, such as pytest. Install it using:
+
+bash
+Copy code
+pip install pytest
+5. Write Tests
+Write your tests using the chosen testing framework. For example:
+
+python
+Copy code
+# tests/test_my_module.py
+
+from my_module import some_function
+
+def test_some_function():
+    assert some_function(2) == 4
+6. Run Tests
+Run your tests using the testing framework. For example:
+
+bash
+Copy code
+pytest tests/
+7. Continuous Testing
+For continuous testing during development, you might use a tool like pytest-watch:
+
+bash
+Copy code
+pip install pytest-watch
+Run continuous tests:
+
+bash
+Copy code
+ptw tests/
+This will automatically re-run your tests whenever you make changes to the source code.
+
+8. Handle CMake Rebuilds
+If you make changes to the C++ code and need to rebuild the extension, you might need to re-run CMake and reinstall the package:
+
+bash
+Copy code
+python setup.py build_ext --inplace
+pip install -e .
+This ensures that the changes to the C++ code take effect.
+
+These steps should help you set up a convenient development and testing environment for your Python package with a C++ extension. Adjust them according to your project structure and preferences.
