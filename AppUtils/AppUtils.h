@@ -16,7 +16,7 @@ namespace testApp
 {
 	std::string getLastLine(std::string folder, std::string filename);
 
-	void createSummaryFile(platform::Subtree& config, std::ofstream& summaryFile, std::vector<std::string>& logFileNames, Verbosity verbosity);
+	void createSummaryFile(platform::Subtree& config, std::ofstream& summaryFile, std::vector<std::string>& logFileNames, platform::Verbosity verbosity);
 	std::string createOutputFolder(std::string& outputFolderName);
 	std::string createOutputFolderWithDetails(std::string& outputFolderName, std::string& expDetails);
 	std::string getLogFilename(int fold, int i, const std::string& configFile);
