@@ -3,7 +3,7 @@
 
 namespace svmComponents
 {
-MemeticCrossover::MemeticCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+MemeticCrossover::MemeticCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                    unsigned int numberOfClasses)
     : TrainingSetCrossover(std::move(rngEngine), numberOfClasses)
 {

@@ -11,14 +11,14 @@ namespace svmComponents
 class CompensationInformation
 {
 public:
-    explicit CompensationInformation(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+    explicit CompensationInformation(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                      unsigned int numberOfClasses);
 
     std::vector<unsigned int> generate(const std::vector<geneticComponents::Parents<SvmTrainingSetChromosome>>& parents,
                                        unsigned int numberOfClassExamples) const;
 
 private:
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     const unsigned int m_numberOfClasses;
 };
 } // namespace svmComponents

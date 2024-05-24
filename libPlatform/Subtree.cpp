@@ -17,7 +17,7 @@
 //         iss << jsonString;
 //         boost::property_tree::read_json(iss, m_root);
 //     }
-//     catch (const std::exception& e)
+//     catch (const std::runtime_error& e)
 //     {
 //         throw RootCreationFailedException(e.what());
 //     }
@@ -39,7 +39,7 @@
 //     {
 //         boost::property_tree::read_json(path.string(), m_root);
 //     }
-//     catch (const std::exception& e)
+//     catch (const std::runtime_error& e)
 //     {
 //         throw RootCreationFailedException(e.what());
 //     }
@@ -142,7 +142,7 @@ Subtree::Subtree(const std::string& jsonString)
     {
         m_root = nlohmann::json::parse(jsonString);
     }
-    catch (const std::exception& e)
+    catch (const std::runtime_error& e)
     {
         throw RootCreationFailedException(e.what());
     }
@@ -166,7 +166,7 @@ Subtree::Subtree(const std::filesystem::path& path)
         std::ifstream file(path);
         m_root = nlohmann::json::parse(file);
     }
-    catch (const std::exception& e)
+    catch (const std::runtime_error& e)
     {
         throw RootCreationFailedException(e.what());
     }
@@ -244,7 +244,7 @@ const nlohmann::json& Subtree::getChild(const std::string& nodeName) const
 
     return *currentNode;
     }
-    catch (const std::exception&)
+    catch (const std::runtime_error&)
     {
         throw ChildNotFoundException(nodeName);
     }

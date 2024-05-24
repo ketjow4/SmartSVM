@@ -24,7 +24,7 @@ std::unique_ptr<geneticComponents::IMutationOperator<SvmKernelChromosome>> SvmMu
     {
         auto maxMutationChangeInPercent = config.getValue<double>("Mutation.ParameterMutation.MaxMutationChangeInPercent");
         auto mutationProbability = config.getValue<double>("Mutation.ParameterMutation.Probability");
-        return std::make_unique<MutationKernelParameters>(std::move(random::RandomNumberGeneratorFactory::create(config)),
+        return std::make_unique<MutationKernelParameters>(std::move(my_random::RandomNumberGeneratorFactory::create(config)),
                                                           platform::Percent(maxMutationChangeInPercent),
                                                           platform::Percent(mutationProbability));
     }

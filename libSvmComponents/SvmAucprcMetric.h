@@ -17,7 +17,7 @@ public:
 
 	Metric calculateMetric(const BaseSvmChromosome& , const dataset::Dataset<std::vector<float>, float>& , bool ) const override
 	{
-		throw std::exception("Not implemented SvmAucprcMetric");
+		throw std::runtime_error("Not implemented SvmAucprcMetric");
 	}
 
 private:

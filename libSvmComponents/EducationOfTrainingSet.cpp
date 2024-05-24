@@ -6,7 +6,7 @@ namespace svmComponents
 {
 EducationOfTrainingSet::EducationOfTrainingSet(platform::Percent educationProbability,
                                                unsigned int numberOfClasses,
-                                               std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+                                               std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                                std::unique_ptr<ISupportVectorSelection> supportVectorSelection)
     : m_educationProbability(educationProbability)
     , m_numberOfClasses(numberOfClasses)

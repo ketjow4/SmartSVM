@@ -79,7 +79,7 @@ void RunAlgorithm(int argc, char* argv[], AlgorithmName algorithmToRun)
 				}
 				case AlgorithmName::GridSearchWithFetureSelection:
 				{
-					throw std::exception("Grid Search With Feature Selection not implemented yet");
+					throw std::runtime_error("Grid Search With Feature Selection not implemented yet");
 					//TODO later, not needed for now
 					//break;
 				}

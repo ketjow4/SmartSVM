@@ -265,7 +265,7 @@ Metric SvmAucMetric::handleGroups(const BaseSvmChromosome& individual, const dat
         else
         {
             LOG_F(ERROR, std::string("Group with ID: " + std::to_string(group) + " not found in dataset during AUC calculation").c_str());
-            throw std::exception("Group not found in dataset during AUC calculation");
+            throw std::runtime_error("Group not found in dataset during AUC calculation");
         }
     }
 

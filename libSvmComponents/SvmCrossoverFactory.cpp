@@ -24,7 +24,7 @@ std::unique_ptr<geneticComponents::BaseCrossoverOperator<SvmKernelChromosome>> S
     {
         auto alphaRange = svmUtils::getRange("Crossover.Heuristic.AlphaRange", config);
         return std::make_unique<HeuristicCrossover>(
-            std::move(random::RandomNumberGeneratorFactory::create(config)),
+            std::move(my_random::RandomNumberGeneratorFactory::create(config)),
             alphaRange);
     }
     default:

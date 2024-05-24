@@ -7,7 +7,7 @@ namespace svmComponents
 {
 using namespace geneticComponents;
 
-SuperIndividualsCreation::SuperIndividualsCreation(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+SuperIndividualsCreation::SuperIndividualsCreation(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                                    unsigned int numberOfClasses)
     : m_rngEngine(std::move(randomNumberGenerator))
     , m_numberOfClasses(numberOfClasses)

@@ -15,7 +15,7 @@ namespace svmComponents
 class MemeticFeatureMutation : public geneticComponents::IMutationOperator<SvmFeatureSetMemeticChromosome>
 {
 public:
-    explicit MemeticFeatureMutation(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+    explicit MemeticFeatureMutation(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                     platform::Percent exchangePercent,
                                     platform::Percent mutationProbability,
                                     const dataset::Dataset<std::vector<float>, float>& trainingSet,
@@ -38,7 +38,7 @@ private:
                                 std::unordered_set<uint64_t>& deleted,
                                 std::vector<std::size_t>& positionsToReplace) const;
 
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     platform::Percent m_mutationProbability;
     platform::Percent m_exchangePercent;
     unsigned int m_numberOfExchanges;
@@ -46,7 +46,7 @@ private:
     unsigned int m_featureNumber;
 };
 
-inline MemeticFeatureMutation::MemeticFeatureMutation(std::unique_ptr<random::IRandomNumberGenerator> rngEngine, platform::Percent exchangePercent,
+inline MemeticFeatureMutation::MemeticFeatureMutation(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine, platform::Percent exchangePercent,
                                                       platform::Percent mutationProbability, const dataset::Dataset<std::vector<float>, float>& trainingSet,
                                                       const std::vector<unsigned>& /*labelsCount*/)
     : m_rngEngine(std::move(rngEngine))

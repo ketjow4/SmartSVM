@@ -15,7 +15,7 @@ class FeaturesSelectionRandomGeneration : public RandomGeneration<binaryChromoso
 public:
     FeaturesSelectionRandomGeneration(unsigned int chromosomeSize,
                              platform::Percent percentageOfFill,
-                             std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator);
+                             std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator);
 private:
     binaryChromosome createIndividual() override;
 
@@ -25,8 +25,8 @@ private:
 template <class binaryChromosome>
 FeaturesSelectionRandomGeneration<binaryChromosome>::FeaturesSelectionRandomGeneration(unsigned chromosomeSize,
                                                                      platform::Percent percentageOfFill,
-                                                                     std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator)
-    : RandomGeneration(chromosomeSize,percentageOfFill,std::move(randomNumberGenerator))
+                                                                     std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator)
+    : RandomGeneration<binaryChromosome>(chromosomeSize,percentageOfFill,std::move(randomNumberGenerator))
 {
 }
 

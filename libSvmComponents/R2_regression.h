@@ -14,7 +14,7 @@ namespace svmComponents
             const dataset::Dataset<std::vector<float>, float>& /*testSamples*/,
 	        bool /*isTestSet*/) const override
     	{
-            throw std::exception("Not implemented R2 regression ");
+            throw std::runtime_error("Not implemented R2 regression ");
     	}
     };
 } // namespace svmComponents

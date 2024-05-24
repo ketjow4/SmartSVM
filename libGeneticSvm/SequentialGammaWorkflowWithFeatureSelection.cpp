@@ -71,8 +71,8 @@ public:
 		return m_test;
 	}
 	bool isDataLoaded() const override { return true; }
-	const std::vector<float>& scalingVectorMin() override { throw std::exception("Not implemented scalingVectorMin SequentialGammaWorkflowWithFeatureSelection"); }
-	const std::vector<float>& scalingVectorMax() override { throw std::exception("Not implemented scalingVectorMax SequentialGammaWorkflowWithFeatureSelection"); }
+	const std::vector<float>& scalingVectorMin() override { throw std::runtime_error("Not implemented scalingVectorMin SequentialGammaWorkflowWithFeatureSelection"); }
+	const std::vector<float>& scalingVectorMax() override { throw std::runtime_error("Not implemented scalingVectorMax SequentialGammaWorkflowWithFeatureSelection"); }
 
 private:
 	const FeatureSetOptimizationWorkflow m_featureSetOptimization;
@@ -131,7 +131,7 @@ void SequentialGammaWorkflowWithFeatureSelection::initializeGeneticAlgorithm()
 
 		
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what();
@@ -752,7 +752,7 @@ void SequentialGammaWorkflowWithFeatureSelection::runGeneticAlgorithm()
 			buildEnsembleFromLastGeneration();
 		}
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what();
@@ -857,7 +857,7 @@ void SequentialGammaWorkflowWithFeatureSelection::initMemetic()
 		//logAllModels(testPopulation);
 		logResults(m_populationWithFeatures, testPopulation);
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what();
@@ -992,7 +992,7 @@ void SequentialGammaWorkflowWithFeatureSelection::memeticAlgorithm()
 			}
 		}
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what();

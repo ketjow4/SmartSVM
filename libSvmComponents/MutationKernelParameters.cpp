@@ -7,7 +7,7 @@
 
 namespace svmComponents
 {
-MutationKernelParameters::MutationKernelParameters(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+MutationKernelParameters::MutationKernelParameters(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                                    platform::Percent maxPercentChange,
                                                    platform::Percent mutationProbability)
     : m_rngEngine(std::move(rngEngine))

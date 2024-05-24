@@ -4,7 +4,7 @@
 
 namespace svmComponents
 {
-CompensationInformation::CompensationInformation(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+CompensationInformation::CompensationInformation(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                                  unsigned int numberOfClasses)
     : m_rngEngine(std::move(randomNumberGenerator))
     , m_numberOfClasses(numberOfClasses)

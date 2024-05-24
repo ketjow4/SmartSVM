@@ -6,7 +6,7 @@
 namespace svmComponents
 {
 MultipleGammaGeneration::MultipleGammaGeneration(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-	std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+	std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 	unsigned int numberOfClassExamples,
 	const std::vector<unsigned int>& labelsCount)
 	: m_trainingSet(trainingSet)
@@ -100,7 +100,7 @@ geneticComponents::Population<SvmCustomKernelChromosome> MultipleGammaGeneration
 
 
 MultipleGammaCrossoverCompensation::MultipleGammaCrossoverCompensation(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-		std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+		std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 		unsigned int numberOfClasses)
 		: m_trainingSet(trainingSet)
 		, m_rngEngine(std::move(rngEngine))
@@ -181,7 +181,7 @@ geneticComponents::Population<SvmCustomKernelChromosome> MultipleGammaCrossoverC
 
 MultipleGammaEducationOfTrainingSet::MultipleGammaEducationOfTrainingSet(platform::Percent educationProbability,
 		unsigned int numberOfClasses,
-		std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+		std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
 		std::unique_ptr<ISupportVectorSelectionGamma> supportVectorSelection)
 		: m_educationProbability(educationProbability)
 		, m_numberOfClasses(numberOfClasses)
@@ -402,7 +402,7 @@ void MultipleGammaSupportVectorPool::addSupportVectors(const SvmCustomKernelChro
 
 using namespace geneticComponents;
 
-MultipleGammaSuperIndividualsCreation::MultipleGammaSuperIndividualsCreation(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+MultipleGammaSuperIndividualsCreation::MultipleGammaSuperIndividualsCreation(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
 	unsigned int numberOfClasses)
 	: m_rngEngine(std::move(randomNumberGenerator))
 	, m_numberOfClasses(numberOfClasses)
@@ -623,7 +623,7 @@ Population<SvmCustomKernelChromosome> MultipleGammaSuperIndividualsCreation::cre
 	}
 
 
-	MultipleGammaCompensationInformation::MultipleGammaCompensationInformation(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+	MultipleGammaCompensationInformation::MultipleGammaCompensationInformation(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
 		unsigned int numberOfClasses)
 		: m_rngEngine(std::move(randomNumberGenerator))
 		, m_numberOfClasses(numberOfClasses)
@@ -661,7 +661,7 @@ Population<SvmCustomKernelChromosome> MultipleGammaSuperIndividualsCreation::cre
 
 
 
-	MultipleGammaMutation::MultipleGammaMutation(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+	MultipleGammaMutation::MultipleGammaMutation(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 		platform::Percent exchangePercent,
 		platform::Percent mutationProbability,
 		const dataset::Dataset<std::vector<float>, float>& trainingSet,

@@ -46,7 +46,7 @@ std::shared_ptr<svmStrategies::IValidationSubsetSelection<chromosome>> Validatio
 	{
 		auto percentSize = platform::Percent(config.getValue<double>("Validation.RandomSubsetPercent"));
 		return std::make_shared<svmStrategies::RandomSubsetPerIteration<chromosome>>(percentSize,
-		                                                                             std::move(random::RandomNumberGeneratorFactory::create(config)));
+		                                                                             std::move(my_random::RandomNumberGeneratorFactory::create(config)));
 	}
 	default:
 		throw UnknownEnumType(name, typeid(svmStrategies::IValidationStrategy<SvmTrainingSetChromosome>).name());

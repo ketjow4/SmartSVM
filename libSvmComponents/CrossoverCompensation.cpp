@@ -6,7 +6,7 @@
 namespace svmComponents
 {
 CrossoverCompensation::CrossoverCompensation(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                             std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                                             std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                              unsigned int numberOfClasses)
     : m_trainingSet(trainingSet)
     , m_rngEngine(std::move(rngEngine))

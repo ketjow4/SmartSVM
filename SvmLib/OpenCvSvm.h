@@ -57,12 +57,12 @@
 
 //     std::unordered_map<int, int> classifyGroups(const dataset::Dataset<std::vector<float>, float>& /*dataWithGroups*/) const
 //     {
-//         throw std::exception("Classyfing groups not implemented in OpenCvSvm");
+//         throw std::runtime_error("Classyfing groups not implemented in OpenCvSvm");
 //     }
 
 //     std::unordered_map<int, float> classifyGroupsRawScores(const dataset::Dataset<std::vector<float>, float>& /*dataWithGroups*/) const override
 //     {
-//         throw std::exception("classifyGroupsRawScores not implemented in OpenCvSvm");
+//         throw std::runtime_error("classifyGroupsRawScores not implemented in OpenCvSvm");
 //     }
 
 //     void train(cv::Ptr<cv::ml::TrainData> trainingSet) const;
@@ -76,11 +76,11 @@
 
 //     float classifyWithCertainty(const gsl::span<const float> /*sample*/) const override
 //     {
-//         throw std::exception("Not implemented EnsembleSVM classifyWithCertainty");
+//         throw std::runtime_error("Not implemented EnsembleSVM classifyWithCertainty");
 //     }
 
-//     double getT() const override { throw std::exception("Not implemented"); }
-//     void setT(double /*value*/) override { throw std::exception("Not implemented"); }
+//     double getT() const override { throw std::runtime_error("Not implemented"); }
+//     void setT(double /*value*/) override { throw std::runtime_error("Not implemented"); }
 
 // private:
 //     double sigmoidPredict(float decisionValue) const;
@@ -90,7 +90,7 @@
 // public:
 //     std::shared_ptr<ISvm> clone() override
 //     {
-//         throw std::exception("Not implemented clone in OpenCvSvm");
+//         throw std::runtime_error("Not implemented clone in OpenCvSvm");
 //     }
 
     

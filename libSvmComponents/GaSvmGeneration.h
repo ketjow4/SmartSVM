@@ -14,7 +14,7 @@ class GaSvmGeneration : public geneticComponents::IPopulationGeneration<SvmTrain
 {
 public:
     explicit GaSvmGeneration(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                             std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                             std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                              unsigned int numberOfClassExamples,
                              const std::vector<unsigned int>& labelsCount);
 
@@ -22,7 +22,7 @@ public:
 
 private:
     const dataset::Dataset<std::vector<float>, float>& m_trainingSet;
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     unsigned int m_numberOfClassExamples;
     unsigned int m_numberOfClasses;
 };
@@ -33,7 +33,7 @@ class GaSvmGenerationWithForbbidenSet : public geneticComponents::IPopulationGen
 {
 public:
 	explicit GaSvmGenerationWithForbbidenSet(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-	                                         std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+	                                         std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 	                                         unsigned int numberOfClassExamples,
 	                                         const std::vector<unsigned int>& labelsCount);
 
@@ -61,7 +61,7 @@ public:
 
 private:
 	dataset::Dataset<std::vector<float>, float> m_trainingSet;
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	unsigned int m_numberOfClassExamples;
 	unsigned int m_numberOfClasses;
 	std::unordered_set<uint64_t> m_forbiddenIds;

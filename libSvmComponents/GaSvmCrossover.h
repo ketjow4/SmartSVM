@@ -15,7 +15,7 @@ class GaSvmCrossover : public TrainingSetCrossover
 public:
     using chromosomeType = SvmTrainingSetChromosome;
 
-    explicit GaSvmCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+    explicit GaSvmCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                             unsigned int numberOfClasses);
 
     chromosomeType crossoverChromosomes(const chromosomeType& parentA, const chromosomeType& parentB) override;

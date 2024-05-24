@@ -93,7 +93,7 @@ namespace genetic
 			//m_gammaRange = gammaTest;
 			//m_CValue = 1000; 
 		}
-		catch (const std::exception& exception)
+		catch (const std::runtime_error& exception)
 		{
 			LOG_F(ERROR, "Error: %s", exception.what());
 		}
@@ -204,7 +204,7 @@ namespace genetic
 
 			logResults(m_population, testPopulation);
 		}
-		catch (const std::exception& exception)
+		catch (const std::runtime_error& exception)
 		{
 			LOG_F(ERROR, "Error: %s", exception.what());
 			throw;
@@ -294,7 +294,7 @@ namespace genetic
 				logResults(m_population, testPopulation);
 			}
 		}
-		catch (const std::exception& exception)
+		catch (const std::runtime_error& exception)
 		{
 			LOG_F(ERROR, "Error: %s", exception.what());
 			std::cout << exception.what();

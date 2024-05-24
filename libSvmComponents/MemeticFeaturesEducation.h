@@ -17,7 +17,7 @@ public:
 
     MemeticFeaturesEducation(platform::Percent educationProbability,
                              unsigned int numberOfClasses,
-                             std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+                             std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                              std::unique_ptr<IFeatureSelection> supportVectorSelection);
 
     void educatePopulation(geneticComponents::Population<SvmFeatureSetMemeticChromosome>& population,
@@ -40,12 +40,12 @@ private:
 
     platform::Percent m_educationProbability;
     const unsigned int m_numberOfClasses;
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     std::unique_ptr<IFeatureSelection> m_featureSelection;
 };
 
 inline MemeticFeaturesEducation::MemeticFeaturesEducation(platform::Percent educationProbability, unsigned numberOfClasses,
-                                                          std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+                                                          std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                                           std::unique_ptr<IFeatureSelection> supportVectorSelection)
     : m_educationProbability(educationProbability)
     , m_numberOfClasses(numberOfClasses)

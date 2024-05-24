@@ -36,7 +36,7 @@ PopulationGeneration<SvmTrainingSetChromosome> SvmTrainingSetPopulationFactory::
 		auto numberOfClassExamples = getNumberOfClassExamples2(config.getValue<unsigned int>("NumberOfClassExamples"), labelsCount); //fix for small highly imbalanced datasets
 		//auto numberOfClassExamples = config.getValue<unsigned int>("NumberOfClassExamples");
 		return std::make_unique<GaSvmGeneration>(trainingSet,
-		                                         std::move(random::RandomNumberGeneratorFactory::create(config)),
+		                                         std::move(my_random::RandomNumberGeneratorFactory::create(config)),
 		                                         numberOfClassExamples,
 		                                         labelsCount);
 	}
@@ -44,7 +44,7 @@ PopulationGeneration<SvmTrainingSetChromosome> SvmTrainingSetPopulationFactory::
 	{
 		auto numberOfClassExamples = config.getValue<unsigned int>("NumberOfClassExamples");
 		return std::make_unique<GaSvmGenerationRegression>(trainingSet,
-		                                                   std::move(random::RandomNumberGeneratorFactory::create(config)),
+		                                                   std::move(my_random::RandomNumberGeneratorFactory::create(config)),
 		                                                   numberOfClassExamples,
 		                                                   labelsCount);
 	}
@@ -54,7 +54,7 @@ PopulationGeneration<SvmTrainingSetChromosome> SvmTrainingSetPopulationFactory::
 
 		auto numberOfClassExamples = config.getValue<unsigned int>("NumberOfClassExamples");
 		return std::make_unique<GenerationWithAdditionalExamples>(trainingSet,
-			std::move(random::RandomNumberGeneratorFactory::create(config)),
+			std::move(my_random::RandomNumberGeneratorFactory::create(config)),
 			numberOfClassExamples,
 			labelsCount,
 			*a);

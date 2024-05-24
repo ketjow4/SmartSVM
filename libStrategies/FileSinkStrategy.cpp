@@ -1,4 +1,6 @@
-
+#include <utility>
+#include <vector>
+#include <string>
 
 #include "StrategiesExceptions.h"
 #include "FileSinkStrategy.h"
@@ -18,7 +20,7 @@ void FileSinkStrategy::launch(gsl::span<unsigned char> data, const std::filesyst
         filesystem::DiskFile file(filePath, "wb");
         file.write(data);
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
 	{
 		handleException(exception);
 	}
@@ -53,7 +55,7 @@ void FileSinkStrategy::launch(std::vector<std::pair<std::vector<unsigned char>, 
 			file.write(gsl::make_span(image));
 		}
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		handleException(exception);
 	}
@@ -63,7 +65,7 @@ void FileSinkStrategy::launch(std::vector<std::pair<std::vector<unsigned char>, 
 	}
 }
 
-void FileSinkStrategy::handleException(const std::exception& /*exception*/)
+void FileSinkStrategy::handleException(const std::runtime_error& /*exception*/)
 {
    //m_logger.LOG(logger::LogLevel::Error, exception.what());
 }

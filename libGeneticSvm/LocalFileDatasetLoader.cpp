@@ -184,7 +184,7 @@ void LocalFileDatasetLoader::loadDataAndNormalize()
 				//std::vector<float> trainingGroups;
 				//std::vector<float> validationGroups;
 
-				auto rngEngine = std::make_unique<random::MersenneTwister64Rng>(0);
+				auto rngEngine = std::make_unique<my_random::MersenneTwister64Rng>(0);
 				auto randomID = std::uniform_int_distribution<int>(0, static_cast<int>(joined_tr_val.size() - 1));
 
 				int numberOfExamples = 0;
@@ -237,7 +237,7 @@ void LocalFileDatasetLoader::loadDataAndNormalize()
 		m_isDataLoaded = true;
 		LOG_F(INFO, "Successful loaded and normalized datasets");
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		//std::cout << exception.what();

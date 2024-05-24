@@ -41,7 +41,7 @@
 //        m_gridSearchElement->setInputConnection(0, m_validationSource);
 //        m_gridSearchElement->setInputConnection(1, m_testSource);
 //    }
-//    catch (const std::exception& exception)
+//    catch (const std::runtime_error& exception)
 //    {
 //        m_logger.LOG(logger::LogLevel::Error, exception.what());
 //    }
@@ -104,7 +104,7 @@
 //            m_testSource.reset();
 //        }
 //    }
-//    catch (const std::exception& exception)
+//    catch (const std::runtime_error& exception)
 //    {
 //        m_logger.LOG(logger::LogLevel::Error, exception.what());
 //    }
@@ -145,7 +145,7 @@
 //        m_pngFileElement->setInputConnection(0, m_gridSearchElement->getOutputPort(1));
 //        m_pngFileElement->setInputConnection(1, m_pngNameSource);
 //    }
-//    catch (const std::exception& exception)
+//    catch (const std::runtime_error& exception)
 //    {
 //        m_logger.LOG(logger::LogLevel::Error, exception.what());
 //    }

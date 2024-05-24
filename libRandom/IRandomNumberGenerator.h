@@ -2,7 +2,7 @@
 #pragma once
 #include <random>
 
-namespace random
+namespace my_random
 {
 class IRandomNumberGenerator
 {
@@ -15,4 +15,4 @@ public:
 
     virtual bool getRandom(std::bernoulli_distribution& distribution) = 0;
 };
-} // namespace random
+} // namespace my_random

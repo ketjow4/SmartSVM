@@ -4,7 +4,7 @@
 
 namespace svmComponents
 {
-GaSvmCrossover::GaSvmCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+GaSvmCrossover::GaSvmCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                unsigned int numberOfClasses)
     : TrainingSetCrossover(std::move(rngEngine), numberOfClasses)
 {

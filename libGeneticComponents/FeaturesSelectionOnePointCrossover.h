@@ -12,7 +12,7 @@ template <class binaryChromosome>
 class FeaturesSelectionOnePointCrossover : public OnePointCrossover<binaryChromosome>
 {
 public:
-    explicit FeaturesSelectionOnePointCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine);
+    explicit FeaturesSelectionOnePointCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine);
 
     binaryChromosome crossoverChromosomes(const binaryChromosome& parentA, const binaryChromosome& parentB) override;
 
@@ -21,8 +21,8 @@ private:
 };
 
 template <class binaryChromosome>
-FeaturesSelectionOnePointCrossover<binaryChromosome>::FeaturesSelectionOnePointCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine)
-    : OnePointCrossover(std::move(rngEngine))
+FeaturesSelectionOnePointCrossover<binaryChromosome>::FeaturesSelectionOnePointCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine)
+    : OnePointCrossover<binaryChromosome>(std::move(rngEngine))
 {
 }
 

@@ -9,7 +9,7 @@ template<typename Sample, typename Label>
 class IReadOnlyDataset
 {
 protected:
-    using size_type = std::size_t;
+    using size_type = typename std::size_t;
 public:
     virtual ~IReadOnlyDataset() = default;
 

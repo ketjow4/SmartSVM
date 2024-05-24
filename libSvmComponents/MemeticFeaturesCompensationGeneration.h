@@ -10,12 +10,12 @@ namespace svmComponents
 class MemeticFeaturesCompensationGeneration
 {
 public:
-    explicit MemeticFeaturesCompensationGeneration(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator);
+    explicit MemeticFeaturesCompensationGeneration(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator);
 
     std::vector<unsigned int> generate(const std::vector<geneticComponents::Parents<SvmFeatureSetMemeticChromosome>>& parents,
                                        unsigned int numberOfClassExamples) const;
 
 private:
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 };
 } // namespace svmComponents

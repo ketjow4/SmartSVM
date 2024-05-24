@@ -5,7 +5,7 @@
 
 namespace svmComponents
 {
-TrainingSetCrossover::TrainingSetCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+TrainingSetCrossover::TrainingSetCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                            unsigned numberOfClasses)
     : m_rngEngine(std::move(rngEngine))
     , m_numberOfClasses(numberOfClasses)

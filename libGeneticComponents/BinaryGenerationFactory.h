@@ -48,7 +48,7 @@ std::unique_ptr<IPopulationGeneration<chromosome>> BinaryGenerationFactory::crea
         return std::make_unique<RandomGeneration<chromosome>>(
             chromosomeSize,
             platform::Percent(percentageOfFill),
-            std::move(random::RandomNumberGeneratorFactory::create(config)));
+            std::move(my_random::RandomNumberGeneratorFactory::create(config)));
     }
     case BinaryGeneration::FeaturesSelectionRandom:
     {
@@ -56,7 +56,7 @@ std::unique_ptr<IPopulationGeneration<chromosome>> BinaryGenerationFactory::crea
         return std::make_unique<FeaturesSelectionRandomGeneration<chromosome>>(
             chromosomeSize,
             platform::Percent(percentageOfFill),
-            std::move(random::RandomNumberGeneratorFactory::create(config)));
+            std::move(my_random::RandomNumberGeneratorFactory::create(config)));
     }
     default:
         throw UnknownEnumType(name, typeid(BinaryGeneration).name());

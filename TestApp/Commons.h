@@ -128,7 +128,7 @@ inline uint32_t getFoldNumberFromFolder(const std::filesystem::path folder)
 	if (isNumber(value.string()))
 		return std::stoi(value);
 	else
-		throw std::exception(std::string("Fold folder consist non digit characters. Path: " + folder.string()).c_str());
+		throw std::runtime_error(std::string("Fold folder consist non digit characters. Path: " + folder.string()).c_str());
 }
 
 
@@ -309,7 +309,7 @@ inline void createDASVM_Variants_Configs(std::string folder, uint32_t fold, std:
 	}
 	else
 	{
-		throw std::exception("Selected variant of DASVM algorithm is not supported right now");
+		throw std::runtime_error("Selected variant of DASVM algorithm is not supported right now");
 	}
 
 	processConfigurationsAndSave(configs1, folder, fold, outputFolder, KernelParams(1, 1), info); //kernel params are default from memetic and evolved in algorithm
@@ -1216,7 +1216,7 @@ inline void runSpecified(std::filesystem::path pathToFold,
 				}
 		}
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
 		std::cout << e.what() << "\n";

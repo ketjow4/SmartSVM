@@ -240,17 +240,17 @@ MemeticTrainingSetEvolutionConfiguration::MemeticTrainingSetEvolutionConfigurati
 	                                                                 m_labelsCount, m_trainingSetInterface))
 	, m_parentSelection(geneticComponents::CrossoverSelectionFactory::create<SvmTrainingSetChromosome>(config))
 	, m_validationMethod(SvmValidationFactory::create<SvmTrainingSetChromosome>(config, *m_svmConfig.m_estimationMethod))
-	, m_compensationGeneration(std::make_shared<CompensationInformation>(random::RandomNumberGeneratorFactory::create(config),
+	, m_compensationGeneration(std::make_shared<CompensationInformation>(my_random::RandomNumberGeneratorFactory::create(config),
 	                                                                     m_numberOfClasses))
 	, m_education(std::make_shared<EducationOfTrainingSet>(platform::Percent(config.getValue<double>("Memetic.EducationProbability")),
 	                                                       m_numberOfClasses,
-	                                                       random::RandomNumberGeneratorFactory::create(config),
+	                                                       my_random::RandomNumberGeneratorFactory::create(config),
 	                                                       std::make_unique<SupportVectorPool>()))
 	, m_compensation(std::make_shared<CrossoverCompensation>(traningSet,
-	                                                         random::RandomNumberGeneratorFactory::create(config),
+	                                                         my_random::RandomNumberGeneratorFactory::create(config),
 	                                                         m_numberOfClasses))
 	, m_supporVectorPool(std::make_shared<SupportVectorPool>())
-	, m_superIndivudualsGeneration(std::make_shared<SuperIndividualsCreation>(random::RandomNumberGeneratorFactory::create(config),
+	, m_superIndivudualsGeneration(std::make_shared<SuperIndividualsCreation>(my_random::RandomNumberGeneratorFactory::create(config),
 	                                                                          m_numberOfClasses))
 	, m_adaptation(std::make_shared<MemeticTrainingSetAdaptation>(config.getValue<bool>("CrossoverSelection.LocalGlobalSelection.IsLocalMode"),
 	                                                              m_initialNumberOfClassExamples,
@@ -296,16 +296,16 @@ MemeticFeatureSetEvolutionConfiguration::MemeticFeatureSetEvolutionConfiguration
 	                                                                       traningSet,
 	                                                                       trainingDataPath, outputPath))
 	, m_parentSelection(geneticComponents::CrossoverSelectionFactory::create<SvmFeatureSetMemeticChromosome>(config))
-	, m_compensationGeneration(std::make_shared<MemeticFeaturesCompensationGeneration>(random::RandomNumberGeneratorFactory::create(config)))
+	, m_compensationGeneration(std::make_shared<MemeticFeaturesCompensationGeneration>(my_random::RandomNumberGeneratorFactory::create(config)))
 	, m_education(std::make_shared<MemeticFeaturesEducation>(platform::Percent(config.getValue<double>("Memetic.EducationProbability")),
 	                                                         m_numberOfClasses,
-	                                                         random::RandomNumberGeneratorFactory::create(config),
+	                                                         my_random::RandomNumberGeneratorFactory::create(config),
 	                                                         std::make_unique<MemeticFeaturesPool>()))
 	, m_compensation(std::make_shared<MemeticFeatureCompensation>(traningSet,
-	                                                              random::RandomNumberGeneratorFactory::create(config),
+	                                                              my_random::RandomNumberGeneratorFactory::create(config),
 	                                                              m_numberOfClasses))
 	, m_supporVectorPool(std::make_shared<MemeticFeaturesPool>())
-	, m_superIndivudualsGeneration(std::make_shared<MemeticFeaturesSuperIndividualsGeneration>(random::RandomNumberGeneratorFactory::create(config),
+	, m_superIndivudualsGeneration(std::make_shared<MemeticFeaturesSuperIndividualsGeneration>(my_random::RandomNumberGeneratorFactory::create(config),
 	                                                                                           m_numberOfClasses))
 	, m_adaptation(std::make_shared<MemeticFeaturesAdaptation>(config.getValue<bool>("CrossoverSelection.LocalGlobalSelection.IsLocalMode"),
 	                                                           m_initialNumberOfClassExamples,
@@ -335,14 +335,14 @@ CustomKernelEvolutionConfiguration::CustomKernelEvolutionConfiguration(const pla
 		config.getValue<std::string>("KernelType"),
 		config.getValue<bool>("TrainAlpha")))
 	, m_stopCondition(geneticComponents::StopConditionFactory::create<SvmCustomKernelChromosome>(config))
-	, m_crossover(std::make_shared<CrossoverCustomGauss>(random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
-	, m_mutation(std::make_shared<MutationCustomGauss>(random::RandomNumberGeneratorFactory::create(config),
+	, m_crossover(std::make_shared<CrossoverCustomGauss>(my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
+	, m_mutation(std::make_shared<MutationCustomGauss>(my_random::RandomNumberGeneratorFactory::create(config),
 	                                                   platform::Percent(config.getValue<double>("Mutation.GaSvm.ExchangePercent")),
 	                                                   platform::Percent(config.getValue<double>("Mutation.GaSvm.MutationProbability")),
 	                                                   traningSet,
 	                                                   m_labelsCount))
 	, m_selection(geneticComponents::SelectionFactory::create<SvmCustomKernelChromosome>(config))
-	, m_populationGeneration(std::make_shared<CusomKernelGeneration>(traningSet, random::RandomNumberGeneratorFactory::create(config), m_numberOfClassExamples,
+	, m_populationGeneration(std::make_shared<CusomKernelGeneration>(traningSet, my_random::RandomNumberGeneratorFactory::create(config), m_numberOfClassExamples,
 	                                                                 m_labelsCount))
 	, m_parentSelection(geneticComponents::CrossoverSelectionFactory::create<SvmCustomKernelChromosome>(config))
 {
@@ -378,7 +378,7 @@ SequentialGammaConfig::SequentialGammaConfig(const platform::Subtree& config,
 				return value;
 
 			}
-			catch (std::exception&)
+			catch (std::runtime_error&)
 			{
 				return 100;
 			}
@@ -388,8 +388,8 @@ SequentialGammaConfig::SequentialGammaConfig(const platform::Subtree& config,
 	                                                       config.getValue<bool>("TrainAlpha")))
 	, m_stopCondition(geneticComponents::StopConditionFactory::create<SvmCustomKernelChromosome>(config))
 	, m_crossover(
-		std::make_shared<CrossoverCustomGauss>(random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
-	, m_mutation(std::make_shared<MutationCustomGaussSequential>(random::RandomNumberGeneratorFactory::create(config),
+		std::make_shared<CrossoverCustomGauss>(my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
+	, m_mutation(std::make_shared<MutationCustomGaussSequential>(my_random::RandomNumberGeneratorFactory::create(config),
 	                                                             platform::Percent(config.getValue<double>("Mutation.GaSvm.ExchangePercent")),
 	                                                             platform::Percent(config.getValue<double>("Mutation.GaSvm.MutationProbability")),
 	                                                             traningSet,
@@ -399,20 +399,20 @@ SequentialGammaConfig::SequentialGammaConfig(const platform::Subtree& config,
 	{
 		if (config.getValue<std::string>("Generation.Name") == "Random")
 		{
-			return std::make_shared<CusomKernelGenerationSequential>(traningSet, random::RandomNumberGeneratorFactory::create(config),
+			return std::make_shared<CusomKernelGenerationSequential>(traningSet, my_random::RandomNumberGeneratorFactory::create(config),
 			                                                         m_numberOfClassExamples,
 			                                                         m_labelsCount);
 		}
 		else if (config.getValue<std::string>("Generation.Name") == "NewKernel")
 		{
-			return std::make_shared<CusomKernelGenerationRbfLinearSequential>(traningSet, random::RandomNumberGeneratorFactory::create(config),
+			return std::make_shared<CusomKernelGenerationRbfLinearSequential>(traningSet, my_random::RandomNumberGeneratorFactory::create(config),
 			                                                                  m_numberOfClassExamples,
 			                                                                  m_labelsCount);
 		}
 
 		LOG_F(ERROR, "Error: Used Random generation in SequentialGamma Algorithm as specified one was not found, Specified: %s",
 		      config.getValue<std::string>("Generation.Name").c_str());
-		return std::make_shared<CusomKernelGenerationSequential>(traningSet, random::RandomNumberGeneratorFactory::create(config),
+		return std::make_shared<CusomKernelGenerationSequential>(traningSet, my_random::RandomNumberGeneratorFactory::create(config),
 		                                                         m_numberOfClassExamples,
 		                                                         m_labelsCount);
 	}())
@@ -420,9 +420,9 @@ SequentialGammaConfig::SequentialGammaConfig(const platform::Subtree& config,
 	, m_validationMethod(SvmValidationFactory::create<SvmCustomKernelChromosome>(config, *m_svmConfig.m_estimationMethod))
 	, m_educationElement(std::make_shared<EducationOfTrainingSetGamma>(platform::Percent(config.getValue<double>("EducationProbability")),
 	                                                                   config.getValue<unsigned int>("NumberOfClasses"),
-	                                                                   random::RandomNumberGeneratorFactory::create(config),
+	                                                                   my_random::RandomNumberGeneratorFactory::create(config),
 	                                                                   std::make_unique<SupportVectorPoolGamma>()))
-	, m_crossoverCompensationElement(traningSet, random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
+	, m_crossoverCompensationElement(traningSet, my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
 	, m_adaptationElement(false,
 	                      m_numberOfClassExamples,
 	                      platform::Percent(config.getValue<double>("PercentOfSupportVectorsThreshold")),
@@ -430,8 +430,8 @@ SequentialGammaConfig::SequentialGammaConfig(const platform::Subtree& config,
 	                      m_labelsCount,
 	                      config.getValue<double>("ThresholdForMaxNumberOfClassExamples"))
 	, m_superIndividualsGenerationElement(
-		std::make_shared<SuperIndividualsCreationGamma>(random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
-	, m_compensationGenerationElement(random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
+		std::make_shared<SuperIndividualsCreationGamma>(my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
+	, m_compensationGenerationElement(my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
 {
 }
 
@@ -453,31 +453,31 @@ MutlipleGammaMASVMConfig::MutlipleGammaMASVMConfig(const platform::Subtree& conf
 		config.getValue<std::string>("KernelType"),
 		config.getValue<bool>("TrainAlpha")))
 	, m_stopCondition(geneticComponents::StopConditionFactory::create<SvmCustomKernelChromosome>(config))
-	, m_crossover(std::make_shared<CrossoverCustomGauss>(random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
-	, m_mutation(std::make_shared<MultipleGammaMutation>(random::RandomNumberGeneratorFactory::create(config),
+	, m_crossover(std::make_shared<CrossoverCustomGauss>(my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
+	, m_mutation(std::make_shared<MultipleGammaMutation>(my_random::RandomNumberGeneratorFactory::create(config),
 	                                                     platform::Percent(config.getValue<double>("Mutation.GaSvm.ExchangePercent")),
 	                                                     platform::Percent(config.getValue<double>("Mutation.GaSvm.MutationProbability")),
 	                                                     traningSet,
 	                                                     m_labelsCount))
 	, m_selection(geneticComponents::SelectionFactory::create<SvmCustomKernelChromosome>(config))
-	, m_populationGeneration(std::make_shared<MultipleGammaGeneration>(traningSet, random::RandomNumberGeneratorFactory::create(config),
+	, m_populationGeneration(std::make_shared<MultipleGammaGeneration>(traningSet, my_random::RandomNumberGeneratorFactory::create(config),
 	                                                                   m_numberOfClassExamples,
 	                                                                   m_labelsCount))
 	, m_parentSelection(geneticComponents::CrossoverSelectionFactory::create<SvmCustomKernelChromosome>(config))
 	, m_validationMethod(SvmValidationFactory::create<SvmCustomKernelChromosome>(config, *m_svmConfig.m_estimationMethod))
 	, m_educationElement(std::make_shared<MultipleGammaEducationOfTrainingSet>(platform::Percent(config.getValue<double>("EducationProbability")),
 	                                                                           config.getValue<unsigned int>("NumberOfClasses"),
-	                                                                           random::RandomNumberGeneratorFactory::create(config),
+	                                                                           my_random::RandomNumberGeneratorFactory::create(config),
 	                                                                           std::make_unique<SupportVectorPoolGamma>()))
-	, m_crossoverCompensationElement(traningSet, random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
+	, m_crossoverCompensationElement(traningSet, my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
 	, m_adaptationElement(false,
 	                      m_numberOfClassExamples,
 	                      platform::Percent(config.getValue<double>("PercentOfSupportVectorsThreshold")),
 	                      config.getValue<unsigned int>("IterationsBeforeModeChange"),
 	                      m_labelsCount,
 	                      config.getValue<double>("ThresholdForMaxNumberOfClassExamples"))
-	, m_superIndividualsGenerationElement(std::make_shared<MultipleGammaSuperIndividualsCreation>(random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
-	, m_compensationGenerationElement(random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
+	, m_superIndividualsGenerationElement(std::make_shared<MultipleGammaSuperIndividualsCreation>(my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
+	, m_compensationGenerationElement(my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
 {
 }
 
@@ -504,8 +504,8 @@ RbfLinearConfig::RbfLinearConfig(const platform::Subtree& config,
 	                                                       config.getValue<bool>("TrainAlpha")))
 	, m_stopCondition(geneticComponents::StopConditionFactory::create<SvmCustomKernelChromosome>(config))
 	, m_crossover(
-		std::make_shared<CrossoverCustomGauss>(random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
-	, m_mutation(std::make_shared<MutationRbfLinear>(random::RandomNumberGeneratorFactory::create(config),
+		std::make_shared<CrossoverCustomGauss>(my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses")))
+	, m_mutation(std::make_shared<MutationRbfLinear>(my_random::RandomNumberGeneratorFactory::create(config),
 	                                                 platform::Percent(config.getValue<double>("Mutation.GaSvm.ExchangePercent")),
 	                                                 platform::Percent(config.getValue<double>("Mutation.GaSvm.MutationProbability")),
 	                                                 traningSet,
@@ -515,14 +515,14 @@ RbfLinearConfig::RbfLinearConfig(const platform::Subtree& config,
 	{
 		if (config.getValue<std::string>("Generation.Name") == "NewKernel")
 		{
-			return std::make_shared<CusomKernelGenerationRbfLinearSequential>(traningSet, random::RandomNumberGeneratorFactory::create(config),
+			return std::make_shared<CusomKernelGenerationRbfLinearSequential>(traningSet, my_random::RandomNumberGeneratorFactory::create(config),
 			                                                                  m_numberOfClassExamples,
 			                                                                  m_labelsCount);
 		}
 
 		LOG_F(ERROR, "Error: Used Random generation in RbfLinear Algorithm as specified one was not found, Specified: %s",
 		      config.getValue<std::string>("Generation.Name").c_str());
-		return std::make_shared<CusomKernelGenerationSequential>(traningSet, random::RandomNumberGeneratorFactory::create(config),
+		return std::make_shared<CusomKernelGenerationSequential>(traningSet, my_random::RandomNumberGeneratorFactory::create(config),
 		                                                         m_numberOfClassExamples,
 		                                                         m_labelsCount);
 	}())
@@ -530,9 +530,9 @@ RbfLinearConfig::RbfLinearConfig(const platform::Subtree& config,
 	, m_validationMethod(SvmValidationFactory::create<SvmCustomKernelChromosome>(config, *m_svmConfig.m_estimationMethod))
 	, m_educationElement(std::make_shared<EducationOfTrainingSetRbfLinear>(platform::Percent(config.getValue<double>("EducationProbability")),
 	                                                                       config.getValue<unsigned int>("NumberOfClasses"),
-	                                                                       random::RandomNumberGeneratorFactory::create(config),
+	                                                                       my_random::RandomNumberGeneratorFactory::create(config),
 	                                                                       std::make_unique<SupportVectorPoolGamma>()))
-	, m_crossoverCompensationElement(traningSet, random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
+	, m_crossoverCompensationElement(traningSet, my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
 	, m_adaptationElement(false,
 	                      m_numberOfClassExamples,
 	                      platform::Percent(config.getValue<double>("PercentOfSupportVectorsThreshold")),
@@ -540,9 +540,9 @@ RbfLinearConfig::RbfLinearConfig(const platform::Subtree& config,
 	                      m_labelsCount,
 	                      config.getValue<double>("ThresholdForMaxNumberOfClassExamples"))
 	, m_superIndividualsGenerationElement(
-		std::make_shared<SuperIndividualsCreationRbfLinear>(random::RandomNumberGeneratorFactory::create(config),
+		std::make_shared<SuperIndividualsCreationRbfLinear>(my_random::RandomNumberGeneratorFactory::create(config),
 		                                                    config.getValue<unsigned int>("NumberOfClasses")))
-	, m_compensationGenerationElement(random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
+	, m_compensationGenerationElement(my_random::RandomNumberGeneratorFactory::create(config), config.getValue<unsigned int>("NumberOfClasses"))
 {
 }
 } // namespace svmComponents

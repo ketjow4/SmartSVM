@@ -5,7 +5,7 @@
 
 namespace svmComponents
 {
-HeuristicCrossover::HeuristicCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+HeuristicCrossover::HeuristicCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                        std::uniform_real_distribution<double> alphaRange)
     : m_rngEngine(std::move(rngEngine))
     , m_alphaRange(std::move(alphaRange))

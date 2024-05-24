@@ -15,7 +15,7 @@ class CusomKernelGenerationSequential : public geneticComponents::IPopulationGen
 {
 public:
 	explicit CusomKernelGenerationSequential(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-	                               std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+	                               std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 	                               unsigned int numberOfClassExamples,
 	                               const std::vector<unsigned int>& labelsCount);
 
@@ -60,7 +60,7 @@ public:
 
 private:
 	dataset::Dataset<std::vector<float>, float> m_trainingSet;
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	unsigned int m_numberOfClassExamples;
 	unsigned int m_numberOfClasses;
 	std::vector<double> m_C;
@@ -76,7 +76,7 @@ class CrossoverCompensationGamma
 {
 public:
 	CrossoverCompensationGamma(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-		std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+		std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 		unsigned int numberOfClasses);
 
 	geneticComponents::Population<SvmCustomKernelChromosome> compensate(geneticComponents::Population<SvmCustomKernelChromosome>& population,
@@ -99,7 +99,7 @@ public:
 
 private:
 	const dataset::Dataset<std::vector<float>, float>& m_trainingSet;
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	unsigned int m_numberOfClasses;
 	double m_gamma;
 	std::unordered_set<uint64_t> m_forbiddenIds;
@@ -116,7 +116,7 @@ public:
 
 	EducationOfTrainingSetGamma(platform::Percent educationProbability,
 		unsigned int numberOfClasses,
-		std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+		std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
 		std::unique_ptr<ISupportVectorSelectionGamma> supportVectorSelection);
 
 	void educatePopulation(geneticComponents::Population<SvmCustomKernelChromosome>& population,
@@ -142,7 +142,7 @@ private:
 
 	platform::Percent m_educationProbability;
 	const unsigned int m_numberOfClasses;
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	std::unique_ptr<ISupportVectorSelectionGamma> m_supportVectorSelection;
 };
 
@@ -186,7 +186,7 @@ private:
 class SuperIndividualsCreationGamma
 {
 public:
-	SuperIndividualsCreationGamma(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+	SuperIndividualsCreationGamma(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
 		unsigned int numberOfClasses);
 
 	geneticComponents::Population<SvmCustomKernelChromosome> createPopulation(uint32_t populationSize,
@@ -209,7 +209,7 @@ private:
 		const std::vector<Gene>& supportVectorPool,
 		unsigned int numberOfClassExamples);
 
-	const std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	const std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	const unsigned int m_numberOfClasses;
 	bool m_imbalancedOrOneClass;
 	double m_Cvalue;
@@ -266,14 +266,14 @@ private:
 class CompensationInformationGamma
 {
 public:
-	explicit CompensationInformationGamma(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+	explicit CompensationInformationGamma(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
 		unsigned int numberOfClasses);
 
 	std::vector<unsigned int> generate(const std::vector<geneticComponents::Parents<SvmCustomKernelChromosome>>& parents,
 		unsigned int numberOfClassExamples) const;
 
 private:
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	const unsigned int m_numberOfClasses;
 };
 
@@ -281,7 +281,7 @@ private:
 class MutationCustomGaussSequential : public IMutationOperator<SvmCustomKernelChromosome>
 {
 public:
-	explicit MutationCustomGaussSequential(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+	explicit MutationCustomGaussSequential(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 		platform::Percent exchangePercent,
 		platform::Percent mutationProbability,
 		const dataset::Dataset<std::vector<float>, float>& trainingSet,
@@ -323,7 +323,7 @@ private:
 	                            std::unordered_set<uint64_t>& deleted,
 	                            std::vector<std::size_t>& positionsToReplace) const;
 
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	platform::Percent m_mutationProbability;
 	platform::Percent m_exchangePercent;
 	unsigned int m_numberOfExchanges;
@@ -337,7 +337,7 @@ private:
 };
 
 
-//inline MutationCustomGaussSequential::MutationCustomGauss(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+//inline MutationCustomGaussSequential::MutationCustomGauss(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 //                                         platform::Percent maxPercentChange,
 //                                         platform::Percent mutationProbability)
 //	: m_rngEngine(std::move(rngEngine))

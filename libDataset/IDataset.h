@@ -10,7 +10,7 @@ template<typename Sample, typename Label>
 class IDataset : public IReadOnlyDataset<Sample, Label>
 {
 public:
-    using IReadOnlyDataset<Sample, Label>::size_type;
+    using size_type = typename IReadOnlyDataset<Sample, Label>::size_type;
 
     virtual ~IDataset() = default;
 

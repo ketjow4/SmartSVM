@@ -12,7 +12,7 @@ namespace svmComponents
 class MemeticCrossover : public TrainingSetCrossover
 {
 public:
-    explicit MemeticCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+    explicit MemeticCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                               unsigned int numberOfClasses);
 
     SvmTrainingSetChromosome crossoverChromosomes(const SvmTrainingSetChromosome& parentA, const SvmTrainingSetChromosome& parentB) override;

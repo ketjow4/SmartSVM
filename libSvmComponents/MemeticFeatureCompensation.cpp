@@ -4,7 +4,7 @@
 namespace svmComponents
 {
 MemeticFeatureCompensation::MemeticFeatureCompensation(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                                       std::unique_ptr<random::IRandomNumberGenerator> rngEngine, unsigned numberOfClasses)
+                                                       std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine, unsigned numberOfClasses)
     : m_trainingSet(trainingSet)
     , m_rngEngine(std::move(rngEngine))
     , m_numberOfClasses(numberOfClasses)

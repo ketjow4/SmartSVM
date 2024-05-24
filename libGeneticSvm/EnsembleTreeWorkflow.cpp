@@ -50,7 +50,7 @@ namespace genetic
 		dataset::Dataset<std::vector<float>, float> newValidation;
 		std::vector<unsigned long long>  newValidationIds;
 
-		auto rngEngine = std::make_unique<random::MersenneTwister64Rng>(0);
+		auto rngEngine = std::make_unique<my_random::MersenneTwister64Rng>(0);
 		auto randomID = std::uniform_int_distribution<int>(0, static_cast<int>(joined_tr_val.size() - 1));
 
 
@@ -506,7 +506,7 @@ std::shared_ptr<phd::svm::ListNodeSvm> EnsembleTreeWorkflow::trainHelperNewDatas
 				//
 				temp->m_svm = svm;
 				}
-				catch (const std::exception& e)
+				catch (const std::runtime_error& e)
 				{
 					LOG_F(ERROR, "Error: %s", e.what());
 					throw;
@@ -734,7 +734,7 @@ std::shared_ptr<phd::svm::ListNodeSvm> EnsembleTreeWorkflow::trainHelperNewDatas
 				validationIDS = std::get<3>(result);
 				}
 			}
-			catch (const std::exception& e)
+			catch (const std::runtime_error& e)
 			{
 				LOG_F(ERROR, "Error: %s", e.what());
 				throw;
@@ -770,7 +770,7 @@ std::shared_ptr<phd::svm::ListNodeSvm> EnsembleTreeWorkflow::trainHelperNewDatas
 
 		return root_;
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
 		throw;
@@ -1079,7 +1079,7 @@ std::shared_ptr<phd::svm::ListNodeSvm> EnsembleTreeWorkflow::trainHelper(std::sh
 		
 		return root_;
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
 		throw;
@@ -1120,7 +1120,7 @@ void EnsembleTreeWorkflow::train(const dataset::Dataset<std::vector<float>, floa
 				}
 				else
 				{
-					throw std::exception("Only single class provided in dataset");
+					throw std::runtime_error("Only single class provided in dataset");
 				}
 			});
 		
@@ -1412,7 +1412,7 @@ EnsembleTreeWorkflow::scoreEnsemble(std::shared_ptr<phd::svm::EnsembleListSvm> e
 
 		ensembleFile.close();
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, exception.what());
 		throw;
@@ -1674,7 +1674,7 @@ std::shared_ptr<phd::svm::ISvm> EnsembleTreeWorkflow::run()
 
 		return tree;
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());		
 		throw;

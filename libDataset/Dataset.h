@@ -38,14 +38,14 @@ private:
 
 template <typename Sample, typename Label, typename Descritpion>
 Dataset<Sample, Label, Descritpion>::Dataset(const gsl::span<const Sample> samples, const gsl::span<const Label> labels, const Descritpion& description)
-    : DatasetBase(samples, labels)
+    : DatasetBase<Sample, Label>(samples, labels)
 {
     m_datasetDescription = description;
 }
 
 template <typename Sample, typename Label, typename Descritpion>
 Dataset<Sample, Label, Descritpion>::Dataset(std::vector<Sample>&& samples, std::vector<Label>&& labels, const Descritpion& description)
-    : DatasetBase(samples, labels)
+    : DatasetBase<Sample, Label>(samples, labels)
 {
     m_datasetDescription = description;
 }
@@ -102,7 +102,7 @@ private:
 
 template <typename Sample, typename Label>
 Dataset<Sample, Label, void>::Dataset(const gsl::span<const Sample> samples, const gsl::span<const Label> labels)
-    : DatasetBase(samples, labels)
+    : DatasetBase<Sample, Label>(samples, labels)
 	, m_hasGroups(false)
 {
     
@@ -110,14 +110,14 @@ Dataset<Sample, Label, void>::Dataset(const gsl::span<const Sample> samples, con
 
 template <typename Sample, typename Label>
 Dataset<Sample, Label, void>::Dataset(std::vector<Sample>&& samples, std::vector<Label>&& labels)
-    : DatasetBase(samples, labels)
+    : DatasetBase<Sample, Label>(samples, labels)
     , m_hasGroups(false)
 {
 }
 
 template <typename Sample, typename Label>
 Dataset<Sample, Label, void>::Dataset(std::vector<Sample>&& samples, std::vector<Label>&& labels, std::vector<float>&& groups)
-    : DatasetBase(samples, labels)
+    : DatasetBase<Sample, Label>(samples, labels)
     , m_hasGroups(true)
 	, m_groups(groups)
 {

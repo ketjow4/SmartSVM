@@ -117,7 +117,7 @@ void DataNormalization::useDefinedMinMax(float min, float max)
     std::cin >> answer;
 	if(answer)
 	{
-        throw std::exception("break by user");
+        throw std::runtime_error("break by user");
 	}*/
 }
 

@@ -119,7 +119,7 @@ geneticComponents::Population<svmComponents::SvmTrainingSetChromosome> createPop
     {
         throw geneticComponents::PopulationIsEmptyException();
     }
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine = std::make_unique<random::MersenneTwister64Rng>(static_cast<unsigned long long>(std::chrono::system_clock::now().time_since_epoch().count()));
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine = std::make_unique<my_random::MersenneTwister64Rng>(static_cast<unsigned long long>(std::chrono::system_clock::now().time_since_epoch().count()));
 
     auto targets = m_trainingSet.getLabels();
     auto trainingSetID = std::uniform_int_distribution<int>(0, static_cast<int>(m_trainingSet.size() - 1));
@@ -195,7 +195,7 @@ geneticComponents::Population<svmComponents::SvmFeatureSetMemeticChromosome> cre
     {
         throw geneticComponents::PopulationIsEmptyException();
     }
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine = std::make_unique<random::MersenneTwister64Rng>(static_cast<unsigned long long>(std::chrono::system_clock::now().time_since_epoch().count()));
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine = std::make_unique<my_random::MersenneTwister64Rng>(static_cast<unsigned long long>(std::chrono::system_clock::now().time_since_epoch().count()));
 
     auto trainingSetID = std::uniform_int_distribution<int>(0, static_cast<int>(m_trainingSet.getSample(0).size() - 1));
     std::vector<svmComponents::SvmFeatureSetMemeticChromosome> population(populationSize);
@@ -236,7 +236,7 @@ geneticComponents::Population<svmComponents::SvmSimultaneousChromosome> RandomSe
     // "Min": "0.0001",
     // "Max": "1000.1"
     //get kernel
-    std::unique_ptr<random::IRandomNumberGenerator> rnd = std::make_unique<random::MersenneTwister64Rng>(static_cast<unsigned long long>(std::chrono::system_clock::now().time_since_epoch().count()));
+    std::unique_ptr<my_random::IRandomNumberGenerator> rnd = std::make_unique<my_random::MersenneTwister64Rng>(static_cast<unsigned long long>(std::chrono::system_clock::now().time_since_epoch().count()));
     svmComponents::SvmKernelRandomGeneration generation(std::uniform_real_distribution<double>(0.0001, 1000.1), phd::svm::KernelTypes::Rbf, std::move(rnd), false);
 
     auto kernelPop = generation.createPopulation(numberOfTries);
@@ -481,7 +481,7 @@ geneticComponents::Population<svmComponents::SvmSimultaneousChromosome> RandomSe
     // "Min": "0.0001",
     // "Max": "1000.1"
     //get kernel
-    std::unique_ptr<random::IRandomNumberGenerator> rnd = std::make_unique<random::MersenneTwister64Rng>(static_cast<unsigned long long>(std::chrono::system_clock::now().time_since_epoch().count()));
+    std::unique_ptr<my_random::IRandomNumberGenerator> rnd = std::make_unique<my_random::MersenneTwister64Rng>(static_cast<unsigned long long>(std::chrono::system_clock::now().time_since_epoch().count()));
     svmComponents::SvmKernelRandomGeneration generation(std::uniform_real_distribution<double>(0.0001, 1000.1), phd::svm::KernelTypes::Rbf, std::move(rnd), false);
 
     auto kernelPop = generation.createPopulation(tries);

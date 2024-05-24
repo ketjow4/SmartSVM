@@ -71,7 +71,7 @@ inline void consolidateExperimentCLASH(filesystem::Path pathToFold,
 			testApp::createSummaryFile(config, summaryFile, logFileNames);
 		}
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		std::cout << e.what() << "\n";
 	}

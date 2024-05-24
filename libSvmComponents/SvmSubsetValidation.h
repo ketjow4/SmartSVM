@@ -85,7 +85,7 @@ class RandomSubsetPerIteration : public IValidationSubsetSelection<chromosome>
 {
 public:
 	RandomSubsetPerIteration(platform::Percent subsetPercent,
-		std::unique_ptr<random::IRandomNumberGenerator> rngEngine)
+		std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine)
 		: m_subsetPercent(subsetPercent)
 		, m_rngEngine(std::move(rngEngine))
 	{
@@ -142,7 +142,7 @@ public:
 
 private:
 	platform::Percent m_subsetPercent;
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	std::vector<svmComponents::DatasetVector> m_subset;
 };
 

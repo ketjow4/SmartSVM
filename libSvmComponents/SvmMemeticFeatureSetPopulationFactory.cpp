@@ -27,14 +27,14 @@ PopulationGeneration<SvmFeatureSetMemeticChromosome> SvmMemeticFeatureSetPopulat
     {
         auto numberOfClassExamples = config.getValue<unsigned int>("NumberOfClassExamples");
         return std::make_unique<RandomMemeticFeaturesGeneration>(trainingSet,
-                                                                 random::RandomNumberGeneratorFactory::create(config),
+                                                                 my_random::RandomNumberGeneratorFactory::create(config),
                                                                  numberOfClassExamples);
     }
     case SvmMemeticFeatureSetGeneration::MutualInfo:
     {
         auto numberOfClassExamples = config.getValue<unsigned int>("NumberOfClassExamples");
         return std::make_unique<MemeticMutialInfoRoulleteWheelGeneration>(trainingSet,
-                                                                          random::RandomNumberGeneratorFactory::create(config),
+                                                                          my_random::RandomNumberGeneratorFactory::create(config),
                                                                           numberOfClassExamples,
                                                                           trainingDataPath,
 															              outputPath);

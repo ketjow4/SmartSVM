@@ -14,7 +14,7 @@ class HighLowFitSelection : public ICrossoverSelection<T>
 {
 public:
     explicit HighLowFitSelection(platform::Percent highLowCoefficient,
-                                 std::unique_ptr<random::IRandomNumberGenerator> rngEngine);
+                                 std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine);
 
     Parents<T> chooseParents(Population<T>& population) override;
 
@@ -22,12 +22,12 @@ public:
 	
 private:
     platform::Percent m_highLowCoefficient;
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 };
 
 template <typename T>
 HighLowFitSelection<T>::HighLowFitSelection(platform::Percent highLowCoefficient,
-                                            std::unique_ptr<random::IRandomNumberGenerator> rngEngine)
+                                            std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine)
     : m_highLowCoefficient(highLowCoefficient)
     , m_rngEngine(std::move(rngEngine))
 {

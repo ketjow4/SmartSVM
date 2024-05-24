@@ -782,7 +782,7 @@ double libSvmImplementation::classifyWithOptimalThreshold(const gsl::span<const 
 	else
 	{
 		return classify(sample);
-		//throw std::exception("Optimal threshold not set");
+		//throw std::runtime_error("Optimal threshold not set");
 	}
 }
 

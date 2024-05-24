@@ -15,11 +15,11 @@ template <typename Sample, typename Label>
 class DatasetBase : public IDataset<Sample, Label>
 {
 public:
-    using size_type = IReadOnlyDataset<Sample, Label>::size_type;
+    using size_type = typename IReadOnlyDataset<Sample, Label>::size_type;
 
-    static_assert(sizeof(size_type) == sizeof(std::vector<Sample>::size_type), "Size type for std::vector<Sample> is different than std::size_t");
+    static_assert(sizeof(size_type) == sizeof(typename std::vector<Sample>::size_type), "Size type for std::vector<Sample> is different than std::size_t");
 
-    static_assert(sizeof(size_type) == sizeof(std::vector<Label>::size_type), "Size type for std::vector<Label> is different than std::size_t");
+    static_assert(sizeof(size_type) == sizeof(typename std::vector<Label>::size_type), "Size type for std::vector<Label> is different than std::size_t");
 
     size_type size() const override;
 
@@ -55,7 +55,7 @@ public:
 
     void reserve(size_t size);
 
-protected:
+//protected:
     DatasetBase() = default;
 
     DatasetBase(DatasetBase&& dataset) = default;

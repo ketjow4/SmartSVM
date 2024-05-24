@@ -1,7 +1,7 @@
 
 #include "RandomExceptions.h"
 
-namespace random
+namespace my_random
 {
 UnknownRandomNumberGenerator::UnknownRandomNumberGenerator(const std::string& name)
     : PlatformException("Random nubmer generator: " + name + " is unknown")

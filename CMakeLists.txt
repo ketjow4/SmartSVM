@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-set(CMAKE_TOOLCHAIN_FILE ./vcpkg/scripts/buildsystems/vcpkg.cmake)
+#set(CMAKE_TOOLCHAIN_FILE ./vcpkg/scripts/buildsystems/vcpkg.cmake)
 project(DeevaPythonPackage LANGUAGES CXX)
 set(PROJECT_NAME DeevaPythonPackage)
 
@@ -40,8 +40,9 @@ message(STATUS "    Python_INCLUDE_DIRS: ${Python_INCLUDE_DIRS}")
 message(STATUS "    Python_LIBRARIES: ${Python_LIBRARIES}")
 message(STATUS "    Python_LIBRARY_DIRS: ${Python_LIBRARY_DIRS}")
 
-set(pybind11_DIR "./vcpkg/packages/pybind11_x64-windows/share/pybind11")
-find_package(pybind11 CONFIG REQUIRED)
+# set(pybind11_DIR "./extern/pybind11")
+# find_package(pybind11 CONFIG REQUIRED)
+add_subdirectory("./extern/pybind11")
 
 # pybind11 method:
 pybind11_add_module(${PROJECT_NAME} module.cpp DatasetLoader.cpp DatasetLoader.h)

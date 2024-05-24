@@ -42,12 +42,12 @@ std::unique_ptr<BaseCrossoverOperator<chromosome>> BinaryCrossoverFactory::creat
     case BinaryCrossover::OnePoint:
     {
         return std::make_unique<OnePointCrossover<chromosome>>(
-            std::move(random::RandomNumberGeneratorFactory::create(config)));
+            std::move(my_random::RandomNumberGeneratorFactory::create(config)));
     }
     case BinaryCrossover::FeaturesSelectionOnePoint:
     {
         return std::make_unique<FeaturesSelectionOnePointCrossover<chromosome>>(
-            std::move(random::RandomNumberGeneratorFactory::create(config)));
+            std::move(my_random::RandomNumberGeneratorFactory::create(config)));
     }
     default:
         throw UnknownEnumType(name, typeid(BinaryCrossover).name());

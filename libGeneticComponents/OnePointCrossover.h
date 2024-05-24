@@ -15,7 +15,7 @@ class OnePointCrossover : public BaseCrossoverOperator<binaryChromosome>
 {
     static_assert(std::is_base_of<BinaryChromosome, binaryChromosome>::value, "Cannot do binary crossover for class not derived from BinaryChromosome");
 public:
-    explicit OnePointCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine);
+    explicit OnePointCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine);
 
     Population<binaryChromosome> crossoverParents(const std::vector<Parents<binaryChromosome>>& parents) override;
     binaryChromosome crossoverChromosomes(const binaryChromosome& parentA, const binaryChromosome& parentB) override;
@@ -23,13 +23,13 @@ public:
 private:
     int getCuttingPoint(std::uniform_int_distribution<int> chromosomeSize);
 
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     bool m_isfirstChild = true;
     int m_cuttingPoint;
 };
 
 template <class binaryChromosome>
-OnePointCrossover<binaryChromosome>::OnePointCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine)
+OnePointCrossover<binaryChromosome>::OnePointCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine)
     : m_rngEngine(std::move(rngEngine))
 {
     if(m_rngEngine == nullptr)

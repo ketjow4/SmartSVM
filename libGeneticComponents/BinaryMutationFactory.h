@@ -45,14 +45,14 @@ std::unique_ptr<IMutationOperator<chromosome>> BinaryMutationFactory::create(con
         const auto bitFlipProbability = config.getValue<double>("Mutation.BitFlipProbability");
         return std::make_unique<BitFlipMutation<chromosome>>(
             platform::Percent(bitFlipProbability),
-            std::move(random::RandomNumberGeneratorFactory::create(config)));
+            std::move(my_random::RandomNumberGeneratorFactory::create(config)));
     }
     case BinaryMutation::FeaturesSelectionBitFlip:
     {
         const auto bitFlipProbability = config.getValue<double>("Mutation.BitFlipProbability");
         return std::make_unique<FeaturesSelectionBitFlipMutation<chromosome>>(
             platform::Percent(bitFlipProbability),
-            std::move(random::RandomNumberGeneratorFactory::create(config)));
+            std::move(my_random::RandomNumberGeneratorFactory::create(config)));
     }
     default:
         throw UnknownEnumType(name, typeid(BinaryMutation).name());

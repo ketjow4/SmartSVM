@@ -98,7 +98,7 @@ void RbfLinearWorkflow::initializeGeneticAlgorithm()
 	//	//m_gammaRange = gammaTest;
 	//	//m_CValue = 10; 
 	//}
-	//catch (const std::exception& exception)
+	//catch (const std::runtime_error& exception)
 	//{
 	//	LOG_F(ERROR, "Error: %s", exception.what());
 	//	std::cout << exception.what();
@@ -351,7 +351,7 @@ void RbfLinearWorkflow::runGeneticAlgorithm()
 		geneticComponents::Population<SvmCustomKernelChromosome> best_pop;
 		auto copy2 = m_frozenSV;
 		svmComponents::SvmCustomKernelChromosome best_vec{ std::move(copy2), m_population.getBestOne().getC() };
-		best_pop = { std::vector<SvmCustomKernelChromosome>{best_vec} };
+		best_pop = Population<svmComponents::SvmCustomKernelChromosome>(std::vector<SvmCustomKernelChromosome>{best_vec} );
 		m_trainingSvmClassifierElement.launch(best_pop, *m_trainingSet);
 
 		if (m_algorithmConfig.m_svmConfig.m_doVisualization)
@@ -389,7 +389,7 @@ void RbfLinearWorkflow::runGeneticAlgorithm()
 	//                      m_loadingWorkflow);
 
 	//svmComponents::GaSvmGenerationWithForbbidenSet generation(*m_trainingSet,
-	//                                                          std::make_unique<random::MersenneTwister64Rng>(0),
+	//                                                          std::make_unique<my_random::MersenneTwister64Rng>(0),
 	//                                                          m_numberOfClassExamples,
 	//                                                          svmComponents::svmUtils::countLabels(static_cast<unsigned int>(2), *m_trainingSet)); //TODO multiclass support
 	//generation.setForbbidens(m_forbidden_set);
@@ -507,7 +507,7 @@ void RbfLinearWorkflow::runGeneticAlgorithm()
 		geneticComponents::Population<SvmCustomKernelChromosome> best_pop;
 		auto copy2 = m_frozenSV;
 		svmComponents::SvmCustomKernelChromosome best_vec{std::move(copy2), m_population.getBestOne().getC()};
-		best_pop = {std::vector<SvmCustomKernelChromosome>{best_vec}};
+		best_pop = Population<svmComponents::SvmCustomKernelChromosome>(std::vector<SvmCustomKernelChromosome>{best_vec});
 		m_trainingSvmClassifierElement.launch(best_pop, *m_trainingSet);
 
 		if (m_algorithmConfig.m_svmConfig.m_doVisualization)
@@ -631,7 +631,7 @@ void RbfLinearWorkflow::initMemetic()
 		LOG_F(ERROR, "With gamma %f  Error: %s", m_currentGamma, exception.what());
 		std::cout << exception.what();
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what();
@@ -737,7 +737,7 @@ void RbfLinearWorkflow::memeticAlgorithm()
 		LOG_F(ERROR, "With gamma %f  Error: %s", m_currentGamma, exception.what());
 		std::cout << exception.what();
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what();

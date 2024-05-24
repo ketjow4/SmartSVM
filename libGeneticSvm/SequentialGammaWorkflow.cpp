@@ -75,17 +75,20 @@ std::vector<double> runPSOorOthers(std::filesystem::path treningSetPath, std::st
 
 		std::cout << "Starting python script\n";
 		std::cout << command << "\n";
-		const auto [output, ret] = platform::subprocess::launchWithPipe(command);
-		if (ret != 0)
-		{
-			std::cerr << output;
-			//@wdudzik fix this in future
-			//throw Error("Python, featureSelection.py script failed. Output of script: " + output);
-		}
-		else
-		{
-			std::cout << output;
-		}
+		//const auto [output, ret] = platform::subprocess::launchWithPipe(command);
+
+
+
+		// if (ret != 0)
+		// {
+		// 	std::cerr << output;
+		// 	//@wdudzik fix this in future
+		// 	//throw Error("Python, featureSelection.py script failed. Output of script: " + output);
+		// }
+		// else
+		// {
+		// 	std::cout << output;
+		// }
 
 		std::ifstream featureSelectionResult(treningSetPath.parent_path().string() + "\\" + "_" +  algorithmName  + "_parameters_selected.txt", std::fstream::in);
 		std::string features;
@@ -98,7 +101,7 @@ std::vector<double> runPSOorOthers(std::filesystem::path treningSetPath, std::st
 
 		return params;
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		throw e;
 	}
@@ -187,7 +190,7 @@ void SequentialGammaWorkflow::initializeGeneticAlgorithm()
 		//m_gammaRange = gammaTest;
 		//m_CValue = 10; 
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what();
@@ -666,7 +669,7 @@ void SequentialGammaWorkflow::runGeneticAlgorithm()
 			geneticComponents::Population<SvmCustomKernelChromosome> best_pop;
 			auto copy2 = m_frozenSV;
 			svmComponents::SvmCustomKernelChromosome best_vec{ std::move(copy2), m_population.getBestOne().getC() };
-			best_pop = { std::vector<SvmCustomKernelChromosome>{best_vec} };
+			best_pop = Population<svmComponents::SvmCustomKernelChromosome>( std::vector<SvmCustomKernelChromosome>{best_vec} );
 			m_trainingSvmClassifierElement.launch(best_pop, *m_trainingSet);
 
 			if (m_algorithmConfig.m_svmConfig.m_doVisualization)
@@ -696,7 +699,7 @@ void SequentialGammaWorkflow::runGeneticAlgorithm()
 			buildEnsembleFromLastGeneration();
 		}
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what();
@@ -798,7 +801,7 @@ void SequentialGammaWorkflow::initMemetic()
 		//logAllModels(testPopulation);
 		logResults(m_population, testPopulation);
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what();
@@ -912,7 +915,7 @@ void SequentialGammaWorkflow::memeticAlgorithm()
 			}
 		}
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what();

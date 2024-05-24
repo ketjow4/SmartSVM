@@ -14,7 +14,7 @@ namespace svmComponents
 class GaSvmMutation : public geneticComponents::IMutationOperator<SvmTrainingSetChromosome>
 {
 public:
-    explicit GaSvmMutation(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+    explicit GaSvmMutation(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                            platform::Percent exchangePercent,
                            platform::Percent mutationProbability,
                            const dataset::Dataset<std::vector<float>, float>& trainingSet,
@@ -35,7 +35,7 @@ private:
                                 std::unordered_set<uint64_t>& deleted,
                                 std::vector<std::size_t>& positionsToReplace) const;
 
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     platform::Percent m_mutationProbability;
     platform::Percent m_exchangePercent;
     unsigned int m_numberOfExchanges;

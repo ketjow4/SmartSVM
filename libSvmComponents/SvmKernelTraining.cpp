@@ -10,6 +10,7 @@ namespace svmComponents
 SvmKernelTraining::SvmKernelTraining(const SvmAlgorithmConfiguration& svmConfig, bool /*probabilityNeeded*/)
     : m_svmConfig(svmConfig)
     , m_probabilityNeeded(false)
+    , m_lastException(nullptr)
 {
 }
 
@@ -57,7 +58,7 @@ void SvmKernelTraining::trainPopulation(geneticComponents::Population<SvmKernelC
             m_lastException = std::make_exception_ptr(exception);
         }
     }
-    if (m_lastException)
+    if (bool(m_lastException))
     {
         std::rethrow_exception(m_lastException);
     }

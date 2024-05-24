@@ -13,7 +13,7 @@ class MockedFeaturesSelection : public ISvmAlgorithm, public IFeatureSelectionWo
 public:
 	std::shared_ptr<phd::svm::ISvm> run() override
 	{
-        throw std::exception("Mocked feature selection. See simultaneousWorkflow");
+        throw std::runtime_error("Mocked feature selection. See simultaneousWorkflow");
 	}
 
 	void initialize() override
@@ -84,17 +84,17 @@ public:
 
 	dataset::Dataset<std::vector<float>, float> getFilteredTraningSet() override
 	{
-        throw std::exception("Method not supported in mocked feature selection");
+        throw std::runtime_error("Method not supported in mocked feature selection");
 	}
 
 	dataset::Dataset<std::vector<float>, float> getFilteredValidationSet() override
 	{
-        throw std::exception("Method not supported in mocked feature selection");
+        throw std::runtime_error("Method not supported in mocked feature selection");
 	}
 
 	dataset::Dataset<std::vector<float>, float> getFilteredTestSet() override
 	{
-        throw std::exception("Method not supported in mocked feature selection");
+        throw std::runtime_error("Method not supported in mocked feature selection");
 	}
 
 	void setupTrainingSet(const dataset::Dataset<std::vector<float>, float>& /*trainingSet*/) override

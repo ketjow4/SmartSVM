@@ -22,8 +22,8 @@ public:
     const dataset::Dataset<std::vector<float>, float>& getValidationSet() override { return m_validationSet; }
     const dataset::Dataset<std::vector<float>, float>& getTestSet() override { return m_testSet; }
     bool isDataLoaded() const override { return true; }
-    const std::vector<float>& scalingVectorMin() override { throw std::exception("Not implemented"); }
-    const std::vector<float>& scalingVectorMax() override { throw std::exception("Not implemented"); }
+    const std::vector<float>& scalingVectorMin() override { throw std::runtime_error("Not implemented"); }
+    const std::vector<float>& scalingVectorMax() override { throw std::runtime_error("Not implemented"); }
 
     ~NumpyDatasetLoader() override {}
 

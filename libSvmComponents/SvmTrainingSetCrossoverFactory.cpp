@@ -26,25 +26,25 @@ CrossoverOperator<SvmTrainingSetChromosome> SvmTrainingSetCrossoverFactory::crea
 	case SvmTrainingSetCrossover::GaSvm:
 	{
 		auto numberOfClasses = config.getValue<unsigned int>("NumberOfClasses");
-		return std::make_unique<GaSvmCrossover>(std::move(random::RandomNumberGeneratorFactory::create(config)),
+		return std::make_unique<GaSvmCrossover>(std::move(my_random::RandomNumberGeneratorFactory::create(config)),
 		                                        numberOfClasses);
 	}
 	case SvmTrainingSetCrossover::Memetic:
 	{
 		auto numberOfClasses = config.getValue<unsigned int>("NumberOfClasses");
-		return std::make_unique<MemeticCrossover>(std::move(random::RandomNumberGeneratorFactory::create(config)),
+		return std::make_unique<MemeticCrossover>(std::move(my_random::RandomNumberGeneratorFactory::create(config)),
 		                                          numberOfClasses);
 	}
 	case SvmTrainingSetCrossover::GaSvmRegression:
 	{
 		auto numberOfClasses = config.getValue<unsigned int>("NumberOfClasses");
-		return std::make_unique<GaSvmCrossoverRegression>(std::move(random::RandomNumberGeneratorFactory::create(config)),
+		return std::make_unique<GaSvmCrossoverRegression>(std::move(my_random::RandomNumberGeneratorFactory::create(config)),
 		                                                  numberOfClasses);
 	}
 	case SvmTrainingSetCrossover::EnhanceTrainingSet:
 	{
 		auto numberOfClasses = config.getValue<unsigned int>("NumberOfClasses");
-		return std::make_unique<CrossoverWithAdditionalExamples>(std::move(random::RandomNumberGeneratorFactory::create(config)),
+		return std::make_unique<CrossoverWithAdditionalExamples>(std::move(my_random::RandomNumberGeneratorFactory::create(config)),
 			numberOfClasses,
 			*dynamic_cast<SetupAdditionalVectors*>(enhanceTrainingSet.get()));
 	}

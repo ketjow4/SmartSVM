@@ -58,17 +58,17 @@ public:
 
 	float classifyHyperplaneDistance(const gsl::span<const float> sample) const override;
 
-	double getT() const override { throw std::exception("Not implemented"); }
-	void setT(double /*value*/) override { throw std::exception("Not implemented"); }
+	double getT() const override { throw std::runtime_error("Not implemented"); }
+	void setT(double /*value*/) override { throw std::runtime_error("Not implemented"); }
 
 	std::unordered_map<int, int> classifyGroups(const dataset::Dataset<std::vector<float>, float>& /*dataWithGroups*/) const
 	{
-		throw std::exception("Classyfing groups not implemented in EnsembleSvm");
+		throw std::runtime_error("Classyfing groups not implemented in EnsembleSvm");
 	}
 
 	std::unordered_map<int, float> classifyGroupsRawScores(const dataset::Dataset<std::vector<float>, float>& /*dataWithGroups*/) const override
 	{
-		throw std::exception("classifyGroupsRawScores not implemented in EnsembleSvm");
+		throw std::runtime_error("classifyGroupsRawScores not implemented in EnsembleSvm");
 	}
 
 
@@ -96,12 +96,12 @@ private:
 public:
 	float classifyWithCertainty(const gsl::span<const float> /*sample*/) const override
 	{
-		throw std::exception("Not implemented EnsembleSVM classifyWithCertainty");
+		throw std::runtime_error("Not implemented EnsembleSVM classifyWithCertainty");
 	}
 
 	std::shared_ptr<ISvm> clone() override
 	{
-		throw std::exception("Not implemented clone EnsembleSvm");
+		throw std::runtime_error("Not implemented clone EnsembleSvm");
 	}
 private:
 	double m_optimalProbabilityThreshold;
@@ -121,7 +121,7 @@ inline EnsembleSvm::EnsembleSvm(std::vector<libSvmImplementation*> svms)
 
 inline std::vector<double> EnsembleSvm::getGammas() const
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline KernelTypes EnsembleSvm::getKernelType() const
@@ -131,17 +131,17 @@ inline KernelTypes EnsembleSvm::getKernelType() const
 
 inline void EnsembleSvm::setKernel(KernelTypes /*kernelType*/)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline SvmTypes EnsembleSvm::getType() const
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline void EnsembleSvm::setType(SvmTypes /*svmType*/)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline void EnsembleSvm::save(const std::filesystem::path& filepath)
@@ -154,7 +154,7 @@ inline void EnsembleSvm::save(const std::filesystem::path& filepath)
 
 inline uint32_t EnsembleSvm::getNumberOfKernelParameters(KernelTypes /*kernelType*/) const
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline uint32_t EnsembleSvm::getNumberOfSupportVectors() const
@@ -181,17 +181,17 @@ inline std::vector<std::vector<float>> EnsembleSvm::getSupportVectors() const
 
 inline float EnsembleSvm::classify(const gsl::span<const float> /*sample*/) const
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline void EnsembleSvm::train(const dataset::Dataset<std::vector<float>, float>& /*trainingSet*/, bool /*probabilityNeeded*/)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline double EnsembleSvm::classificationProbability(const gsl::span<const float> /*sample*/) const
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline bool EnsembleSvm::isTrained() const
@@ -221,12 +221,12 @@ inline bool EnsembleSvm::canClassifyWithOptimalThreshold() const
 
 inline void EnsembleSvm::setFeatureSet(const std::vector<svmComponents::Feature>& /*features*/, int /*numberOfFeatures*/)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline const std::vector<svmComponents::Feature>& EnsembleSvm::getFeatureSet()
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline float EnsembleSvm::classifyHyperplaneDistance(const gsl::span<const float> sample) const
@@ -262,66 +262,66 @@ inline float EnsembleSvm::classifyHyperplaneDistance(const gsl::span<const float
 
 inline double EnsembleSvm::getC() const
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline double EnsembleSvm::getGamma() const
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline double EnsembleSvm::getCoef0() const
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline double EnsembleSvm::getDegree() const
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline double EnsembleSvm::getNu() const
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline double EnsembleSvm::getP() const
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline void EnsembleSvm::setC(double)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline void EnsembleSvm::setCoef0(double)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline void EnsembleSvm::setDegree(double)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline void EnsembleSvm::setGamma(double)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline void EnsembleSvm::setGammas(const std::vector<double>&)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline void EnsembleSvm::setNu(double)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 
 inline void EnsembleSvm::setP(double)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 }
 }} // namespace phd::svm

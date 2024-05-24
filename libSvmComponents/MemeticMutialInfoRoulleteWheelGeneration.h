@@ -67,16 +67,16 @@ inline std::vector<double> runMutualInfo(std::filesystem::path treningSetPath, s
 
 	        std::cout << "Starting python script\n";
 
-	        const auto [output, ret] = platform::subprocess::launchWithPipe(command);
-	        if (ret != 0)
-	        {
-	            //@wdudzik fix this in future
-	            throw Error("Python, mutualInfo.py script failed. Output of script: " + output);
-	        }
-	        else
-	        {
-	            std::cout << output;
-	        }
+	        // const auto [output, ret] = platform::subprocess::launchWithPipe(command);
+	        // if (ret != 0)
+	        // {
+	        //     //@wdudzik fix this in future
+	        //     throw Error("Python, mutualInfo.py script failed. Output of script: " + output);
+	        // }
+	        // else
+	        // {
+	        //     std::cout << output;
+	        // }
         }
 
         	
@@ -94,7 +94,7 @@ inline std::vector<double> runMutualInfo(std::filesystem::path treningSetPath, s
 
         return mutualInfo;
     }
-    catch (const std::exception& /*e*/)
+    catch (const std::runtime_error& /*e*/)
     {
         throw;
     }
@@ -109,7 +109,7 @@ class MemeticMutialInfoRoulleteWheelGeneration : public geneticComponents::IPopu
 {
 public:
     explicit MemeticMutialInfoRoulleteWheelGeneration(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                                      std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                                                      std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                                       unsigned int numberOfClassExamples,
                                                       std::string trainingDataPath,
                                                       std::string outputPath)
@@ -186,7 +186,7 @@ public:
 
 private:
     const dataset::Dataset<std::vector<float>, float>& m_trainingSet;
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     unsigned int m_numberOfClassExamples;
     std::string m_trainingDataPath;
     std::string m_outputPath;

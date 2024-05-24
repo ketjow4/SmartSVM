@@ -408,7 +408,7 @@ void CustomKernelWorkflow::runGeneticAlgorithm()
 		//zamro�enie wektor�w z najlepszego/wybranych z puli itp.
 		//}
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 	}
@@ -485,7 +485,7 @@ void CustomKernelWorkflow::initializeGeneticAlgorithm()
 
 		logResults(m_population, testPopulation);
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		//m_logger.LOG(logger::LogLevel::Error, exception.what());

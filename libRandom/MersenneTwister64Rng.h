@@ -4,7 +4,7 @@
 #include <random>
 #include "IRandomNumberGenerator.h"
 
-namespace random
+namespace my_random
 {
 class MersenneTwister64Rng : public IRandomNumberGenerator
 {
@@ -34,5 +34,5 @@ inline bool MersenneTwister64Rng::getRandom(std::bernoulli_distribution& distrib
 {
     return distribution(m_engine);
 }
-} // namespace random
+} // namespace my_random
 

@@ -54,7 +54,7 @@ RbfPolyGlobalKernel::RbfPolyGlobalKernel(ParamGrid cGrid, ParamGrid gammaGrid, P
 
 void RbfPolyGlobalKernel::calculateGrids(const BaseSvmChromosome& /*individual*/)
 {
-	throw std::exception("Not implemented");
+	throw std::runtime_error("Not implemented");
 	/*m_cGrid = calculateNewGrid(m_cGrid, individual.getClassifier()->getC());
 	m_gammaGrid = calculateNewGrid(m_gammaGrid, individual.getClassifier()->getGamma());*/
 }
@@ -152,7 +152,7 @@ geneticComponents::Population<SvmKernelChromosome> RbfPolyGlobalKernel::createGr
 
 // void RbfPolyGlobalKernel::performGridSearch(cv::Ptr<TrainData> /*trainingSet*/, unsigned /*numberOfFolds*/)
 // {
-// 	throw std::exception("Not implemented");
+// 	throw std::runtime_error("Not implemented");
 // 	//m_svm->trainAuto(trainingSet, numberOfFolds, m_cGrid, m_gammaGrid);
 // }
 } // namespace svmComponents

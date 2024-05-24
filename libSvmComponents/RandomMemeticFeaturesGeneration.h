@@ -13,7 +13,7 @@ class RandomMemeticFeaturesGeneration : public geneticComponents::IPopulationGen
 {
 public:
     explicit RandomMemeticFeaturesGeneration(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                             std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                                             std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                              unsigned int numberOfClassExamples)
         : m_trainingSet(trainingSet)
         , m_rngEngine(std::move(rngEngine))
@@ -58,7 +58,7 @@ public:
 
 private:
     const dataset::Dataset<std::vector<float>, float>& m_trainingSet;
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     unsigned int m_numberOfClassExamples;
 };
 } // namespace svmComponents

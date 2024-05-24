@@ -12,7 +12,7 @@ class MemeticFeatureCrossover : public geneticComponents::BaseCrossoverOperator<
 public:
     using chromosomeType = SvmFeatureSetMemeticChromosome;
 
-    explicit MemeticFeatureCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+    explicit MemeticFeatureCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                      unsigned int numberOfClasses);
 
     chromosomeType crossoverChromosomes(const chromosomeType& parentA, const chromosomeType& parentB) override;
@@ -26,11 +26,11 @@ private:
                                             const chromosomeType& parentB,
                                             unsigned int datasetSize);
 
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     unsigned int m_numberOfClasses;
 };
 
-inline MemeticFeatureCrossover::MemeticFeatureCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine, unsigned numberOfClasses)
+inline MemeticFeatureCrossover::MemeticFeatureCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine, unsigned numberOfClasses)
     : m_rngEngine(std::move(rngEngine))
     , m_numberOfClasses(numberOfClasses)
 {

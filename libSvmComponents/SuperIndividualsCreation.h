@@ -12,7 +12,7 @@ namespace svmComponents
 class SuperIndividualsCreation
 {
 public:
-    SuperIndividualsCreation(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+    SuperIndividualsCreation(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                unsigned int numberOfClasses);
 
     geneticComponents::Population<SvmTrainingSetChromosome> createPopulation(uint32_t populationSize,
@@ -24,7 +24,7 @@ private:
                                                    const std::vector<DatasetVector>& supportVectorPool,
                                                    unsigned int numberOfClassExamples);
 
-    const std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    const std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     const unsigned int m_numberOfClasses;
 };
 } // namespace svmComponents

@@ -55,13 +55,13 @@ public:
    
     void setK(unsigned int /*k*/) override
     {
-       throw std::exception("Not implemented K setting in GaSvmWorkflow");
+       throw std::runtime_error("Not implemented K setting in GaSvmWorkflow");
     }
 
     phd::svm::ISvm& getClassifierWithBestDistances() override
     {
 
-        throw std::exception("Not implemented getClassifierWithBestDistances in GaSvmWorkflow");
+        throw std::runtime_error("Not implemented getClassifierWithBestDistances in GaSvmWorkflow");
     }
 
     unsigned getCurrentTrainingSetSize() override
@@ -72,7 +72,7 @@ public:
 
     geneticComponents::Population<svmComponents::SvmTrainingSetChromosome> initNoEvaluate(int /*popSize*/, int /*seed*/) override
     {
-        throw std::exception("Not implemented initNoEvaluate with seed in GaSvmWorkflow");
+        throw std::runtime_error("Not implemented initNoEvaluate with seed in GaSvmWorkflow");
     }
 	
 private:

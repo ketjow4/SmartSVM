@@ -1,7 +1,6 @@
 
-#pragma once
-
 #include "DatasetExceptions.h"
+
 namespace dataset
 {
 DifferentSizeException::DifferentSizeException(std::size_t newDataSize, std::size_t oldDataSize)

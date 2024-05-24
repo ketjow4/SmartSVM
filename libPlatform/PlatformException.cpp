@@ -9,7 +9,7 @@ PlatformException::PlatformException(std::string message)
 {
 }
 
-char const* PlatformException::what() const
+char const* PlatformException::what() const noexcept
 {
     return m_message.c_str();
 }

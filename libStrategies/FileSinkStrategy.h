@@ -15,7 +15,7 @@ public:
 	void launch(std::vector<std::pair<std::vector<unsigned char>, std::string>>& data, const std::filesystem::path& filePath, bool postFixFirst = false);
 
 private:
-    void handleException(const std::exception& exception);
+    void handleException(const std::runtime_error& exception);
 
   
 };

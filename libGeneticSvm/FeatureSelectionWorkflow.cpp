@@ -127,7 +127,7 @@ void FeatureSelectionWorkflow::runGeneticAlgorithm()
             isStop = m_stopConditionElement.launch(m_population);
         }
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
         std::cout << exception.what();
@@ -191,7 +191,7 @@ void FeatureSelectionWorkflow::initializeGeneticAlgorithm()
 
         logResult(m_population, testPopulation);
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
         std::cout << exception.what();

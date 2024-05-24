@@ -16,7 +16,7 @@ void GeneticWorkflowResultLogger::logToFile(const std::filesystem::path& outputP
             resultFile.write(gsl::span<const unsigned char>(reinterpret_cast<const unsigned char*>(logMessage.c_str()), logMessage.length()));
         }
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
         LOG_F(ERROR, "Error: %s", exception.what());
     }

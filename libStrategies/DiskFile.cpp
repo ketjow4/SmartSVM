@@ -12,9 +12,14 @@ DiskFile::DiskFile(const std::filesystem::path& path, const char* mode)
         {
             FILE* ptr = nullptr;
 
-            if (fopen_s(&ptr, path.string().c_str(), mode) != 0)
+            // if (fopen_s(&ptr, path.string().c_str(), mode) != 0)
+            // {
+            //     throw std::runtime_error(path.string().c_str());
+            // }
+            ptr = fopen(path.c_str(), mode);
+            if (ptr == nullptr) 
             {
-                throw std::exception(path.string().c_str());
+                throw std::runtime_error("Failed to open file: " + path.string());
             }
 
             return ptr;

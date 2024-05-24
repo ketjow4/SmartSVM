@@ -72,7 +72,7 @@ class GaSvmCrossoverRegression : public TrainingSetCrossover
 public:
     using chromosomeType = SvmTrainingSetChromosome;
 
-    explicit GaSvmCrossoverRegression(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+    explicit GaSvmCrossoverRegression(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                       unsigned int numberOfClasses);
 
     chromosomeType crossoverChromosomes(const chromosomeType& parentA, const chromosomeType& parentB) override;
@@ -95,7 +95,7 @@ class GaSvmGenerationRegression : public geneticComponents::IPopulationGeneratio
 {
 public:
     explicit GaSvmGenerationRegression(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                       std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                                       std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                        unsigned int numberOfClassExamples,
                                        const std::vector<unsigned int>& labelsCount);
 
@@ -103,7 +103,7 @@ public:
 
 private:
     const dataset::Dataset<std::vector<float>, float>& m_trainingSet;
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     unsigned int m_numberOfClassExamples;
     unsigned int m_numberOfClasses;
 };
@@ -111,7 +111,7 @@ private:
 class GaSvmMutationRegression : public geneticComponents::IMutationOperator<SvmTrainingSetChromosome>
 {
 public:
-    explicit GaSvmMutationRegression(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+    explicit GaSvmMutationRegression(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                      platform::Percent exchangePercent,
                                      platform::Percent mutationProbability,
                                      const dataset::Dataset<std::vector<float>, float>& trainingSet,
@@ -132,7 +132,7 @@ private:
                                 std::unordered_set<uint64_t>& deleted,
                                 std::vector<std::size_t>& positionsToReplace) const;
 
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     platform::Percent m_mutationProbability;
     platform::Percent m_exchangePercent;
     unsigned int m_numberOfExchanges;
@@ -142,7 +142,7 @@ private:
 };
 
 inline GaSvmGenerationRegression::GaSvmGenerationRegression(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                                            std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                                                            std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                                             unsigned int numberOfClassExamples,
                                                             const std::vector<unsigned int>& labelsCount)
     : m_trainingSet(trainingSet)
@@ -190,7 +190,7 @@ inline geneticComponents::Population<SvmTrainingSetChromosome> GaSvmGenerationRe
     return geneticComponents::Population<SvmTrainingSetChromosome>(std::move(population));
 }
 
-inline GaSvmMutationRegression::GaSvmMutationRegression(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+inline GaSvmMutationRegression::GaSvmMutationRegression(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                                         platform::Percent exchangePercent,
                                                         platform::Percent mutationProbability,
                                                         const dataset::Dataset<std::vector<float>, float>& trainingSet,
@@ -315,7 +315,7 @@ inline void GaSvmMutationRegression::mutateChromosome(SvmTrainingSetChromosome& 
     chromosome.updateDataset(mutatedDataset);
 }
 
-inline GaSvmCrossoverRegression::GaSvmCrossoverRegression(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+inline GaSvmCrossoverRegression::GaSvmCrossoverRegression(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                                           unsigned int numberOfClasses)
     : TrainingSetCrossover(std::move(rngEngine), numberOfClasses)
 {

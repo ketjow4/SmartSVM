@@ -3,7 +3,7 @@
 #include "RandomNumberGeneratorFactory.h"
 #include "RandomExceptions.h"
 
-namespace random
+namespace my_random
 {
 const randomNumberGenerator& stringToEnum(const std::string& name)
 {
@@ -20,14 +20,14 @@ const randomNumberGenerator& stringToEnum(const std::string& name)
     throw UnknownRandomNumberGenerator(name);
 }
 
-std::unique_ptr<random::IRandomNumberGenerator> RandomNumberGeneratorFactory::create(const platform::Subtree& config)
+std::unique_ptr<my_random::IRandomNumberGenerator> RandomNumberGeneratorFactory::create(const platform::Subtree& config)
 {
     auto name = config.getValue<std::string>("RandomNumberGenerator.Name");
 
     switch (stringToEnum(name))
     {
     case randomNumberGenerator::Mt_19937:
-        return std::make_unique<random::MersenneTwister64Rng>(getSeed(config));
+        return std::make_unique<my_random::MersenneTwister64Rng>(getSeed(config));
     default:
         throw UnknownRandomNumberGenerator(name);
     }
@@ -41,4 +41,4 @@ unsigned long long RandomNumberGeneratorFactory::getSeed(const platform::Subtree
     }
     return config.getValue<int>("RandomNumberGenerator.Seed");
 }
-} // namespace random
+} // namespace my_random

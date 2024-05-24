@@ -11,7 +11,7 @@ namespace svmComponents
 class MemeticFeaturesSuperIndividualsGeneration
 {
 public:
-    MemeticFeaturesSuperIndividualsGeneration(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+    MemeticFeaturesSuperIndividualsGeneration(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                               unsigned int numberOfClasses);
 
     geneticComponents::Population<SvmFeatureSetMemeticChromosome> createPopulation(uint32_t populationSize,
@@ -23,12 +23,12 @@ private:
                                                          const std::vector<Feature>& supportVectorPool,
                                                          unsigned int numberOfClassExamples);
 
-    const std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    const std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     const unsigned int m_numberOfClasses;
 };
 
 inline MemeticFeaturesSuperIndividualsGeneration::MemeticFeaturesSuperIndividualsGeneration(
-    std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator, unsigned numberOfClasses)
+    std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator, unsigned numberOfClasses)
     : m_rngEngine(std::move(randomNumberGenerator))
     , m_numberOfClasses(numberOfClasses)
 {

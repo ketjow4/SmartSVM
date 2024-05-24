@@ -216,7 +216,7 @@ void MemeticFeaturesSelection::runGeneticAlgorithm()
             createHistogram(m_population);
         }
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
     }
@@ -304,7 +304,7 @@ geneticComponents::Population<svmComponents::SvmFeatureSetMemeticChromosome> Mem
 
         return population;
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
         std::cout << std::string("Unknown exception: ") + exception.what();
@@ -314,7 +314,7 @@ geneticComponents::Population<svmComponents::SvmFeatureSetMemeticChromosome> Mem
 
 geneticComponents::Population<svmComponents::SvmFeatureSetMemeticChromosome> MemeticFeaturesSelection::initNoEvaluate(int /*popSize*/, int /*seed*/)
 {
-    throw std::exception("Not implemented initNoEvaluate(int popSize, int seed) in MemeticFeaturesSelection");
+    throw std::runtime_error("Not implemented initNoEvaluate(int popSize, int seed) in MemeticFeaturesSelection");
 }
 
 //used in SE-SVM 
@@ -386,7 +386,7 @@ void MemeticFeaturesSelection::initializeGeneticAlgorithm()
 
         logResults(m_population, testPopulation);
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << std::string("Unknown exception: ") + exception.what();

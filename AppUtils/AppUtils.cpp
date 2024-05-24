@@ -48,7 +48,7 @@ namespace testApp
 
         if (std::filesystem::create_directories(folderName) == false)
         {
-            throw std::exception("Error creating output directory");
+            throw std::runtime_error("Error creating output directory");
         }
         return folderName;
     }
@@ -66,7 +66,7 @@ namespace testApp
 
         if (std::filesystem::create_directories(folderName) == false)
         {
-            throw std::exception("Error creating output directory");
+            throw std::runtime_error("Error creating output directory");
         }
         return folderName;
     }
@@ -107,7 +107,7 @@ namespace testApp
                 testApp::dumpVectorToFile(resultFile, maxVec);
             }
         }
-        catch (const std::exception& exception)
+        catch (const std::runtime_error& exception)
         {
             std::cout << exception.what();
         }
@@ -353,14 +353,14 @@ namespace testApp
             {
                 //@wdudzik fix this in future
                 std::cout << "Python, save.py script failed. Output of script: " + output;
-                //throw std::exception("Python, save.py script failed. Output of script: " + output);
+                //throw std::runtime_error("Python, save.py script failed. Output of script: " + output);
             }
             else
             {
                 std::cout << output;
             }
         }
-        catch (const std::exception& )
+        catch (const std::runtime_error& )
         {
             throw;
         }
@@ -430,7 +430,7 @@ namespace testApp
 
             return config;
         }
-        catch (const std::exception& e)
+        catch (const std::runtime_error& e)
         {
             std::cerr << e.what() << std::endl << std::endl;
             //std::cout << desc << std::endl;

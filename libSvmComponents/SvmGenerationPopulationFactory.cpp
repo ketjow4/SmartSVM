@@ -29,7 +29,7 @@ SvmGenerationPopulationFactory::IPopulationGenerationSvmKernel SvmGenerationPopu
         auto isRegression = config.getValue<bool>("Generation.isRegression");
         return std::make_unique<SvmKernelRandomGeneration>(initialKernelParametersRange,
                                                            kernelType,
-                                                           std::move(random::RandomNumberGeneratorFactory::create(config)),
+                                                           std::move(my_random::RandomNumberGeneratorFactory::create(config)),
                                                            isRegression);
     }
     case SvmKernelGeneration::Grid:
@@ -38,7 +38,7 @@ SvmGenerationPopulationFactory::IPopulationGenerationSvmKernel SvmGenerationPopu
         auto isRegression = config.getValue<bool>("Generation.isRegression");
         return std::make_unique<SvmKernelGridGeneration>(initialKernelParametersRange,
                                                          kernelType,
-                                                         std::move(random::RandomNumberGeneratorFactory::create(config)),
+                                                         std::move(my_random::RandomNumberGeneratorFactory::create(config)),
                                                          isRegression);
     }
     default:

@@ -14,7 +14,7 @@ class FeaturesSelectionBitFlipMutation : public BitFlipMutation<binaryChromosome
 {
 public:
     explicit FeaturesSelectionBitFlipMutation(platform::Percent flipProbability,
-                                     std::unique_ptr<random::IRandomNumberGenerator> rngEngine);
+                                     std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine);
 
     void mutateChromosome(binaryChromosome& chromosome) override;
 
@@ -24,8 +24,8 @@ private:
 
 template <class binaryChromosome>
 FeaturesSelectionBitFlipMutation<binaryChromosome>::FeaturesSelectionBitFlipMutation(platform::Percent flipProbability,
-                                                                   std::unique_ptr<random::IRandomNumberGenerator> rngEngine)
-    : BitFlipMutation(flipProbability, std::move(rngEngine))
+                                                                   std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine)
+    : BitFlipMutation<binaryChromosome>(flipProbability, std::move(rngEngine))
 {
 }
 

@@ -8,7 +8,7 @@ namespace svmComponents
 {
 SvmKernelRandomGeneration::SvmKernelRandomGeneration(std::uniform_real_distribution<double> parameterDistribution,
                                                      phd::svm::KernelTypes kernelType,
-                                                     std::unique_ptr<random::IRandomNumberGenerator> rndEngine,
+                                                     std::unique_ptr<my_random::IRandomNumberGenerator> rndEngine,
                                                      bool isRegression)
     : m_parameterDistribution(std::move(parameterDistribution))
     , m_kernelType(kernelType)

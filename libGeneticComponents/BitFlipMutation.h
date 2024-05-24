@@ -17,19 +17,19 @@ class BitFlipMutation : public IMutationOperator<binaryChromosome>
     static_assert(std::is_base_of<BinaryChromosome, binaryChromosome>::value, "Cannot do binary mutation for class not derived from BinaryChromosome");
 public:
     explicit BitFlipMutation(platform::Percent flipProbability,
-                             std::unique_ptr<random::IRandomNumberGenerator> rngEngine);
+                             std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine);
 
     void mutatePopulation(Population<binaryChromosome>& population) override;
     void mutateChromosome(binaryChromosome& chromosome) override;
 
 private:
     platform::Percent m_flipProbability;
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 };
 
 template <class binaryChromosome>
 BitFlipMutation<binaryChromosome>::BitFlipMutation(platform::Percent flipProbability,
-                                                   std::unique_ptr<random::IRandomNumberGenerator> rngEngine)
+                                                   std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine)
     : m_flipProbability(flipProbability)
     , m_rngEngine(std::move(rngEngine))
 {

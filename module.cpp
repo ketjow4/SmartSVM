@@ -83,7 +83,7 @@ public:
 
             std::cout << "Finished algorithm" << std::endl;
         }
-        catch (std::exception& e)
+        catch (std::runtime_error& e)
         {
             std::cout << e.what();
         }

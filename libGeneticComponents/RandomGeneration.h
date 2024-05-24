@@ -18,7 +18,7 @@ class RandomGeneration : public IPopulationGeneration<binaryChromosome>
 public:
     RandomGeneration(unsigned int chromosomeSize,
                      platform::Percent percentageOfFill,
-                     std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator);
+                     std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator);
     Population<binaryChromosome> createPopulation(uint32_t populationSize) override;
 
 protected:
@@ -26,7 +26,7 @@ protected:
 
     unsigned int m_chromosomeSize;
     platform::Percent m_percentageOfFill;
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 
     static constexpr auto m_miniumChromosomeSize = 2u;
 };
@@ -34,7 +34,7 @@ protected:
 template <class binaryChromosome>
 RandomGeneration<binaryChromosome>::RandomGeneration(unsigned int chromosomeSize,
                                                      platform::Percent percentageOfFill,
-                                                     std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator)
+                                                     std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator)
     : m_chromosomeSize(chromosomeSize)
     , m_percentageOfFill(percentageOfFill)
     , m_rngEngine(std::move(randomNumberGenerator))

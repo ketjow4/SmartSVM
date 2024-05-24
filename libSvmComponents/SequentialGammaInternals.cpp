@@ -5,7 +5,7 @@
 namespace svmComponents
 {
 CusomKernelGenerationSequential::CusomKernelGenerationSequential(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                                                 std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                                                                 std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                                                  unsigned int numberOfClassExamples,
                                                                  const std::vector<unsigned int>& labelsCount)
 	: m_trainingSet(trainingSet)
@@ -91,7 +91,7 @@ geneticComponents::Population<SvmCustomKernelChromosome> CusomKernelGenerationSe
 }
 
 CrossoverCompensationGamma::CrossoverCompensationGamma(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                                       std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                                                       std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                                        unsigned int numberOfClasses)
 	: m_trainingSet(trainingSet)
 	, m_rngEngine(std::move(rngEngine))
@@ -166,7 +166,7 @@ geneticComponents::Population<SvmCustomKernelChromosome> CrossoverCompensationGa
 
 EducationOfTrainingSetGamma::EducationOfTrainingSetGamma(platform::Percent educationProbability,
                                                          unsigned int numberOfClasses,
-                                                         std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+                                                         std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                                          std::unique_ptr<ISupportVectorSelectionGamma> supportVectorSelection)
 	: m_educationProbability(educationProbability)
 	, m_numberOfClasses(numberOfClasses)
@@ -355,7 +355,7 @@ void SupportVectorPoolGamma::addSupportVectors(const SvmCustomKernelChromosome& 
 
 using namespace geneticComponents;
 
-SuperIndividualsCreationGamma::SuperIndividualsCreationGamma(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+SuperIndividualsCreationGamma::SuperIndividualsCreationGamma(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                                              unsigned int numberOfClasses)
 	: m_rngEngine(std::move(randomNumberGenerator))
 	, m_numberOfClasses(numberOfClasses)
@@ -571,7 +571,7 @@ void MemeticTrainingSetAdaptationGamma::adapt(geneticComponents::Population<SvmC
 	//throw UntrainedSvmClassifierException();
 }
 
-CompensationInformationGamma::CompensationInformationGamma(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+CompensationInformationGamma::CompensationInformationGamma(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                                            unsigned int numberOfClasses)
 	: m_rngEngine(std::move(randomNumberGenerator))
 	, m_numberOfClasses(numberOfClasses)
@@ -605,7 +605,7 @@ std::vector<unsigned int> CompensationInformationGamma::generate(const std::vect
 	return compensationInfo;
 }
 
-MutationCustomGaussSequential::MutationCustomGaussSequential(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+MutationCustomGaussSequential::MutationCustomGaussSequential(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                                              platform::Percent exchangePercent,
                                                              platform::Percent mutationProbability,
                                                              const dataset::Dataset<std::vector<float>, float>& trainingSet,

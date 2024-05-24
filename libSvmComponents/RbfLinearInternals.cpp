@@ -5,7 +5,7 @@
 namespace svmComponents
 {
 CusomKernelGenerationRbfLinearSequential::CusomKernelGenerationRbfLinearSequential(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                                                                   std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                                                                                   std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                                                                    unsigned numberOfClassExamples, const std::vector<unsigned>& labelsCount)
 	: m_trainingSet(trainingSet)
 	, m_rngEngine(std::move(rngEngine))
@@ -100,7 +100,7 @@ geneticComponents::Population<SvmCustomKernelChromosome> CusomKernelGenerationRb
 }
 
 CrossoverCompensationRbfLinear::CrossoverCompensationRbfLinear(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                                               std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                                                               std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                                                unsigned int numberOfClasses)
 	: m_trainingSet(trainingSet)
 	, m_rngEngine(std::move(rngEngine))
@@ -175,7 +175,7 @@ geneticComponents::Population<SvmCustomKernelChromosome> CrossoverCompensationRb
 
 EducationOfTrainingSetRbfLinear::EducationOfTrainingSetRbfLinear(platform::Percent educationProbability,
                                                                  unsigned int numberOfClasses,
-                                                                 std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+                                                                 std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                                                  std::unique_ptr<ISupportVectorSelectionGamma> supportVectorSelection)
 	: m_educationProbability(educationProbability)
 	, m_numberOfClasses(numberOfClasses)
@@ -364,7 +364,7 @@ void SupportVectorPoolRbfLinear::addSupportVectors(const SvmCustomKernelChromoso
 
 using namespace geneticComponents;
 
-SuperIndividualsCreationRbfLinear::SuperIndividualsCreationRbfLinear(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+SuperIndividualsCreationRbfLinear::SuperIndividualsCreationRbfLinear(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                                                      unsigned int numberOfClasses)
 	: m_rngEngine(std::move(randomNumberGenerator))
 	, m_numberOfClasses(numberOfClasses)
@@ -580,7 +580,7 @@ void MemeticTrainingSetAdaptationRbfLinear::adapt(geneticComponents::Population<
 	//throw UntrainedSvmClassifierException();
 }
 
-CompensationInformationRbfLinear::CompensationInformationRbfLinear(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+CompensationInformationRbfLinear::CompensationInformationRbfLinear(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                                                                    unsigned int numberOfClasses)
 	: m_rngEngine(std::move(randomNumberGenerator))
 	, m_numberOfClasses(numberOfClasses)
@@ -612,7 +612,7 @@ std::vector<unsigned int> CompensationInformationRbfLinear::generate(const std::
 	return compensationInfo;
 }
 
-MutationRbfLinear::MutationRbfLinear(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+MutationRbfLinear::MutationRbfLinear(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                      platform::Percent exchangePercent,
                                      platform::Percent mutationProbability,
                                      const dataset::Dataset<std::vector<float>, float>& trainingSet,

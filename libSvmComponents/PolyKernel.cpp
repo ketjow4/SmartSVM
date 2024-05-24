@@ -85,7 +85,7 @@ geneticComponents::Population<SvmKernelChromosome> PolyKernel::createGridSearchP
 
 // void PolyKernel::performGridSearch(cv::Ptr<cv::ml::TrainData> /*trainingSet*/, unsigned /*numberOfFolds*/)
 // {
-// 	throw std::exception("Not implemented");
+// 	throw std::runtime_error("Not implemented");
 // 	//m_svm->trainAuto(trainingSet, numberOfFolds, m_cGrid, m_degreeGrid);
 // }
 } // namespace svmComponents

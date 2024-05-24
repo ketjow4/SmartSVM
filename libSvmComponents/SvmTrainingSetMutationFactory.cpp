@@ -32,7 +32,7 @@ MutationOperator<SvmTrainingSetChromosome> SvmTrainingSetMutationFactory::create
 		auto exchangePercent = config.getValue<double>("Mutation.GaSvm.ExchangePercent");
 		auto mutationProbability = config.getValue<double>("Mutation.GaSvm.MutationProbability");
 
-		return std::make_unique<GaSvmMutation>(std::move(random::RandomNumberGeneratorFactory::create(config)),
+		return std::make_unique<GaSvmMutation>(std::move(my_random::RandomNumberGeneratorFactory::create(config)),
 		                                       platform::Percent(exchangePercent),
 		                                       platform::Percent(mutationProbability),
 		                                       trainingSet,
@@ -43,7 +43,7 @@ MutationOperator<SvmTrainingSetChromosome> SvmTrainingSetMutationFactory::create
 		auto exchangePercent = config.getValue<double>("Mutation.GaSvm.ExchangePercent");
 		auto mutationProbability = config.getValue<double>("Mutation.GaSvm.MutationProbability");
 
-		return std::make_unique<GaSvmMutationRegression>(std::move(random::RandomNumberGeneratorFactory::create(config)),
+		return std::make_unique<GaSvmMutationRegression>(std::move(my_random::RandomNumberGeneratorFactory::create(config)),
 		                                                 platform::Percent(exchangePercent),
 		                                                 platform::Percent(mutationProbability),
 		                                                 trainingSet,

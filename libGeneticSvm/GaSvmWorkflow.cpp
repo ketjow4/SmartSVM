@@ -107,7 +107,7 @@ void GaSvmWorkflow::initializeGeneticAlgorithm()
 
         ++m_generationNumber;
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
     }
@@ -188,7 +188,7 @@ void GaSvmWorkflow::runGeneticAlgorithm()
             std::cout << "Ensemble is better :) \n";
         }*/
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
     }

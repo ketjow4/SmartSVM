@@ -7,7 +7,7 @@ namespace platform
 class PlatformException : public std::exception
 {
 public:
-    char const* what() const override final;
+    char const* what() const noexcept override final;
 
 protected:
     explicit PlatformException(std::string message);

@@ -3169,7 +3169,7 @@ int svm_save_model(const char *model_file_name, const svm_model *model)
 	}
     else
     {
-        throw std::exception((std::string("Cannot save svm model to file. Path ") + model_file_name + " unavailable").c_str());
+        throw std::runtime_error((std::string("Cannot save svm model to file. Path ") + model_file_name + " unavailable").c_str());
     }
     return 0;
 	

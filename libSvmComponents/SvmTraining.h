@@ -37,6 +37,7 @@ SvmTraining<chromosome>::SvmTraining(const SvmAlgorithmConfiguration& svmConfig,
     : m_svmConfig(svmConfig)
     , m_probabilityOutputNeeded(false)  //19.10.2019 this is not needed as distance from hyperplane can be used as well
     , m_svmParameters(svmParameters)
+    , m_lastException(nullptr)
 {
 }
 
@@ -92,7 +93,7 @@ void SvmTraining<chromosome>::trainPopulation(geneticComponents::Population<chro
             m_lastException = std::make_exception_ptr(exception);
         }
     }
-    if (m_lastException)
+    if (bool(m_lastException))
     {
         std::rethrow_exception(m_lastException);
     }
@@ -104,11 +105,11 @@ void SvmTraining<chromosome>::updateParameters(const SvmKernelChromosome& parame
     m_svmParameters = parameters;
 }
 
-template
-SvmTraining<SvmTrainingSetChromosome>;
+// template
+// SvmTraining<SvmTrainingSetChromosome>;
 
-template
-SvmTraining<SvmFeatureSetChromosome>;
+// template
+// SvmTraining<SvmFeatureSetChromosome>;
 
 
 
@@ -132,6 +133,7 @@ private:
 inline SvmTrainingSSVM::SvmTrainingSSVM(const SvmAlgorithmConfiguration& svmConfig, bool /*probabilityOutputNeeded*/)
     : m_svmConfig(svmConfig)
     , m_probabilityOutputNeeded(false)
+    , m_lastException(nullptr)
 {
 }
 

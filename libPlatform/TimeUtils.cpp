@@ -15,7 +15,14 @@ std::tm getLocalTime()
     auto timePoint = std::chrono::system_clock::now();
     auto now = std::chrono::system_clock::to_time_t(timePoint);
     std::tm localTime;
-    localtime_s(&localTime, &now);
+
+    #ifdef _WIN32
+        // On Windows, use localtime_s
+        localtime_s(&localTime, &now);
+    #else
+        // On Linux and macOS, use localtime_r
+        localtime_r(&now, &localTime);
+    #endif
 
     localTime.tm_year += beginYearInTmStruct;
     localTime.tm_mon += startMonth;

@@ -124,7 +124,7 @@ void GeneticKernelEvolutionWorkflow::initializeGeneticAlgorithm()
 	
 		logResults(population, testPopulation);
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 	}
@@ -204,7 +204,7 @@ void GeneticKernelEvolutionWorkflow::runGeneticAlgorithm()
 			isStop = m_stopConditionElement.launch(nextGeneration);
 		}
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 	}
@@ -281,7 +281,7 @@ geneticComponents::Population<svmComponents::SvmKernelChromosome> GeneticKernelE
 
 		return population;
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		throw;
@@ -318,7 +318,7 @@ geneticComponents::Population<svmComponents::SvmKernelChromosome> GeneticKernelE
 		auto isRegression = m_fullConfig.getValue<bool>("Svm.GeneticKernelEvolution.Generation.isRegression");
 		auto popGenerator = std::make_unique<SvmKernelGridGeneration>(initialKernelParametersRange,
 		                                                              m_algorithmConfig.m_svmConfig.m_kernelType,
-		                                                              std::make_unique<random::MersenneTwister64Rng>(seed),
+		                                                              std::make_unique<my_random::MersenneTwister64Rng>(seed),
 		                                                              isRegression,
 																		*m_trainingSet);
 
@@ -326,7 +326,7 @@ geneticComponents::Population<svmComponents::SvmKernelChromosome> GeneticKernelE
 
 		return population;
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		throw;

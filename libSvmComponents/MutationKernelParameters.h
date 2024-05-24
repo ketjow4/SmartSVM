@@ -11,7 +11,7 @@ namespace svmComponents
 class MutationKernelParameters : public geneticComponents::IMutationOperator<SvmKernelChromosome>
 {
 public:
-    explicit MutationKernelParameters(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+    explicit MutationKernelParameters(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                       platform::Percent maxPercentChange,
                                       platform::Percent mutationProbability);
 
@@ -21,7 +21,7 @@ public:
 private:
     int getRandomSign() const;
 
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     platform::Percent m_mutationProbability;
     platform::Percent m_maxPercentChange;
 };

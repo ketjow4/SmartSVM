@@ -5,7 +5,7 @@
 #include <string>
 #include "libPlatform/PlatformException.h"
 
-namespace random
+namespace my_random
 {
 class UnknownRandomNumberGenerator final : public platform::PlatformException
 {

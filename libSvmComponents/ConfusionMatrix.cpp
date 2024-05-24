@@ -33,7 +33,7 @@ std::array<std::array<uint32_t, 2>, 2> handleGroups(phd::svm::ISvm& svmModel,
 		else
 		{
 			LOG_F(ERROR, std::string("Group with ID: " + std::to_string(group) + " not found in dataset during confusion matrix calculation").c_str());
-			throw std::exception("Group not found in dataset during confusion matrix calculation");
+			throw std::runtime_error("Group not found in dataset during confusion matrix calculation");
 		}
 	}
 

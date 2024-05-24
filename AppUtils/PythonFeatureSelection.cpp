@@ -57,7 +57,7 @@ std::vector<bool> runFeatureSelection(std::filesystem::path treningSetPath)
 
 		return featuresT;
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		throw;
 	}
@@ -111,7 +111,7 @@ std::vector<double> runMutualInfo(std::filesystem::path treningSetPath)
 
 		return mutualInfo;
 	}
-	catch (const std::exception& /*e*/)
+	catch (const std::runtime_error& /*e*/)
 	{
 		throw;
 	}

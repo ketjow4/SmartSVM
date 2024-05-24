@@ -133,7 +133,7 @@ std::shared_ptr<phd::svm::ISvm> BigSetsEnsemble::run()
 
 		return ensemble;
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
 		throw;
@@ -280,7 +280,7 @@ void BigSetsEnsemble::train(const dataset::Dataset<std::vector<float>, float>& /
 			}
 			else
 			{
-				throw std::exception("Only single class provided in dataset");
+				throw std::runtime_error("Only single class provided in dataset");
 			}
 		});
 
@@ -542,7 +542,7 @@ std::shared_ptr<phd::svm::ListNodeSvm> BigSetsEnsemble::trainHelperNewDatasetFlo
 				
 				auto randomNumberOfFeatures = std::uniform_int_distribution<int>(2, static_cast<int>(numberOfFeatures));
 				auto features = std::uniform_int_distribution<int>(0, static_cast<int>(numberOfFeatures));
-				auto rngEngine = std::make_unique<random::MersenneTwister64Rng>(0); //TODO change for regular algorithm seed after tests
+				auto rngEngine = std::make_unique<my_random::MersenneTwister64Rng>(0); //TODO change for regular algorithm seed after tests
 
 				auto selectedFeatures = rngEngine->getRandom(randomNumberOfFeatures);
 				for(auto i = 0; i < selectedFeatures; ++i)
@@ -641,7 +641,7 @@ std::shared_ptr<phd::svm::ListNodeSvm> BigSetsEnsemble::trainHelperNewDatasetFlo
 					//
 					temp->m_svm = svm;
 				}
-				catch (const std::exception& e)
+				catch (const std::runtime_error& e)
 				{
 					LOG_F(ERROR, "Error: %s", e.what());
 					throw;
@@ -871,7 +871,7 @@ std::shared_ptr<phd::svm::ListNodeSvm> BigSetsEnsemble::trainHelperNewDatasetFlo
 					//validationIDS = std::get<3>(result);
 				}
 			}
-			catch (const std::exception& e)
+			catch (const std::runtime_error& e)
 			{
 				LOG_F(ERROR, "Error: %s", e.what());
 				throw;
@@ -904,7 +904,7 @@ std::shared_ptr<phd::svm::ListNodeSvm> BigSetsEnsemble::trainHelperNewDatasetFlo
 
 		return root_;
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
 		throw;
@@ -927,7 +927,7 @@ std::tuple<dataset::Dataset<std::vector<float>, float>, std::vector<unsigned lon
 	dataset::Dataset<std::vector<float>, float> newValidation;
 	std::vector<unsigned long long>  newValidationIds;
 
-	auto rngEngine = std::make_unique<random::MersenneTwister64Rng>(seed);
+	auto rngEngine = std::make_unique<my_random::MersenneTwister64Rng>(seed);
 	
 
 	auto classCount = svmUtils::countLabels(2, joined_tr_val);

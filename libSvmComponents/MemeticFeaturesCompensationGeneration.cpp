@@ -2,7 +2,7 @@
 
 namespace svmComponents
 {
-MemeticFeaturesCompensationGeneration::MemeticFeaturesCompensationGeneration(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator)
+MemeticFeaturesCompensationGeneration::MemeticFeaturesCompensationGeneration(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator)
     : m_rngEngine(std::move(randomNumberGenerator))
 {
     if (m_rngEngine == nullptr)

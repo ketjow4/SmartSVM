@@ -270,7 +270,7 @@ uint32_t EnsembleListSvm::getNumberOfSupportVectors() const
 std::vector<uint32_t> EnsembleListSvm::getNodesNumberOfSupportVectors() const
 {
 	if (root == nullptr)
-		throw std::exception("No root pointer, cannot create vector with SV number");
+		throw std::runtime_error("No root pointer, cannot create vector with SV number");
 
 	std::vector<uint32_t> result;
 
@@ -669,7 +669,7 @@ double EnsembleListSvm::classifyWithOptimalThreshold(const gsl::span<const float
 
 void EnsembleListSvm::train(const dataset::Dataset<std::vector<float>, float>& /*trainingSet*/, bool)
 {
-	throw std::exception("Not implemented EnsembleListSvm. Training is performed by EnsembleTreeWorkflow");
+	throw std::runtime_error("Not implemented EnsembleListSvm. Training is performed by EnsembleTreeWorkflow");
 	/*std::vector<uint64_t> set;
 	for (auto i = 0u; i < trainingSet.size(); ++i)
 	{

@@ -12,7 +12,7 @@ class CusomKernelGeneration : public geneticComponents::IPopulationGeneration<Sv
 {
 public:
 	explicit CusomKernelGeneration(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-	                               std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+	                               std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 	                               unsigned int numberOfClassExamples,
 	                               const std::vector<unsigned int>& labelsCount);
 
@@ -41,7 +41,7 @@ public:
 
 private:
 	dataset::Dataset<std::vector<float>, float> m_trainingSet;
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	unsigned int m_numberOfClassExamples;
 	unsigned int m_numberOfClasses;
 	std::vector<double> m_C;
@@ -50,7 +50,7 @@ private:
 };
 
 inline CusomKernelGeneration::CusomKernelGeneration(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                                    std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                                                    std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                                     unsigned int numberOfClassExamples,
                                                     const std::vector<unsigned int>& labelsCount)
 	: m_trainingSet(trainingSet)
@@ -140,7 +140,7 @@ inline geneticComponents::Population<SvmCustomKernelChromosome> CusomKernelGener
 class MutationCustomGauss : public geneticComponents::IMutationOperator<SvmCustomKernelChromosome>
 {
 public:
-	explicit MutationCustomGauss(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+	explicit MutationCustomGauss(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 	                             platform::Percent exchangePercent,
 	                             platform::Percent mutationProbability,
 	                             const dataset::Dataset<std::vector<float>, float>& trainingSet,
@@ -175,7 +175,7 @@ private:
 	                            std::unordered_set<uint64_t>& deleted,
 	                            std::vector<std::size_t>& positionsToReplace) const;
 
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	platform::Percent m_mutationProbability;	
 	platform::Percent m_exchangePercent;
 	unsigned int m_numberOfExchanges;
@@ -187,7 +187,7 @@ private:
 
 };
 
-inline MutationCustomGauss::MutationCustomGauss(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+inline MutationCustomGauss::MutationCustomGauss(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                          platform::Percent exchangePercent,
                                          platform::Percent mutationProbability,
                                          const dataset::Dataset<std::vector<float>, float>& trainingSet,
@@ -330,7 +330,7 @@ inline void MutationCustomGauss::mutateChromosome(SvmCustomKernelChromosome& chr
 
 
 
-//inline MutationCustomGauss::MutationCustomGauss(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+//inline MutationCustomGauss::MutationCustomGauss(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 //                                         platform::Percent maxPercentChange,
 //                                         platform::Percent mutationProbability)
 //	: m_rngEngine(std::move(rngEngine))
@@ -396,7 +396,7 @@ class CrossoverCustomGauss : public geneticComponents::BaseCrossoverOperator<Svm
 public:
 	using chromosomeType = SvmCustomKernelChromosome;
 
-	explicit CrossoverCustomGauss(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+	explicit CrossoverCustomGauss(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 	                              unsigned int numberOfClasses);
 
 	chromosomeType crossoverChromosomes(const chromosomeType& parentA, const chromosomeType& parentB) override;
@@ -418,12 +418,12 @@ private:
 	                                     unsigned int datasetSize,
 	                                     unsigned int classExamples);
 
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	unsigned int m_numberOfClasses;
 	bool m_imbalancedOrOneClass;
 };
 
-inline CrossoverCustomGauss::CrossoverCustomGauss(std::unique_ptr<random::IRandomNumberGenerator> rngEngine, unsigned numberOfClasses)
+inline CrossoverCustomGauss::CrossoverCustomGauss(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine, unsigned numberOfClasses)
 	: m_rngEngine(std::move(rngEngine))
 	, m_numberOfClasses(numberOfClasses)
 	, m_imbalancedOrOneClass(false)

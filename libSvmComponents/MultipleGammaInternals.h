@@ -16,7 +16,7 @@ namespace svmComponents
 	{
 	public:
 		explicit MultipleGammaGeneration(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-			std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+			std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 			unsigned int numberOfClassExamples,
 			const std::vector<unsigned int>& labelsCount);
 
@@ -61,7 +61,7 @@ namespace svmComponents
 
 	private:
 		dataset::Dataset<std::vector<float>, float> m_trainingSet;
-		std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+		std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 		unsigned int m_numberOfClassExamples;
 		unsigned int m_numberOfClasses;
 		std::vector<double> m_gamma;
@@ -77,7 +77,7 @@ namespace svmComponents
 	{
 	public:
 		MultipleGammaCrossoverCompensation(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-			std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+			std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 			unsigned int numberOfClasses);
 
 		geneticComponents::Population<SvmCustomKernelChromosome> compensate(geneticComponents::Population<SvmCustomKernelChromosome>& population,
@@ -100,7 +100,7 @@ namespace svmComponents
 
 	private:
 		const dataset::Dataset<std::vector<float>, float>& m_trainingSet;
-		std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+		std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 		unsigned int m_numberOfClasses;
 		std::vector<double> m_gamma;
 		std::unordered_set<uint64_t> m_forbiddenIds;
@@ -117,7 +117,7 @@ namespace svmComponents
 
 		MultipleGammaEducationOfTrainingSet(platform::Percent educationProbability,
 			unsigned int numberOfClasses,
-			std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+			std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
 			std::unique_ptr<ISupportVectorSelectionGamma> supportVectorSelection);
 
 		void educatePopulation(geneticComponents::Population<SvmCustomKernelChromosome>& population,
@@ -143,7 +143,7 @@ namespace svmComponents
 
 		platform::Percent m_educationProbability;
 		const unsigned int m_numberOfClasses;
-		std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+		std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 		std::unique_ptr<ISupportVectorSelectionGamma> m_supportVectorSelection;
 	};
 
@@ -189,7 +189,7 @@ private:
 	class MultipleGammaSuperIndividualsCreation
 	{
 	public:
-		MultipleGammaSuperIndividualsCreation(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+		MultipleGammaSuperIndividualsCreation(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
 			unsigned int numberOfClasses);
 
 		geneticComponents::Population<SvmCustomKernelChromosome> createPopulation(uint32_t populationSize,
@@ -212,7 +212,7 @@ private:
 			const std::vector<Gene>& supportVectorPool,
 			unsigned int numberOfClassExamples);
 
-		const std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+		const std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 		const unsigned int m_numberOfClasses;
 		bool m_imbalancedOrOneClass;
 		double m_Cvalue;
@@ -269,14 +269,14 @@ private:
 	class MultipleGammaCompensationInformation
 	{
 	public:
-		explicit MultipleGammaCompensationInformation(std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+		explicit MultipleGammaCompensationInformation(std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
 			unsigned int numberOfClasses);
 
 		std::vector<unsigned int> generate(const std::vector<geneticComponents::Parents<SvmCustomKernelChromosome>>& parents,
 			unsigned int numberOfClassExamples) const;
 
 	private:
-		std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+		std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 		const unsigned int m_numberOfClasses;
 	};
 
@@ -284,7 +284,7 @@ private:
 	class MultipleGammaMutation : public IMutationOperator<SvmCustomKernelChromosome>
 	{
 	public:
-		explicit MultipleGammaMutation(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+		explicit MultipleGammaMutation(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 			platform::Percent exchangePercent,
 			platform::Percent mutationProbability,
 			const dataset::Dataset<std::vector<float>, float>& trainingSet,
@@ -326,7 +326,7 @@ private:
 			std::unordered_set<uint64_t>& deleted,
 			std::vector<std::size_t>& positionsToReplace) const;
 
-		std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+		std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 		platform::Percent m_mutationProbability;
 		platform::Percent m_exchangePercent;
 		unsigned int m_numberOfExchanges;

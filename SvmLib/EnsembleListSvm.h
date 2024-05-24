@@ -65,67 +65,67 @@ public:
 
 	double getCoef0() const override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	double getDegree() const override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	double getNu() const override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	double getP() const override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	double getT() const override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	void setC(double /*value*/) override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	void setCoef0(double /*value*/) override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	void setDegree(double /*value*/) override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	void setGamma(double /*value*/) override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	void setGammas(const std::vector<double>& /*value*/) override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	void setNu(double /*value*/) override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	void setP(double /*value*/) override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	void setT(double /*value*/) override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	void setOptimalProbabilityThreshold(double /*optimalThreshold*/) override
@@ -137,17 +137,17 @@ public:
 
 	void setKernel(phd::svm::KernelTypes /*kernelType*/) override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	phd::svm::SvmTypes getType() const override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	void setType(phd::svm::SvmTypes /*svmType*/) override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	void save(const std::filesystem::path& /*filepath*/) override;
@@ -205,19 +205,19 @@ public:
 
 	std::unordered_map<int, int> classifyGroups(const dataset::Dataset<std::vector<float>, float>& /*dataWithGroups*/) const
 	{
-		throw std::exception("Classyfing groups not implemented in EnsembleListSvm");
+		throw std::runtime_error("Classyfing groups not implemented in EnsembleListSvm");
 	}
 
 	std::unordered_map<int, float> classifyGroupsRawScores(const dataset::Dataset<std::vector<float>, float>& /*dataWithGroups*/) const override
 	{
-		throw std::exception("classifyGroupsRawScores not implemented in EnsembleListSvm");
+		throw std::runtime_error("classifyGroupsRawScores not implemented in EnsembleListSvm");
 	}
 
 	float classifyHyperplaneDistance(const gsl::span<const float> sample) const override;
 
 	double classificationProbability(const gsl::span<const float> /*sample*/) const override
 	{
-		throw std::exception("Not implemented EnsembleListSvm classificationProbability");
+		throw std::runtime_error("Not implemented EnsembleListSvm classificationProbability");
 	}
 
 	double classifyWithOptimalThreshold(const gsl::span<const float> sample) const override;
@@ -226,22 +226,22 @@ public:
 
 	// void setTerminationCriteria(const cv::TermCriteria& /*value*/) override
 	// {
-	// 	throw std::exception("Not implemented EnsembleListSvm");
+	// 	throw std::runtime_error("Not implemented EnsembleListSvm");
 	// }
 
 	// cv::TermCriteria getTerminationCriteria() const override
 	// {
-	// 	throw std::exception("Not implemented EnsembleListSvm");
+	// 	throw std::runtime_error("Not implemented EnsembleListSvm");
 	// }
 
 	void setFeatureSet(const std::vector<svmComponents::Feature>& /*features*/, int /*numberOfFeatures*/) override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	const std::vector<svmComponents::Feature>& getFeatureSet() override
 	{
-		throw std::exception("Not implemented EnsembleListSvm");
+		throw std::runtime_error("Not implemented EnsembleListSvm");
 	}
 
 	std::shared_ptr<ISvm> clone() override
@@ -251,7 +251,7 @@ public:
 
 	std::vector<double> getGammas() const override
 	{
-		throw std::exception("Not supported in EnsembleListSvm");
+		throw std::runtime_error("Not supported in EnsembleListSvm");
 	}
 	std::shared_ptr<phd::svm::ListNodeSvm> root;
 

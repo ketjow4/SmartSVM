@@ -21,7 +21,7 @@ public:
                                                                    const std::vector<unsigned int>& labelsCount);
 
 private:
-    const static std::unordered_map<std::string, enum class SvmMemeticFeatureSetMutation> m_translationsSvmKernelMutation;
+    const static std::unordered_map<std::string, enum SvmMemeticFeatureSetMutation> m_translationsSvmKernelMutation;
 };
 
 
@@ -41,7 +41,7 @@ public:
     static CrossoverOperator<SvmFeatureSetMemeticChromosome> create(const platform::Subtree& config);
 
 private:
-    const static std::unordered_map<std::string, enum class SvmMemeticFeatureSetCrossover> m_translationsSvmKernelCrossover;
+    const static std::unordered_map<std::string, enum SvmMemeticFeatureSetCrossover> m_translationsSvmKernelCrossover;
 };
 
 } // namespace svmComponents

@@ -7,7 +7,7 @@
 namespace svmComponents
 {
 GaSvmGeneration::GaSvmGeneration(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-                                 std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+                                 std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                  unsigned int numberOfClassExamples,
                                  const std::vector<unsigned int>& labelsCount)
     : m_trainingSet(trainingSet)
@@ -55,7 +55,7 @@ geneticComponents::Population<SvmTrainingSetChromosome> GaSvmGeneration::createP
 
 
 GaSvmGenerationWithForbbidenSet::GaSvmGenerationWithForbbidenSet(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-	std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+	std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 	unsigned numberOfClassExamples, const std::vector<unsigned>& labelsCount)
 	: m_trainingSet(trainingSet)
 	, m_rngEngine(std::move(rngEngine))

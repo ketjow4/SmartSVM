@@ -74,11 +74,11 @@ namespace svmComponents
 				}
 				catch (const UnsupportedKernelTypeException & exception)
 				{
-#pragma omp critical
+				#pragma omp critical
 					m_lastException = std::make_exception_ptr(exception);
 				}
 			}
-			if (m_lastException)
+			if (bool(m_lastException))
 			{
 				std::rethrow_exception(m_lastException);
 			}
@@ -314,7 +314,7 @@ public:
 				m_lastException = std::make_exception_ptr(exception);
 			}
 		}
-		if (m_lastException)
+		if (bool(m_lastException))
 		{
 			std::rethrow_exception(m_lastException);
 		}

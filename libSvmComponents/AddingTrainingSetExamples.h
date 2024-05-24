@@ -107,7 +107,7 @@ class CrossoverWithAdditionalExamples : public TrainingSetCrossover
 public:
 	using chromosomeType = SvmTrainingSetChromosome;
 
-	explicit CrossoverWithAdditionalExamples(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+	explicit CrossoverWithAdditionalExamples(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 	                        unsigned int numberOfClasses,
 		SetupAdditionalVectors& additinalVectors)
 		:  TrainingSetCrossover(std::move(rngEngine), numberOfClasses)
@@ -130,7 +130,7 @@ class GenerationWithAdditionalExamples : public geneticComponents::IPopulationGe
 {
 public:
 	explicit GenerationWithAdditionalExamples(const dataset::Dataset<std::vector<float>, float>& trainingSet,
-					                          std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+					                          std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 					                          unsigned int numberOfClassExamples,
 					                          const std::vector<unsigned int>& labelsCount,
 											  SetupAdditionalVectors& additinalVectors)
@@ -197,7 +197,7 @@ public:
 private:
 	SetupAdditionalVectors& m_additionalVectors;
 	const dataset::Dataset<std::vector<float>, float>& m_trainingSet;
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	unsigned int m_numberOfClassExamples;
 	unsigned int m_numberOfClasses;
 };
@@ -206,7 +206,7 @@ private:
 class MutationWithAdditionalExamples : public geneticComponents::IMutationOperator<SvmTrainingSetChromosome>
 {
 public:
-	/*explicit MutationWithAdditionalExamples(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+	/*explicit MutationWithAdditionalExamples(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
 	                       platform::Percent exchangePercent,
 	                       platform::Percent mutationProbability,
 	                       const dataset::Dataset<std::vector<float>, float>& trainingSet,
@@ -242,7 +242,7 @@ private:
 
 
 	SetupAdditionalVectors& m_additionalVectors;
-	/*std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	/*std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 	platform::Percent m_mutationProbability;
 	platform::Percent m_exchangePercent;
 	unsigned int m_numberOfExchanges;

@@ -159,7 +159,7 @@ namespace genetic
 						updateMetricDistance();
 
 					}
-					catch (const std::exception& e)
+					catch (const std::runtime_error& e)
 					{
 						LOG_F(ERROR, "Error: %s", e.what());
 						std::cout << e.what();
@@ -181,7 +181,7 @@ namespace genetic
 				logentries.push_back(*m_resultLogger.getLogEntries().crbegin());
 				m_resultLogger.logToFile(m_resultFilePath);
 			}
-			catch (const std::exception& e)
+			catch (const std::runtime_error& e)
 			{
 				LOG_F(ERROR, "Error: %s", e.what());
 				std::cout << e.what();
@@ -350,7 +350,7 @@ namespace genetic
 				}
 			}
 		}
-		catch (const std::exception& e)
+		catch (const std::runtime_error& e)
 		{
 			LOG_F(ERROR, "Error: %s", e.what());
 			throw;
@@ -573,7 +573,7 @@ namespace genetic
 			auto m_pop2 = m_selectionElement.launch(m_pop, newPopulation);
 			m_pop = m_pop2;
 		}
-		catch (const std::exception& e)
+		catch (const std::runtime_error& e)
 		{
 			LOG_F(ERROR, "Error: %s", e.what());
 			throw;

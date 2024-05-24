@@ -14,7 +14,7 @@ class LocalGlobalAdaptationSelection : public ICrossoverSelection<chromosome>
 public:
 	explicit LocalGlobalAdaptationSelection(bool isLocalMode,
 	                                        platform::Percent highLowCoefficient,
-	                                        std::unique_ptr<random::IRandomNumberGenerator> rngEngine);
+	                                        std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine);
 
 	Parents<chromosome> chooseParents(Population<chromosome>& population) override;
 
@@ -33,13 +33,13 @@ private:
 	bool m_isLocalMode;
 	platform::Percent m_highLowCoefficient;
 	unsigned int m_count;
-	std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+	std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
 };
 
 template <class chromosome>
 LocalGlobalAdaptationSelection<chromosome>::LocalGlobalAdaptationSelection(bool isLocalMode,
                                                                            platform::Percent highLowCoefficient,
-                                                                           std::unique_ptr<random::IRandomNumberGenerator> rngEngine)
+                                                                           std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine)
 	: m_isLocalMode(isLocalMode)
 	, m_highLowCoefficient(highLowCoefficient)
 	, m_rngEngine(std::move(rngEngine))

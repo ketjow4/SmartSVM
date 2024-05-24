@@ -101,7 +101,7 @@ namespace genetic
             logAllModels(m_population, testPopulation);
             logResults(m_population, testPopulation);
         }
-        catch (const std::exception& exception)
+        catch (const std::runtime_error& exception)
         {
             LOG_F(ERROR, "Error: %s", exception.what());
             std::cout << exception.what();

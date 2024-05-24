@@ -345,7 +345,7 @@ void divide_dataset_last_node(genetic::LocalFileDatasetLoader& ptrToLoader, phd:
 	case test:
 		tr = ptrToLoader.getTestSet();
 		break;
-	default: throw std::exception("wrong dataset type");
+	default: throw std::runtime_error("wrong dataset type");
 	}
 	
 	
@@ -620,7 +620,7 @@ std::string scoreEnsemble(std::shared_ptr<phd::svm::EnsembleListSvm> ensemble, g
 
 		return ensembleFile.str();
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, exception.what());
 		std::cout << exception.what();

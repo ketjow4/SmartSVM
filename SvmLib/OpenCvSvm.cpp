@@ -249,7 +249,7 @@
 
 //         return cv::ml::TrainData::create(trainingDataMat, cv::ml::ROW_SAMPLE, labelsMat);
 //     }
-//     throw std::exception("Other than CSVC not implemented");
+//     throw std::runtime_error("Other than CSVC not implemented");
 //     //if (m_svm->getType() == static_cast<int>(SvmTypes::EpsSvr))
 //    /* {
 //         auto targets = trainingSet.getLabels();

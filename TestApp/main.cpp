@@ -337,7 +337,7 @@ public:
 		if(configFiles.size() != 1)
 		{
 			LOG_F(ERROR, std::string("Too many json files found in output folder " + folderPath.string()).c_str());
-			throw std::exception(std::string("Too many json files found in output folder " + folderPath.string()).c_str());
+			throw std::runtime_error(std::string("Too many json files found in output folder " + folderPath.string()).c_str());
 		}
 		
 		return configFiles[0];
@@ -366,7 +366,7 @@ public:
 		/*if (weightFiles.size() != 1)
 		{
 			LOG_F(ERROR, std::string("Too many weights files found in output folder " + folderPath.string()).c_str());
-			throw std::exception(std::string("Too many weights files found in output folder " + folderPath.string()).c_str());
+			throw std::runtime_error(std::string("Too many weights files found in output folder " + folderPath.string()).c_str());
 		}*/
 
 		return weightFiles;
@@ -1492,7 +1492,7 @@ int main(int argc, char* argv[])
 		auto outputPath = R"(D:\rerun_experiment_no_thr_coevolution)";
 		rerun_models2(basePath, outputPath);*/
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
 	}

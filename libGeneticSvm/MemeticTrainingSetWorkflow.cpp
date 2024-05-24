@@ -178,7 +178,7 @@ geneticComponents::Population<svmComponents::SvmTrainingSetChromosome> MemeticTr
                 m_algorithmConfig.m_labelsCount); //fix for small highly imbalanced datasets
 
         auto popGenerator = std::make_unique<GaSvmGeneration>(*m_trainingSet,
-                                                              std::make_unique<random::MersenneTwister64Rng>(seed),
+                                                              std::make_unique<my_random::MersenneTwister64Rng>(seed),
                                                               numberOfClassExamples,
                                                               m_algorithmConfig.m_labelsCount);
         
@@ -190,7 +190,7 @@ geneticComponents::Population<svmComponents::SvmTrainingSetChromosome> MemeticTr
 
     	return population;
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
         LOG_F(ERROR, "Error: %s", exception.what());
         throw;
@@ -272,7 +272,7 @@ void MemeticTraningSetWorkflow::runGeneticAlgorithm()
             logResults(m_population, testPopulation);
         }
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
     }
@@ -364,7 +364,7 @@ geneticComponents::Population<svmComponents::SvmTrainingSetChromosome> MemeticTr
         auto population = m_createPopulationElement.launch(popSize);
         return population;
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
         throw;
@@ -456,7 +456,7 @@ void MemeticTraningSetWorkflow::initializeGeneticAlgorithm()
         }
         logResults(m_population, testPopulation);
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
 		throw;

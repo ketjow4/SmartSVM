@@ -23,7 +23,7 @@ namespace phd {
 			{
 				if (m_classifieres.size() != m_weights.size())
 				{
-					throw std::exception("wrong size of weights or classifiers");
+					throw std::runtime_error("wrong size of weights or classifiers");
 				}
 			}
 
@@ -333,7 +333,7 @@ namespace phd {
 				{
 					return classifyNodeWeights(sample);
 				}
-				throw std::exception("Wrong classification_type_ in classification_tests method of Voting Ensemble");
+				throw std::runtime_error("Wrong classification_type_ in classification_tests method of Voting Ensemble");
 			}
 
 			//BEFORE 22.07.2023 this was the calculated
@@ -495,42 +495,42 @@ namespace phd {
 
 			std::unordered_map<int, int> classifyGroups(const dataset::Dataset<std::vector<float>, float>& /*dataWithGroups*/) const
 			{
-				throw std::exception("Classyfing groups not implemented in VotingEnsemble");
+				throw std::runtime_error("Classyfing groups not implemented in VotingEnsemble");
 			}
 
 			std::unordered_map<int, float> classifyGroupsRawScores(const dataset::Dataset<std::vector<float>, float>& /*dataWithGroups*/) const override
 			{
-				throw std::exception("classifyGroupsRawScores not implemented in VotingEnsemble");
+				throw std::runtime_error("classifyGroupsRawScores not implemented in VotingEnsemble");
 			}
 
-			std::shared_ptr<ISvm> clone() override { throw std::exception("Not implemented Voting Ensemble 1"); }
-			double getC() const override { throw std::exception("Not implemented Voting Ensemble 2"); }
-			double getGamma() const override { throw std::exception("Not implemented Voting Ensemble 3"); }
-			std::vector<double> getGammas() const override { throw std::exception("Not implemented Voting Ensemble 4"); }
-			double getCoef0() const override { throw std::exception("Not implemented Voting Ensemble 5"); }
-			double getDegree() const override { throw std::exception("Not implemented Voting Ensemble 6"); }
-			double getNu() const override { throw std::exception("Not implemented Voting Ensemble 7"); }
-			double getP() const override { throw std::exception("Not implemented Voting Ensemble 8"); }
-			double getT() const override { throw std::exception("Not implemented Voting Ensemble 9"); }
-			void setC(double /*value*/) override { throw std::exception("Not implemented Voting Ensemble 10"); }
-			void setCoef0(double /*value*/) override { throw std::exception("Not implemented Voting Ensemble 11"); }
-			void setDegree(double /*value*/) override { throw std::exception("Not implemented Voting Ensemble 12"); }
-			void setGamma(double /*value*/) override { throw std::exception("Not implemented Voting Ensemble 13"); }
-			void setGammas(const std::vector<double>& /*value*/) override { throw std::exception("Not implemented Voting Ensemble 14"); }
-			void setNu(double /*value*/) override { throw std::exception("Not implemented Voting Ensemble 15"); }
-			void setP(double /*value*/) override { throw std::exception("Not implemented Voting Ensemble 16"); }
-			void setT(double /*value*/) override { throw std::exception("Not implemented Voting Ensemble 17"); }
+			std::shared_ptr<ISvm> clone() override { throw std::runtime_error("Not implemented Voting Ensemble 1"); }
+			double getC() const override { throw std::runtime_error("Not implemented Voting Ensemble 2"); }
+			double getGamma() const override { throw std::runtime_error("Not implemented Voting Ensemble 3"); }
+			std::vector<double> getGammas() const override { throw std::runtime_error("Not implemented Voting Ensemble 4"); }
+			double getCoef0() const override { throw std::runtime_error("Not implemented Voting Ensemble 5"); }
+			double getDegree() const override { throw std::runtime_error("Not implemented Voting Ensemble 6"); }
+			double getNu() const override { throw std::runtime_error("Not implemented Voting Ensemble 7"); }
+			double getP() const override { throw std::runtime_error("Not implemented Voting Ensemble 8"); }
+			double getT() const override { throw std::runtime_error("Not implemented Voting Ensemble 9"); }
+			void setC(double /*value*/) override { throw std::runtime_error("Not implemented Voting Ensemble 10"); }
+			void setCoef0(double /*value*/) override { throw std::runtime_error("Not implemented Voting Ensemble 11"); }
+			void setDegree(double /*value*/) override { throw std::runtime_error("Not implemented Voting Ensemble 12"); }
+			void setGamma(double /*value*/) override { throw std::runtime_error("Not implemented Voting Ensemble 13"); }
+			void setGammas(const std::vector<double>& /*value*/) override { throw std::runtime_error("Not implemented Voting Ensemble 14"); }
+			void setNu(double /*value*/) override { throw std::runtime_error("Not implemented Voting Ensemble 15"); }
+			void setP(double /*value*/) override { throw std::runtime_error("Not implemented Voting Ensemble 16"); }
+			void setT(double /*value*/) override { throw std::runtime_error("Not implemented Voting Ensemble 17"); }
 			void setOptimalProbabilityThreshold(double /*optimalThreshold*/) override { return; }
 			KernelTypes getKernelType() const override { return phd::svm::KernelTypes::Custom; }
-			void setKernel(KernelTypes /*kernelType*/) override { throw std::exception("Not implemented Voting Ensemble 19"); }
-			SvmTypes getType() const override { throw std::exception("Not implemented Voting Ensemble 20"); }
-			void setType(SvmTypes /*svmType*/) override { throw std::exception("Not implemented Voting Ensemble 21"); }
-			void train(const dataset::Dataset<std::vector<float>, float>& /*trainingSet*/, bool /*probabilityNeeded*/) override { throw std::exception("Not implemented Voting Ensemble 22"); }
-			//void setTerminationCriteria(const cv::TermCriteria& /*value*/) override { throw std::exception("Not implemented Voting Ensemble 23"); }
-			//cv::TermCriteria getTerminationCriteria() const override { throw std::exception("Not implemented Voting Ensemble 24"); }
-			void setFeatureSet(const std::vector<svmComponents::Feature>& /*features*/, int /*numberOfFeatures*/) override { throw std::exception("Not implemented Voting Ensemble 25"); }
-			const std::vector<svmComponents::Feature>& getFeatureSet() override { throw std::exception("Not implemented Voting Ensemble 26"); }
-			uint32_t getNumberOfKernelParameters(KernelTypes /*kernelType*/) const override { throw std::exception("Not implemented Voting Ensemble 27"); }
+			void setKernel(KernelTypes /*kernelType*/) override { throw std::runtime_error("Not implemented Voting Ensemble 19"); }
+			SvmTypes getType() const override { throw std::runtime_error("Not implemented Voting Ensemble 20"); }
+			void setType(SvmTypes /*svmType*/) override { throw std::runtime_error("Not implemented Voting Ensemble 21"); }
+			void train(const dataset::Dataset<std::vector<float>, float>& /*trainingSet*/, bool /*probabilityNeeded*/) override { throw std::runtime_error("Not implemented Voting Ensemble 22"); }
+			//void setTerminationCriteria(const cv::TermCriteria& /*value*/) override { throw std::runtime_error("Not implemented Voting Ensemble 23"); }
+			//cv::TermCriteria getTerminationCriteria() const override { throw std::runtime_error("Not implemented Voting Ensemble 24"); }
+			void setFeatureSet(const std::vector<svmComponents::Feature>& /*features*/, int /*numberOfFeatures*/) override { throw std::runtime_error("Not implemented Voting Ensemble 25"); }
+			const std::vector<svmComponents::Feature>& getFeatureSet() override { throw std::runtime_error("Not implemented Voting Ensemble 26"); }
+			uint32_t getNumberOfKernelParameters(KernelTypes /*kernelType*/) const override { throw std::runtime_error("Not implemented Voting Ensemble 27"); }
 
 			std::vector<double> m_weights;
 			std::vector<std::shared_ptr<phd::svm::EnsembleListSvm>> m_classifieres;

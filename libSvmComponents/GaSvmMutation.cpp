@@ -7,7 +7,7 @@
 
 namespace svmComponents
 {
-GaSvmMutation::GaSvmMutation(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+GaSvmMutation::GaSvmMutation(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                              platform::Percent exchangePercent,
                              platform::Percent mutationProbability,
                              const dataset::Dataset<std::vector<float>, float>& trainingSet,

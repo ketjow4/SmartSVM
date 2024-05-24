@@ -96,7 +96,7 @@ inline void consolidateExperiment(std::filesystem::path pathToFold,
 			testApp::createSummaryFile(config, summaryFile, logFileNames, testApp::Verbosity::Standard);
 		}
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		std::cout << e.what() << "\n";
 	}

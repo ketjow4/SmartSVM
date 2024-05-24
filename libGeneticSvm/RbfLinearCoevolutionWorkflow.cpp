@@ -46,7 +46,7 @@ void runFeatureSelectionForTimeMeasure(std::filesystem::path treningSetPath)
 
 	//std::cout << "Starting python script\n";
 
-	const auto [output, ret] = platform::subprocess::launchWithPipe(command);
+	//const auto [output, ret] = platform::subprocess::launchWithPipe(command);
 	
 }
 
@@ -515,7 +515,7 @@ void CoevolutionHelper::shrinkTrainingSetComplete()
 	geneticComponents::Population<SvmCustomKernelChromosome> best_pop;
 	auto copy2 = m_frozenSV;
 	svmComponents::SvmCustomKernelChromosome best_vec{std::move(copy2), m_population.getBestOne().getC()};
-	best_pop = {std::vector<SvmCustomKernelChromosome>{best_vec}};
+	best_pop = Population<svmComponents::SvmCustomKernelChromosome>(std::vector<SvmCustomKernelChromosome>{best_vec});
 	m_trainingSvmClassifierElement.launch(best_pop, *m_trainingSet);
 
 	if (m_algorithmConfig.m_svmConfig.m_doVisualization)
@@ -633,7 +633,7 @@ void CoevolutionHelper::getGammasFromGridSearch()
 		m_gammaRange = { bestOne->getGamma() / 10, bestOne->getGamma(), bestOne->getGamma() * 10, bestOne->getGamma() * 100, bestOne->getGamma() * 1000 };
 		m_CValue = bestOne->getC();
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 	}
@@ -795,7 +795,7 @@ void CoevolutionHelper::initMemetic(bool extendOnRbfToLinear)
 	{
 		LOG_F(ERROR, "With gamma %f  Error: %s", m_currentGamma, exception.what());
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		throw;
@@ -898,7 +898,7 @@ void CoevolutionHelper::memeticAlgorithm()
 	{
 		LOG_F(ERROR, "With gamma %f  Error: %s", m_currentGamma, exception.what());
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		throw;
@@ -1003,7 +1003,7 @@ bool CoevolutionHelper::memeticAlgorithmSingleIteration()
 		LOG_F(ERROR, "With gamma %f  Error: %s", m_currentGamma, exception.what());
 		return true;
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());	
 		throw;

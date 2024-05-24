@@ -188,8 +188,8 @@ extern "C" {
 		//original version
 		//virtual Qfloat *get_Q(int column, int len) const = 0;
 		//virtual double *get_QD() const = 0;
-		virtual Qfloat* get_Q(int /*column*/, int /*len*/) const { throw std::exception("Not implemented"); };
-		virtual double* get_QD() const { throw std::exception("Not implemented");};
+		virtual Qfloat* get_Q(int /*column*/, int /*len*/) const { throw std::runtime_error("Not implemented"); };
+		virtual double* get_QD() const { throw std::runtime_error("Not implemented");};
 		virtual void swap_index(int i, int j) const	// no so const...
 		{
 			swap(x[i], x[j]);
@@ -230,7 +230,7 @@ extern "C" {
 				return exp(-gammas[i] * (x_square[i] + x_square[j] - 2 * dot(x[i], x[j])))
 					+ exp(-gammas[j] * (x_square[i] + x_square[j] - 2 * dot(x[i], x[j])));
 			default:
-				throw std::exception("Wrong kernel rbf + linear, libsvmInternal.h line 207");
+				throw std::runtime_error("Wrong kernel rbf + linear, libsvmInternal.h line 207");
 			}			
 			
 		}

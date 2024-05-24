@@ -29,15 +29,32 @@ std::vector<std::string>& splitString(const std::string& s, char delimiter, std:
 }
 
 
-void splitString(std::vector<std::string>& tokens, char* str, const char* delimiters)
-{
-    char* saveptr;
-    char* token;
+// void splitString(std::vector<std::string>& tokens, char* str, const char* delimiters)
+// {
+//     char* saveptr;
+//     char* token;
 
-    for (token = strtok_s(str, delimiters, &saveptr);
-        token != NULL;
-        token = strtok_s(NULL, delimiters, &saveptr)) {
-        tokens.emplace_back(std::string(token));
+//     for (token = strtok_s(str, delimiters, &saveptr);
+//         token != NULL;
+//         token = strtok_s(NULL, delimiters, &saveptr)) {
+//         tokens.emplace_back(std::string(token));
+//     }
+// }
+
+void splitString(std::vector<std::string>& tokens, const char* str, const char* delimiters) {
+    std::string s(str);
+    std::size_t start = 0;
+    std::size_t end = s.find_first_of(delimiters);
+
+    while (end != std::string::npos) {
+        if (end > start) {
+            tokens.emplace_back(s.substr(start, end - start));
+        }
+        start = end + 1;
+        end = s.find_first_of(delimiters, start);
+    }
+    if (start < s.length()) {
+        tokens.emplace_back(s.substr(start));
     }
 }
 

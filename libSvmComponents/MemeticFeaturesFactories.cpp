@@ -26,7 +26,7 @@ MutationOperator<SvmFeatureSetMemeticChromosome> SvmMemeticFeatureSetMutationFac
         auto exchangePercent = config.getValue<double>("Mutation.GaSvm.ExchangePercent");
         auto mutationProbability = config.getValue<double>("Mutation.GaSvm.MutationProbability");
 
-        return std::make_unique<MemeticFeatureMutation>(std::move(random::RandomNumberGeneratorFactory::create(config)),
+        return std::make_unique<MemeticFeatureMutation>(std::move(my_random::RandomNumberGeneratorFactory::create(config)),
                                                         platform::Percent(exchangePercent),
                                                         platform::Percent(mutationProbability),
                                                         trainingSet,
@@ -51,7 +51,7 @@ CrossoverOperator<SvmFeatureSetMemeticChromosome> SvmMemeticFeatureSetCrossoverF
     case SvmMemeticFeatureSetCrossover::Memetic:
     {
         auto numberOfClasses = config.getValue<unsigned int>("NumberOfClasses");
-        return std::make_unique<MemeticFeatureCrossover>(std::move(random::RandomNumberGeneratorFactory::create(config)),
+        return std::make_unique<MemeticFeatureCrossover>(std::move(my_random::RandomNumberGeneratorFactory::create(config)),
                                                          numberOfClasses);
     }
     default:

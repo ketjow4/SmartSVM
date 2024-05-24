@@ -18,7 +18,7 @@ public:
 
     EducationOfTrainingSet(platform::Percent educationProbability,
                            unsigned int numberOfClasses,
-                           std::unique_ptr<random::IRandomNumberGenerator> randomNumberGenerator,
+                           std::unique_ptr<my_random::IRandomNumberGenerator> randomNumberGenerator,
                            std::unique_ptr<ISupportVectorSelection> supportVectorSelection);
 
     void educatePopulation(geneticComponents::Population<SvmTrainingSetChromosome>& population,
@@ -44,7 +44,7 @@ private:
 
     platform::Percent m_educationProbability;
     const unsigned int m_numberOfClasses;
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     std::unique_ptr<ISupportVectorSelection> m_supportVectorSelection;
 };
 } // namespace svmComponents

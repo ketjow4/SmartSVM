@@ -100,7 +100,7 @@ inline std::string getLastLine(std::filesystem::path& path)
         fin.close();
         return lastline;
     }
-    throw std::exception(std::string("Cannot open file: " + path.string()).c_str());
+    throw std::runtime_error(std::string("Cannot open file: " + path.string()).c_str());
 }
 
 

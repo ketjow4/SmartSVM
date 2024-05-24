@@ -42,7 +42,7 @@ std::unique_ptr<ICrossoverSelection<chromosome>> CrossoverSelectionFactory::crea
     {
         auto highLowCoefficient = config.getValue<double>("CrossoverSelection.HighLowFit.HighLowCoefficient");
         return std::make_unique<HighLowFitSelection<chromosome>>(platform::Percent(highLowCoefficient),
-                                                                 std::move(random::RandomNumberGeneratorFactory::create(config)));
+                                                                 std::move(my_random::RandomNumberGeneratorFactory::create(config)));
     }
     case CrossoverSelection::LocalGlobalSelection:
     {
@@ -50,7 +50,7 @@ std::unique_ptr<ICrossoverSelection<chromosome>> CrossoverSelectionFactory::crea
         auto isLocalMode = config.getValue<bool>("CrossoverSelection.LocalGlobalSelection.IsLocalMode");
         return std::make_unique<LocalGlobalAdaptationSelection<chromosome>>(isLocalMode,
                                                                             platform::Percent(highLowCoefficient),
-                                                                            std::move(random::RandomNumberGeneratorFactory::create(config)));
+                                                                            std::move(my_random::RandomNumberGeneratorFactory::create(config)));
     }
     default:
         throw UnknownEnumType(name, typeid(CrossoverSelection).name());

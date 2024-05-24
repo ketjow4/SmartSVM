@@ -29,7 +29,7 @@ public:
 
 private:
 
-	void EnsembleTreeWorkflow::createVisualization(const dataset::Dataset<std::vector<float>, float>& trainingSet,
+	void createVisualization(const dataset::Dataset<std::vector<float>, float>& trainingSet,
 	                                               const dataset::Dataset<std::vector<float>, float>& validationSet,
 	                                               int& id_,
 	                                               std::shared_ptr<phd::svm::ISvm> svm,
@@ -71,7 +71,7 @@ private:
 	         const dataset::Dataset<std::vector<float>, float>& validationSet,
 	         const std::vector<unsigned long long>& valIds);
 	
-	dataset::Dataset<std::vector<float>, float> EnsembleTreeWorkflow::getCertain(std::shared_ptr<phd::svm::ISvm> svm,
+	dataset::Dataset<std::vector<float>, float> getCertain(std::shared_ptr<phd::svm::ISvm> svm,
 		const dataset::Dataset<std::vector<float>, float>& set, bool certain);
 	
 	std::pair<dataset::Dataset<std::vector<float>, float>,  dataset::Dataset<std::vector<float>, float>>

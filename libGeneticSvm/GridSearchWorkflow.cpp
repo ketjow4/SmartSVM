@@ -109,7 +109,7 @@ std::shared_ptr<phd::svm::ISvm> GridSearchWorkflow::runWithGeneration(geneticCom
 			doGridSearch(trainingSubset);
 		}
 	}
-	catch (const std::exception& exception)
+	catch (const std::runtime_error& exception)
 	{
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what() << "\n";
@@ -320,7 +320,7 @@ void GridSearchWorkflow::runGridSearch()
 			
 			GaSvmGeneration generation{
 				*m_trainingSet,
-				std::make_unique<random::MersenneTwister64Rng>(std::chrono::system_clock::now().time_since_epoch().count()),
+				std::make_unique<my_random::MersenneTwister64Rng>(std::chrono::system_clock::now().time_since_epoch().count()),
 				subsetSize,
 				svmUtils::countLabels(static_cast<unsigned int>(numberOfClasses), *m_trainingSet)
 			};
@@ -337,7 +337,7 @@ void GridSearchWorkflow::runGridSearch()
 			}
 		}
     }
-    catch (const std::exception& exception)
+    catch (const std::runtime_error& exception)
     {
 		LOG_F(ERROR, "Error: %s", exception.what());
 		std::cout << exception.what() << "\n";

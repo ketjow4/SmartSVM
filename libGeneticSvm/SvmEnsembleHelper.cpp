@@ -173,7 +173,7 @@ std::shared_ptr<phd::svm::ISvm> SvmHelper::run()
 				updateMetricDistance();
 
 				}
-				catch (const std::exception& e)
+				catch (const std::runtime_error& e)
 				{
 					LOG_F(ERROR, "Error: %s", e.what());
 					std::cout << e.what();
@@ -195,7 +195,7 @@ std::shared_ptr<phd::svm::ISvm> SvmHelper::run()
 			logentries.push_back(*m_resultLogger.getLogEntries().crbegin());
 			m_resultLogger.logToFile(m_resultFilePath);
 		}
-			catch (const std::exception& e)
+			catch (const std::runtime_error& e)
 		{
 			LOG_F(ERROR, "Error: %s", e.what());
 			std::cout << e.what();
@@ -344,7 +344,7 @@ void SvmHelper::init()
 			}
 		}
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
 		throw;
@@ -567,7 +567,7 @@ void SvmHelper::performEvolution()
 		auto m_pop2 = m_selectionElement.launch(m_pop, newPopulation);
 		m_pop = m_pop2;
 	}
-	catch (const std::exception& e)
+	catch (const std::runtime_error& e)
 	{
 		LOG_F(ERROR, "Error: %s", e.what());
 		throw;

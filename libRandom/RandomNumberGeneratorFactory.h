@@ -6,7 +6,7 @@
 #include "libPlatform/Subtree.h"
 #include "MersenneTwister64Rng.h"
 
-namespace random
+namespace my_random
 {
 enum class randomNumberGenerator
 {
@@ -24,4 +24,4 @@ public:
 private:
     static unsigned long long getSeed(const platform::Subtree& config);
 };
-} // namespace random
+} // namespace my_random

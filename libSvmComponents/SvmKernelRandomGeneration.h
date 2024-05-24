@@ -15,7 +15,7 @@ class SvmKernelRandomGeneration : public geneticComponents::IPopulationGeneratio
 public:
     explicit SvmKernelRandomGeneration(std::uniform_real_distribution<double> parameterDistribution,
                                        phd::svm::KernelTypes kernelType,
-                                       std::unique_ptr<random::IRandomNumberGenerator> rndEngine,
+                                       std::unique_ptr<my_random::IRandomNumberGenerator> rndEngine,
                                        bool isRegression);
 
     geneticComponents::Population<SvmKernelChromosome> createPopulation(uint32_t populationSize) override;
@@ -23,7 +23,7 @@ public:
 private:
     std::uniform_real_distribution<double> m_parameterDistribution;
     phd::svm::KernelTypes m_kernelType;
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     uint32_t m_parametersNumber;
     bool m_isRegression;
 };

@@ -335,7 +335,7 @@ T Subtree::getImplementation(const std::string& propertyName) const
     {
         return currentNode->get<T>();
     }
-    catch (const std::exception&)
+    catch (const std::runtime_error&)
     {
         throw WrongConversionException(propertyName, typeid(T).name());
     }

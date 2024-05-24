@@ -16,7 +16,7 @@ public:
     using chromosomeType = SvmTrainingSetChromosome;
 
 protected:
-    explicit TrainingSetCrossover(std::unique_ptr<random::IRandomNumberGenerator> rngEngine,
+    explicit TrainingSetCrossover(std::unique_ptr<my_random::IRandomNumberGenerator> rngEngine,
                                   unsigned int numberOfClasses);
 
     virtual void tryToInsert(const std::vector<DatasetVector>::const_iterator& parentAIt,
@@ -30,7 +30,7 @@ protected:
                                                   unsigned int datasetSize,
                                                   unsigned int classExamples);
 
-    std::unique_ptr<random::IRandomNumberGenerator> m_rngEngine;
+    std::unique_ptr<my_random::IRandomNumberGenerator> m_rngEngine;
     unsigned int m_numberOfClasses;
 };
 } // namespace svmComponents
