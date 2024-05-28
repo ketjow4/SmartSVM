@@ -11,10 +11,10 @@ platform::Subtree DefaultSvmConfig::getDefault()
     config.putValue<bool>("Svm.UseSvmIteration", false);
     config.putValue<int>("Svm.SvmIterationNumber", 0);
     config.putValue<double>("Svm.Epsilon", 0.001);
-    config.putValue<std::string>("Svm.OutputFolderPath", ".\\");
+    config.putValue<std::string>("Svm.OutputFolderPath", "");
     config.putValue<std::string>("Svm.Visualization.Filename", "visualization.png");
     config.putValue<std::string>("Svm.TxtLogFilename", "results.txt");
-    config.putValue<bool>("Svm.Visualization.Create", true);
+    config.putValue<bool>("Svm.Visualization.Create", false);
     config.putValue<int>("Svm.Visualization.Width", 500);
     config.putValue<int>("Svm.Visualization.Height", 500);
     config.putValue<std::string>("Svm.Metric", "Accuracy");

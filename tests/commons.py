@@ -1,3 +1,4 @@
+import math
 import sys
 import pandas
 import sklearn.feature_selection as sk
@@ -196,22 +197,79 @@ def filterDataset(dataset:Dataset):
     return Dataset(X_tr=train,X_val=val,X_test=test,Y_tr=dataset.Y_tr,Y_val=dataset.Y_val,Y_test=dataset.Y_test)
 
 
-# def get_confusion_matrix(dataset, classifier):
-#     with Timer() as t:
-#         tn, fp, fn, tp = confusion_matrix(y_true=dataset.Y_val, y_pred=classifier.predict(dataset.X_val)).ravel()
-#         cm_val = ConfusionMatrix.from_explicit_numbers(tp, fp, tn, fn)
-#     time_validation = t.elapsed
+class ConfusionMatrix:
+    def __init__(self, confusionMatrix):
+        # the order come from c++ solution
+        # out << matrix.truePositive() << "\t" << matrix.falsePositive() << "\t" << matrix.trueNegative() << "\t" << matrix.falseNegative();
 
-#     # assert f1_score(y_true=dataset.Y_val, y_pred=classifier.predict(dataset.X_val)) ==  cm_val.f1()
-#     # assert accuracy_score(y_true=dataset.Y_val, y_pred=classifier.predict(dataset.X_val)) == cm_val.accuracy()
-#     # assert precision_score(y_true=dataset.Y_val, y_pred=classifier.predict(dataset.X_val)) == cm_val.precision()
-#     # assert recall_score(y_true=dataset.Y_val, y_pred=classifier.predict(dataset.X_val)) == cm_val.recall()
+        self.tp = float(confusionMatrix[0])
+        self.fp = float(confusionMatrix[1])
+        self.tn = float(confusionMatrix[2])
+        self.fn = float(confusionMatrix[3])
 
-#     with Timer() as t:
-#         tn, fp, fn, tp = confusion_matrix(y_true=dataset.Y_test, y_pred=classifier.predict(dataset.X_test)).ravel()
-#         conf_test = ConfusionMatrix.from_explicit_numbers(tp, fp, tn, fn)
-#     time_test = t.elapsed
-#     return cm_val, conf_test, time_validation, time_test
+    @classmethod
+    def from_explicit_numbers(cls, tp, fp, tn, fn):
+        return cls([tp,fp,tn,fn])
+
+    # @classmethod
+    # def from_pred_true(cls, y_true, y_pred):
+    #     cm = confusion_matrix(y_true=y_true, y_pred=y_pred)
+    #     return cls(cm)
+
+    def __add__(self, o):
+        return ConfusionMatrix([self.tp + o.tp, self.fp + o.fp, self.tn + o.tn, self.fn + o.fn])
+
+    def accuracy(self):
+        if (self.tp + self.fn + self.fp + self.tn) == 0:
+            return 0
+        return (self.tp + self.tn) / (self.tp + self.fn + self.fp + self.tn)
+
+    def f1(self):
+        precision = self.precision()
+        recall = self.recall()
+        if (precision + recall) == 0:
+            return 0
+        return (2 * precision * recall) / (precision + recall)
+
+    def precision(self):
+        if (self.tp + self.fp) == 0:
+            return 0
+        return self.tp / (self.tp + self.fp)
+
+    def recall(self):
+        if (self.tp + self.fn) == 0:
+            return 0
+        return self.tp / (self.tp + self.fn)
+
+    def MCC(self):
+        self.tp = float(self.tp)
+        self.fp = float(self.fp)
+        self.tn = float(self.tn)
+        self.fn = float(self.fn)
+
+        if math.sqrt((self.tp + self.fp) * (self.tp + self.fn) * (self.tn + self.fp) * (self.tn + self.fn)) == 0:
+            return 0
+        return ((self.tp * self.tn) - (self.fp * self.fn)) / math.sqrt((self.tp + self.fp) * (self.tp + self.fn) * (self.tn + self.fp) * (self.tn + self.fn))
+    
+    def __str__(self):
+        return f"Confusion Matrix:\nTrue Positive: {self.tp}\nFalse Positive: {self.fp}\nTrue Negative: {self.tn}\nFalse Negative: {self.fn}"
+
+def get_confusion_matrix(dataset, classifier):
+    with Timer() as t:
+        tn, fp, fn, tp = confusion_matrix(y_true=dataset.Y_val, y_pred=classifier.predict(dataset.X_val)).ravel()
+        cm_val = ConfusionMatrix.from_explicit_numbers(tp, fp, tn, fn)
+    time_validation = t.elapsed
+
+    # assert f1_score(y_true=dataset.Y_val, y_pred=classifier.predict(dataset.X_val)) ==  cm_val.f1()
+    # assert accuracy_score(y_true=dataset.Y_val, y_pred=classifier.predict(dataset.X_val)) == cm_val.accuracy()
+    # assert precision_score(y_true=dataset.Y_val, y_pred=classifier.predict(dataset.X_val)) == cm_val.precision()
+    # assert recall_score(y_true=dataset.Y_val, y_pred=classifier.predict(dataset.X_val)) == cm_val.recall()
+
+    with Timer() as t:
+        tn, fp, fn, tp = confusion_matrix(y_true=dataset.Y_test, y_pred=classifier.predict(dataset.X_test)).ravel()
+        conf_test = ConfusionMatrix.from_explicit_numbers(tp, fp, tn, fn)
+    time_test = t.elapsed
+    return cm_val, conf_test, time_validation, time_test
 
 
 # def get_confusion_matrix_automl(dataset, classifier):

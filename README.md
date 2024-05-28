@@ -30,7 +30,11 @@ Do not run this
 ## TODO list
 
 - Add python test
+- Fix visualizations
 - Add wrapper for all relevant algorithms
+    - SE-SVM fix feature selection at the start
+    - CE-SVM not ready
+    - ECE-SVM not ready
 - CI build package on GHA
 - Add our datasets --- Done (at least for 2D datasets), need to fix names
 - Add examples

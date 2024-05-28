@@ -25,6 +25,7 @@
 #include "libGeneticSvm/IDatasetLoader.h"
 #include "libGeneticSvm/LocalFileDatasetLoader.h"
 #include "libGeneticSvm/SvmAlgorithmFactory.h"
+#include "libPlatform/Verbosity.h"
 
 namespace py = pybind11;
 using namespace platform;
@@ -74,7 +75,6 @@ public:
         {
             std::unique_ptr<genetic::IDatasetLoader> dataLoader = std::make_unique<NumpyDatasetLoader>(tr_x, tr_y, val_x, val_y, test_x, test_y);
 
-
             auto algorithm = genetic::SvmAlgorithmFactory::createAlgorightm(m_config, *dataLoader);
 
             std::cout << "Created algorithm" << std::endl;
@@ -109,7 +109,7 @@ public:
         else if (bufInfo.ndim == 1)
         {
             auto sample = numpyToVector(samples);
-            answers.emplace_back(m_trainedModel->classify(sample));
+              answers.emplace_back(m_trainedModel->classify(sample));
         }
         else
         {
@@ -136,15 +136,22 @@ private:
 class ALMA_python : public GeneticSvm
 {
 public:
-    //ALMA_python( verbosity, outputFolder, paramDict)
-	ALMA_python()
+	ALMA_python(platform::Verbosity verbosity = Verbosity::Standard, const std::string& outputFolder = "", Subtree paramDict = genetic::DefaultAlgaConfig::getALMA())
 	{
-        std::cout << "Called constructor of ALMA" << std::endl;
+        LOG_F(INFO, "Called constructor of ALMA");
+
+        if (!std::filesystem::exists(outputFolder))
+		{
+			std::filesystem::create_directories(outputFolder);
+		}
+
         loguru::g_stderr_verbosity = loguru::Verbosity_INFO;
-        loguru::add_file("ALMA.log", loguru::Append, loguru::Verbosity_MAX);
+        loguru::add_file((outputFolder + std::string("ALMA.log")).c_str(), loguru::Append, loguru::Verbosity_MAX);
         loguru::flush();
 
 		m_config = genetic::DefaultAlgaConfig::getALMA();
+        m_config.putValue<std::string>("Svm.OutputFolderPath", outputFolder);
+
 	}
 };
 
@@ -297,10 +304,13 @@ PYBIND11_MODULE(DeevaPythonPackage, m) {
         .def_property_readonly("svm", &GeneticSvm::get);
 
     py::class_<ALMA_python, GeneticSvm, std::shared_ptr<ALMA_python>> alma(m, "AlmaClassifier", R"pbdoc(
-        TODO:
+        Basic class to interact with ALMA algorithm.
      )pbdoc");
     alma
-        .def(py::init<>());
+        .def(py::init<platform::Verbosity, const std::string&, Subtree>(),
+            py::arg("verbosity"),
+            py::arg("outputFolder"),
+            py::arg("paramDict"));
 
 
     py::class_<SESVM_python, GeneticSvm, std::shared_ptr<SESVM_python>> sesvm(m, "SeSvmClassifier", R"pbdoc(
@@ -379,11 +389,17 @@ PYBIND11_MODULE(DeevaPythonPackage, m) {
         .value("Rbf", phd::svm::KernelTypes::Rbf)
         .value("Linear", phd::svm::KernelTypes::Linear)
         .value("Polynomial", phd::svm::KernelTypes::Poly);
+
+    py::enum_<platform::Verbosity>(m, "Verbosity", R"pbdoc()pbdoc")
+        .value("All", platform::Verbosity::All)
+        .value("Standard", platform::Verbosity::Standard)
+        .value("Minimal", platform::Verbosity::Minimal)
+        .value("None", platform::Verbosity::None);
   
 
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else
-    m.attr("__version__") = "0.3.9";
+    m.attr("__version__") = "0.3.10";
 #endif
 }

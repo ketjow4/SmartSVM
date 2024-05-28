@@ -143,116 +143,16 @@ class CMakeBuild(build_ext):
 #     '/NXCOMPAT', '/DEBUG', '/MACHINE:X64', '/OPT:REF', '/OPT:ICF', '/WX:NO'
 #     ]
 
-   
-
-# root = f'D:\\Deeva_PHD\\Deeva\\trunk\\src\\DeevaSvm'
-
-# libs = f'D:\\Deeva_PHD\\Deeva\\trunk\\src\\DeevaSvm\\packages'
-
-# boost = f'{libs}\\boost.1.66.0.0\\lib\\native\\include'
-# opencv = f'{libs}\\OpenCV.3.3.1\\include'
-# eigen = f'{libs}\\Eigen.3.3.4\\include'
-# gsl = f'{libs}\\Microsoft.Gsl.0.1.2.2\\build\\native\\include'
-
-# boost_po_bin = f'{libs}\\boost_program_options-vc141.1.66.0.0\\lib\\native'
-# boost_fs_bin = f'{libs}\\boost_filesystem-vc141.1.66.0.0\\lib\\native'
-# boost_system_bin = f'{libs}\\boost_system-vc141.1.66.0.0\\lib\\native'
-
-# openc_core_bin = f'{libs}\\OpenCV-Core.3.3.1\\lib\\native\\lib\\x64'
-# openc_hg_bin = f'{libs}\\OpenCV-Highgui.3.3.1\\lib\\native\\lib\\x64'
-# openc_imgc_bin = f'{libs}\\OpenCV-Imgcodecs.3.3.1\\lib\\native\\lib\\x64'
-# openc_imgp_bin = f'{libs}\\OpenCV-Imgproc.3.3.1\\lib\\native\\lib\\x64'
-# openc_ml_bin = f'{libs}\\OpenCV-Ml.3.3.1\\lib\\native\\lib\\x64'
-# openc_v_bin = f'{libs}\\OpenCV-Video.3.3.1\\lib\\native\\lib\\x64'
-# openc_vio_bin = f'{libs}\\OpenCV-Videoio.3.3.1\\lib\\native\\lib\\x64'
-
-#RELEASE
-# other_libs = f'{root}\\bin\\x64\\Release'
-
-#DEBUG
-#other_libs = f'{root}\\bin\\x64\\Debug'
-
-# python_folders = f'{root}\\..\\..\\extern\\python37'
-# python_libs_folder = f'{root}\\..\\..\\extern\\python37\\libs'
-
-# python_folders = f'C:/anaconda3/'
-# python_libs_folder = f'C:/anaconda3/libs'
-
 cpp_svm_module = CMakeExtension(
     'DeevaPythonPackage',
-    #sources=['module.cpp', 'DatasetLoader.cpp'],
     sourcedir=".",
-#     include_dirs=[pybind11.get_include(),
-#                  f'{root}\\platform',
-#                  f'{root}',
-#                  f'{root}\\app',
-#                  f'{root}\\data',
-#                  f'{root}\\genetic',
-#                  f'{root}\\svm',
-#                  boost,
-#                  opencv,
-#                  eigen,
-#                  gsl
-#                  ],
-#     library_dirs=[boost_po_bin,
-#                   boost_fs_bin,
-#                   boost_system_bin,
-#                   openc_core_bin,              
-#                   openc_hg_bin,
-#                   openc_imgc_bin,
-#                   openc_imgp_bin,
-#                   openc_ml_bin,
-#                   openc_v_bin,
-#                   openc_vio_bin,
-#                   other_libs,
-#                   python_libs_folder
-#                   ],
-#    libraries = [ 
-#                   f'libGeneticComponents',
-#                   f'libGeneticStrategies',
-#                   f'libGeneticSvm',
-#                   #f'libDataProvider',
-#                   f'libDataset',
-#                   #f'libException',
-#                   #f'libFileSystem',
-#                   f'libPlatform',
-#                   f'libRandom',
-#                   f'libStrategies',
-#                   #f'libTime',
-#                   f'libSvmComponents',
-#                   #r'libSvmSigmoidTrain',
-#                   f'libSvmStrategies',
-#                   f'libSvm',
-#                   #f'libLogger',
-#                   f'opencv_core331',
-#                   f'opencv_ml331',
-#                   f'opencv_highgui331',
-#                   f'opencv_imgcodecs331',
-#                   f'opencv_imgproc331',
-#                   ],
-
-#     language='c++',
-#    extra_compile_args=cpp_args,
-#    extra_link_args =link_args,
     )
 
-# dll_path = 'dlls\\'
-
-# data_files = [
-#     #f'{dll_path}libLogger.dll',
-#     f'{dll_path}opencv_core331.dll',
-#     f'{dll_path}opencv_ml331.dll',
-#     f'{dll_path}opencv_highgui331.dll',
-#     f'{dll_path}opencv_imgcodecs331.dll',
-#     f'{dll_path}opencv_imgproc331.dll',
-#     f'{dll_path}opencv_video331.dll',
-#     f'{dll_path}opencv_videoio331.dll',
-#               ]
 
 setup(
     author = 'Wojciech Dudzik',
     name='DeevaPythonPackage',
-    version='0.3.9',
+    version='0.3.10',
     description='Python package with Evolutionary SVM C++ code (PyBind11)',
     ext_modules=[cpp_svm_module],
 
@@ -267,5 +167,3 @@ setup(
      # Add this to enable in-place build for development
     zip_safe=False,
 )
-
-#D:\\Deeva_PHD\\Deeva\\trunk\\src\\DeevaSvm\\app\\DeevaPythonModule\\dlls\\*.dll'
