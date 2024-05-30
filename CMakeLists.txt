@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-#set(CMAKE_TOOLCHAIN_FILE ./vcpkg/scripts/buildsystems/vcpkg.cmake)
+
 project(DeevaPythonPackage LANGUAGES CXX)
 set(PROJECT_NAME DeevaPythonPackage)
 
@@ -45,7 +45,7 @@ message(STATUS "    Python_LIBRARY_DIRS: ${Python_LIBRARY_DIRS}")
 add_subdirectory("./extern/pybind11")
 
 # pybind11 method:
-pybind11_add_module(${PROJECT_NAME} module.cpp DatasetLoader.cpp DatasetLoader.h)
+pybind11_add_module(${PROJECT_NAME} MODULE module.cpp DatasetLoader.cpp)
 
 
 add_compile_definitions(_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
@@ -80,3 +80,46 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     libSvmStrategies
     SvmLib
 )
+
+# install(TARGETS ${PROJECT_NAME}
+#         COMPONENT python
+#         LIBRARY DESTINATION "lib/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages"
+#         ARCHIVE DESTINATION "lib"
+#         RUNTIME DESTINATION "bin")
+
+# install(TARGETS ${PROJECT_NAME}
+#   COMPONENT python
+#   LIBRARY DESTINATION "${PYTHON_LIBRARY_DIR}"
+#   )
+
+
+
+# Check if VERSION_INFO is set, and if so, define it as a compile definition
+if(DEFINED VERSION_INFO)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION_INFO=\"${VERSION_INFO}\")
+else()
+    message(WARNING "VERSION_INFO is not defined. Using default value.")
+    target_compile_definitions(${PROJECT_NAME} PRIVATE VERSION_INFO=\"dev\")
+endif()
+
+
+
+
+# Use stubgen to create .pyi files to sit alongside the just-built python module
+# set(Stubgen_Executable "stubgen")
+# if(WIN32)
+#     set(Stubgen_Executable "${CMAKE_SOURCE_DIR}/venv/Scripts/stubgen.exe")
+# endif()
+# add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#     COMMAND ${Stubgen_Executable} -m ${PROJECT_NAME} -o .
+#     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+#     COMMENT "Use stubgen to create .pyi for statement completion")
+
+
+
+# add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#     COMMAND pybind11-stubgen ${PROJECT_NAME} -o DeevaPythonPackage-stubs
+#     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+#     COMMENT "Use pybind11-stubgen to create .pyi for statement completion")
+
+     

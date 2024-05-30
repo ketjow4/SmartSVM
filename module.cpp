@@ -133,11 +133,18 @@ private:
 };
 
 
+
+
 class ALMA_python : public GeneticSvm
 {
 public:
-	ALMA_python(platform::Verbosity verbosity = Verbosity::Standard, const std::string& outputFolder = "", Subtree paramDict = genetic::DefaultAlgaConfig::getALMA())
+    ALMA_python(platform::Verbosity verbosity = Verbosity::Standard, 
+    const std::string& outputFolder = "", 
+    Subtree paramDict = genetic::DefaultAlgaConfig::getALMA())
 	{
+        // auto verbosity = Verbosity::Standard;
+        // const std::string& outputFolder = "testRunAlma";
+        // Subtree paramDict = genetic::DefaultAlgaConfig::getALMA();
         LOG_F(INFO, "Called constructor of ALMA");
 
         if (!std::filesystem::exists(outputFolder))
@@ -267,11 +274,34 @@ public:
     }
 };
 
+int add(int i, int j) {
+    return i + j;
+}
+
 PYBIND11_MODULE(DeevaPythonPackage, m) {
 
     // Redirect C++ std::cout to Python sys.stdout
     py::scoped_ostream_redirect output;
     py::scoped_estream_redirect error_stream;
+
+    m.doc() = R"pbdoc(
+        Pybind11 example plugin
+        -----------------------
+
+        .. currentmodule:: _math
+
+        .. autosummary::
+           :toctree: _generate
+
+           add
+    )pbdoc";
+
+    m.def("add", &add, R"pbdoc(
+        Add two numbers
+
+        Some other explanation about the add function.
+    )pbdoc");
+
 
     m.def("print10", &print_10, R"pbdoc(
         Prints first 10 rows of dataset to check if everything is correctly converted between C++ and Python
@@ -285,77 +315,14 @@ PYBIND11_MODULE(DeevaPythonPackage, m) {
         converts numpy array to C++ dataset
     )pbdoc");
 
-    py::class_<GeneticSvm, std::shared_ptr<GeneticSvm>>(m, "GeneticSvm")
-        .def("fit", &GeneticSvm::fit, py::arg("TrX"), py::arg("TrY"), py::arg("ValX"), py::arg("ValY"), py::arg("TestX"), py::arg("TestY"), R"pbdoc(
-        Runs ALMA algorithm and fits the SVM model. Test data is used only for logging results on the test set
-		)pbdoc")
-        .def("predict", &GeneticSvm::predict, py::arg("samples"), R"pbdoc(
-        Runs predcition on already trained model. If fit was not called previously it thorws error. Handle 1-D and 2-D numpy arrays as inputs (each row is a sample)
-		)pbdoc")
-        .def_property("config",
-            [](GeneticSvm& self)
-            {
-                return self.m_config;
-            },
-            [](GeneticSvm& self, Subtree config)
-            {
-                self.m_config = config;
-            })
-        .def_property_readonly("svm", &GeneticSvm::get);
 
-    py::class_<ALMA_python, GeneticSvm, std::shared_ptr<ALMA_python>> alma(m, "AlmaClassifier", R"pbdoc(
-        Basic class to interact with ALMA algorithm.
-     )pbdoc");
-    alma
-        .def(py::init<platform::Verbosity, const std::string&, Subtree>(),
-            py::arg("verbosity"),
-            py::arg("outputFolder"),
-            py::arg("paramDict"));
+    // py::class_<dataset::Dataset<std::vector<float>, float>> dataset(m, "Dataset", R"pbdoc(
+    //     Class that handles dataset in C++
+    //  )pbdoc");
+    // dataset.def_property_readonly_static("labels", [](dataset::Dataset<std::vector<float>, float>& self) {
+    // 	return self.getLabels(); //TODO fix types as this returns span which is incompatible
+    //     });
 
-
-    py::class_<SESVM_python, GeneticSvm, std::shared_ptr<SESVM_python>> sesvm(m, "SeSvmClassifier", R"pbdoc(
-       TODO:
-     )pbdoc");
-    sesvm
-        .def(py::init<>());
-
-
-    py::class_<CESVM_python, GeneticSvm, std::shared_ptr<CESVM_python>> cesvm(m, "CeSvmClassifier", R"pbdoc(
-       TODO:
-     )pbdoc");
-    cesvm
-        .def(py::init<>());
-
-    py::class_<ECESVM_python, GeneticSvm, std::shared_ptr<ECESVM_python>> ecesvm(m, "EceSvmClassifier", R"pbdoc(
-       TODO:
-     )pbdoc");
-    ecesvm
-        .def(py::init<>());
-
-
-    py::class_<MASVM_python, GeneticSvm, std::shared_ptr<MASVM_python>> masvm(m, "MaSvmClassifier", R"pbdoc(
-       TODO:
-     )pbdoc");
-    masvm
-        .def(py::init<double, double, phd::svm::KernelTypes>(), py::arg("C"), py::arg("gamma"), py::arg("kernelType"));
-
-    py::class_<GASVM_python, GeneticSvm, std::shared_ptr<GASVM_python>> gasvm(m, "GaSvmClassifier", R"pbdoc(
-       TODO:
-     )pbdoc");
-    gasvm
-        .def(py::init<double, double, phd::svm::KernelTypes>(), py::arg("C"), py::arg("gamma"), py::arg("kernelType"));
-       
-      
-
-
-    py::class_<dataset::Dataset<std::vector<float>, float>> dataset(m, "Dataset", R"pbdoc(
-        Class that handles dataset in C++
-     )pbdoc");
-
-
-    dataset.def_property_readonly_static("labels", [](dataset::Dataset<std::vector<float>, float>& self) {
-    	return self.getLabels(); //TODO fix types as this returns span which is incompatible
-        });
 
     py::class_<Subtree> subtree(m, "Subtree", R"pbdoc(
         Class that handles all of the configurations, reads from and seralize to JSON format
@@ -395,11 +362,74 @@ PYBIND11_MODULE(DeevaPythonPackage, m) {
         .value("Standard", platform::Verbosity::Standard)
         .value("Minimal", platform::Verbosity::Minimal)
         .value("None", platform::Verbosity::None);
-  
+
+
+
+
+    py::class_<GeneticSvm, std::shared_ptr<GeneticSvm>>(m, "GeneticSvm")
+        .def("fit", &GeneticSvm::fit, py::arg("TrX"), py::arg("TrY"), py::arg("ValX"), py::arg("ValY"), py::arg("TestX"), py::arg("TestY"), R"pbdoc(
+        Runs ALMA algorithm and fits the SVM model. Test data is used only for logging results on the test set
+		)pbdoc")
+        .def("predict", &GeneticSvm::predict, py::arg("samples"), R"pbdoc(
+        Runs predcition on already trained model. If fit was not called previously it thorws error. Handle 1-D and 2-D numpy arrays as inputs (each row is a sample)
+		)pbdoc")
+        .def_property("config",
+            [](GeneticSvm& self)
+            {
+                return self.m_config;
+            },
+            [](GeneticSvm& self, Subtree config)
+            {
+                self.m_config = config;
+            })
+        .def_property_readonly("svm", &GeneticSvm::get);
+
+    // py::class_<ALMA_python, GeneticSvm, std::shared_ptr<ALMA_python>> alma(m, "AlmaClassifier", R"pbdoc(
+    //     Basic class to interact with ALMA algorithm.
+    //  )pbdoc");
+    // alma
+    //     .def(py::init<platform::Verbosity, const std::string&, Subtree>(),
+    //         py::arg("verbosity") = Verbosity::Standard,
+    //         py::arg("outputFolder") = "",
+    //         py::arg("paramDict") = genetic::DefaultAlgaConfig::getALMA());
+
+
+    // py::class_<SESVM_python, GeneticSvm, std::shared_ptr<SESVM_python>> sesvm(m, "SeSvmClassifier", R"pbdoc(
+    //    TODO:
+    //  )pbdoc");
+    // sesvm
+    //     .def(py::init<>());
+
+
+    // py::class_<CESVM_python, GeneticSvm, std::shared_ptr<CESVM_python>> cesvm(m, "CeSvmClassifier", R"pbdoc(
+    //    TODO:
+    //  )pbdoc");
+    // cesvm
+    //     .def(py::init<>());
+
+    // py::class_<ECESVM_python, GeneticSvm, std::shared_ptr<ECESVM_python>> ecesvm(m, "EceSvmClassifier", R"pbdoc(
+    //    TODO:
+    //  )pbdoc");
+    // ecesvm
+    //     .def(py::init<>());
+
+
+    // py::class_<MASVM_python, GeneticSvm, std::shared_ptr<MASVM_python>> masvm(m, "MaSvmClassifier", R"pbdoc(
+    //    TODO:
+    //  )pbdoc");
+    // masvm
+    //     .def(py::init<double, double, phd::svm::KernelTypes>(), py::arg("C"), py::arg("gamma"), py::arg("kernelType"));
+
+    // py::class_<GASVM_python, GeneticSvm, std::shared_ptr<GASVM_python>> gasvm(m, "GaSvmClassifier", R"pbdoc(
+    //    TODO:
+    //  )pbdoc");
+    // gasvm
+    //     .def(py::init<double, double, phd::svm::KernelTypes>(), py::arg("C"), py::arg("gamma"), py::arg("kernelType"));
 
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;
 #else
-    m.attr("__version__") = "0.3.10";
+    //m.attr("__version__") = "0.3.10";
+    m.attr("__version__") = "dev";
 #endif
 }

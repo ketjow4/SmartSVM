@@ -7,8 +7,10 @@ from tests.commons import get_confusion_matrix
 
 print(os.getcwd())
 
+
 import DeevaPythonPackage
-from DeevaPythonPackage import  Subtree, AlmaClassifier, SeSvmClassifier, MaSvmClassifier, GaSvmClassifier, KernelType, CeSvmClassifier, EceSvmClassifier, KernelType, Verbosity
+#from DeevaPythonPackage import  Subtree, AlmaClassifier, SeSvmClassifier, MaSvmClassifier, GaSvmClassifier, KernelType, CeSvmClassifier, EceSvmClassifier, KernelType, Verbosity
+from DeevaPythonPackage import Subtree, KernelType, Verbosity
 
 from DeevaPackage.classifiers import alma_wrapper
 
@@ -51,7 +53,8 @@ if __name__ == "__main__":
     dataset = data
     try:
         algorithms = [
-            AlmaClassifier(Verbosity.All, "testRuns_alma/", DeevaPythonPackage.AlgaConfig.getALMA()),  
+            #AlmaClassifier(Verbosity.All, "testRuns_alma/", DeevaPythonPackage.AlgaConfig.getALMA()),  
+            # AlmaClassifier(outputFolder="testRuns_alma/"),  
             # MaSvmClassifier(1,1,KernelType.Rbf), 
             # GaSvmClassifier(1,1,KernelType.Rbf),
             # SeSvmClassifier(),  #Change number of Feature to 2

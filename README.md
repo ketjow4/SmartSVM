@@ -1,5 +1,38 @@
 # SmartSVM
 
+## Developing 
+
+Install library in editable mode:
+
+pip install -e .
+
+To rebuild C++ use command below:
+python setup.py build_ext --inplace
+
+Keep in mind that requirements from pyproject.toml need to be installed in local python env
+
+
+## TODO list
+
+- Add python test
+- Fix visualizations
+- Add wrapper for all relevant algorithms
+    - SE-SVM fix feature selection at the start
+    - CE-SVM not ready
+    - ECE-SVM not ready
+- CI build package on GHA
+- Add our datasets --- Done (at least for 2D datasets), need to fix names
+- Add examples
+- Add python code for analysing the summaries (as used in Phd)
+- Fix SE-SVM (feature selection init) and ECE-SVM (extra tree at the end)
+- Publish to pip
+- Create documentation
+- Generate python stubs
+- Add microbenchmarks 
+
+
+
+
 
 How to setup VCPKG manager --- Not needed anymore
 
@@ -25,22 +58,3 @@ python setup.py bdist_wheel
 
 Do not run this
 .\vcpkg install opencv[vtk]   --- warning this take long time (45-60 minutes to build)
-
-
-## TODO list
-
-- Add python test
-- Fix visualizations
-- Add wrapper for all relevant algorithms
-    - SE-SVM fix feature selection at the start
-    - CE-SVM not ready
-    - ECE-SVM not ready
-- CI build package on GHA
-- Add our datasets --- Done (at least for 2D datasets), need to fix names
-- Add examples
-- Add python code for analysing the summaries (as used in Phd)
-- Fix SE-SVM (feature selection init) and ECE-SVM (extra tree at the end)
-- Publish to pip
-- Create documentation
-- Generate python stubs
-- Add microbenchmarks 

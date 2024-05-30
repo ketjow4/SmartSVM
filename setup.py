@@ -1,6 +1,7 @@
 from setuptools import setup, Extension, find_packages, Distribution
 from setuptools.command.build_ext import build_ext
 import pybind11
+import pybind11_stubgen
 
 
 import os
@@ -39,8 +40,9 @@ class CMakeBuild(build_ext):
         # Using this requires trailing slash for auto-detection & inclusion of
         # auxiliary "native" libs
 
-        debug = int(os.environ.get("DEBUG", 0)) if self.debug is None else self.debug
-        cfg = "Debug" if debug else "Release"
+        #debug = int(os.environ.get("DEBUG", 0)) if self.debug is None else self.debug
+        #cfg = "Debug" if debug else "Release"
+        cfg = "RelWithDebInfo"
         print(f'Configuration: {cfg}')
 
         # CMake lets you override the generator - we need to check this.
@@ -62,8 +64,7 @@ class CMakeBuild(build_ext):
         if "CMAKE_ARGS" in os.environ:
             cmake_args += [item for item in os.environ["CMAKE_ARGS"].split(" ") if item]
 
-        # In this example, we pass in the version to C++. You might not need to.
-        cmake_args += [f"-DEXAMPLE_VERSION_INFO={self.distribution.get_version()}"]
+        cmake_args += [f"-DVERSION_INFO={self.distribution.get_version()}"]
 
         if self.compiler.compiler_type != "msvc":
             # Using Ninja-build since it a) is available as a wheel and b)
@@ -131,7 +132,78 @@ class CMakeBuild(build_ext):
         subprocess.run(
             ["cmake", "--build", ".", *build_args], cwd=build_temp, check=True
         )
+        
+        # Generate stubs after building the extension
+        self.generate_stubs(ext.name, extdir)
 
+    def generate_stubs(self, module_name, output_dir):
+        # Ensure the module can be imported
+        try:
+            import importlib
+            import sys
+
+            # Adding the directory containing the built module to sys.path
+            sys.path.insert(0, str(output_dir))
+            importlib.import_module(module_name)
+            sys.path.pop(0)
+        except ImportError as e:
+            print(f"Error importing module {module_name}: {e}")
+            raise
+
+
+        # import importlib.util
+        # import sys
+        # from pathlib import Path
+
+        # def import_so_module(module_name, file_path):
+        #     # Convert file path to absolute path
+        #     file_path = Path(file_path).resolve()
+            
+        #     # Create a module spec from the file location
+        #     spec = importlib.util.spec_from_file_location(module_name, str(file_path))
+            
+        #     # Create a module from the spec
+        #     module = importlib.util.module_from_spec(spec)
+            
+        #     # Add the module to sys.modules
+        #     sys.modules[module_name] = module
+            
+        #     # Execute the module in its own namespace
+        #     spec.loader.exec_module(module)
+            
+        #     return module
+        
+        # module = import_so_module("DeevaPythonPackage", str(output_dir / "DeevaPythonPackage.cpython-39-darwin.so"))
+
+
+        # Run pybind11-stubgen programmatically
+        print(f"Generating stubs for module: {module_name}")
+
+        ### Seems like ugly hack to make it work
+        from pybind11_stubgen import stub_parser_from_args, Printer, Writer, to_output_and_subdir, run, arg_parser
+
+        args = arg_parser().parse_args(["DeevaPythonPackage"])
+        
+        parser = stub_parser_from_args(args)
+        printer = Printer(invalid_expr_as_ellipses=True)
+
+        out_dir, sub_dir = to_output_and_subdir(
+            output_dir="DeevaPythonPackage-stubs",
+            module_name=module_name,
+            root_suffix=None,
+        )
+
+        run(parser,
+            printer,
+            module_name,
+            out_dir,
+            sub_dir=sub_dir,
+            dry_run=False,
+            writer=Writer(stub_ext="pyi"))
+
+        
+
+    
 
 # cpp_args = ['/std:c++latest', '/WX-', '/permissive-',  '/wd4251', '/wd4275', '/wd4503', '/wd4840', '/FC', '/errorReport:prompt', '/GR',
 #             '/Zi', '/Gm-', '/O2', '/sdl', #remember change /Od to O2 for optimization, now only for debug purposes
@@ -143,6 +215,8 @@ class CMakeBuild(build_ext):
 #     '/NXCOMPAT', '/DEBUG', '/MACHINE:X64', '/OPT:REF', '/OPT:ICF', '/WX:NO'
 #     ]
 
+#pybind11.get_include()
+
 cpp_svm_module = CMakeExtension(
     'DeevaPythonPackage',
     sourcedir=".",
@@ -152,14 +226,32 @@ cpp_svm_module = CMakeExtension(
 setup(
     author = 'Wojciech Dudzik',
     name='DeevaPythonPackage',
-    version='0.3.10',
+    version='0.3.11',
     description='Python package with Evolutionary SVM C++ code (PyBind11)',
-    ext_modules=[cpp_svm_module],
 
+    setup_requires=['pybind11-stubgen'],
+
+    ext_modules=[cpp_svm_module],
     cmdclass={"build_ext": CMakeBuild},
     #srcipts=['mutualInfo.py'],
-    packages=find_packages(),
-    #include_package_data=True,
+    # packages=find_packages(),
+    # package_dir={'': '.'},
+    # packages=["DeevaPythonPackage-stubs", "DeevaPackage"],
+    # include_package_data=True,
+    # # DeevaPythonPackage-stubs contains type hint data in a .pyi file, per PEP 561
+    # package_data={
+    #     "DeevaPythonPackage-stubs": ["*.pyi"],
+    # },
+
+    package_dir={'': '.'},
+    packages=["DeevaPythonPackage-stubs", "DeevaPackage"],
+    include_package_data=True,
+    # DeevaPythonPackage-stubs contains type hint data in a .pyi file, per PEP 561
+    package_data={
+        "DeevaPythonPackage-stubs": ["*.pyi"],
+    },
+
+    
     # data_files=data_files,
     python_requires='>3.7.0',
     
